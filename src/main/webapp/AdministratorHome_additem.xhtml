@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Welcome to Administrator-HomePage !</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/homestyle.css"></link>
+</h:head>
+
+<!-- <ui:define name="content"> -->
+<h:body>
+	<center>
+		<div id="wapper">
+			<div id="header">
+				<div id="logo">此处为logo</div>
+				<div id="topmenu">网站顶部导航</div>
+			</div>
+
+			<div id="centent">
+				<div id="leftmenu">
+					网站左边导航栏
+
+					<table>
+
+
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add User123" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Item123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Category123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete User122" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete Item123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item in131" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item out131" /></td>
+						</tr>
+
+					</table>
+
+				</div>
+
+
+
+				<div id="centercentent">网站主题内容</div>
+
+
+				<!-- 添加物品的 一系列...  -->
+
+				<h:message />
+				<h1>Add item:</h1>
+				<h:form>
+					<table>
+						<tr>
+							<td>item name</td>
+							<td><h:inputText value="#{itemManager.newItem.name}">
+									<!-- <f:validator validatorId="AddItemValidator" /> -->
+								</h:inputText></td>
+						</tr>
+
+						<tr>
+							<td>note:</td>
+							<td><h:inputText value="#{itemManager.newItem.code}" /></td>
+						</tr>
+
+
+
+
+						<tr>
+							<td>num_total</td>
+							<td><h:inputText value="#{itemManager.newItem.numTotal}" /></td>
+						</tr>
+
+						<tr>
+							<td>category_name</td>
+							<td><h:selectOneMenu
+									value="#{itemManager.newItem.category.id}"
+									converter="myCategoryConverter" var="c">
+									<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
+									<f:selectItem itemLabel="Select One" />
+
+									<!-- 绑定 List<Category> -->
+									<!--  book1说明可以获取到数据 了，
+									
+																			equals()  hashCode()也重写了，
+																			
+																			converter还有傻冒并 .煤气作用？ -->
+									<f:selectItems value="#{categoryManager.categories}"
+										var="Category" itemLabel="#{Category.name}"
+										itemValue="#{Category.id}" />
+									<!--<h:column>
+												 #{c}                  					
+                      					</h:column> -->
+								</h:selectOneMenu></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton action="#{itemManager.addItem}"
+									value="Add Item" /></td>
+						</tr>
+					</table>
+				</h:form>
+
+				<h:form>
+					<h1>Items:</h1>
+					<h:dataTable value="#{items}" var="var_item">
+						<h:column>
+							<f:facet name="header">
+                        name
+                    </f:facet>
+							<h:outputText value="#{var_item.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+                        code
+                    </f:facet>
+							<h:outputText value="#{var_item.code}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">
+                        dateBought
+                    </f:facet>
+							<p:calendar value="#{var_item.dateBought}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">
+                        num_total
+                    </f:facet>
+							<h:outputText value="#{var_item.numTotal}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">
+                        category_name
+                    </f:facet>
+							<h:outputText value="#{var_item.category}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+                        status
+                    </f:facet>
+							<h:outputText value="#{var_item.status}" />
+						</h:column>
+
+					</h:dataTable>
+				</h:form>
+
+
+
+
+				<!-- 	<div id="rightsider">网站右边导航栏</div> -->
+			</div>
+			<div id="footer">
+				Copyright(C)2014 morpheussoft All Rights Reserved<br />
+				morpheus网络科技有限公司 版权所有 京IP备38324号
+			</div>
+		</div>
+	</center>
+</h:body>
+
+<!-- 
+</ui:define> -->
+</html>

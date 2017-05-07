@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html class="sb-init" lang="en">
+<head>
+<meta charset="utf-8"></meta>
+<title>Apricot 1.3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+
+<link rel="stylesheet" href="assets/css/style.css"></link>
+<link rel="stylesheet" href="assets/css/loader-style.css"></link>
+<link rel="stylesheet" href="assets/css/bootstrap.css"></link>
+<link rel="stylesheet" href="assets/js/tree/jquery.treeview.css"></link>
+<link rel="stylesheet" href="../red-treeview.css"></link>
+<link rel="stylesheet"
+	href="assets/js/tree/treetable/stylesheets/jquery.treetable.css"></link>
+<link rel="stylesheet"
+	href="assets/js/tree/treetable/stylesheets/jquery.treetable.theme.default.css"></link>
+<link href="assets/js/tree/tabelizer/tabelizer.min.css" media="all"
+	rel="stylesheet" type="text/css"></link>
+
+
+
+
+<link rel="shortcut icon" href="assets/ico/minus.png"></link>
+<script src="assets/js/skin-select/jquery.cookie.js"
+	type="text/javascript"></script>
+<script src="assets/js/skin-select/skin-select.js"
+	type="text/javascript"></script>
+<script src="assets/js/clock/date.js" type="text/javascript"></script>
+<script src="assets/js/newsticker/jquery.newsTicker.js"
+	type="text/javascript"></script>
+<script src="assets/js/custom/scriptbreaker-multiple-accordion-1.js"
+	type="text/javascript"></script>
+<script src="assets/js/slidebars/slidebars.min.js"
+	type="text/javascript"></script>
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"
+	type="text/javascript"></script>
+<script src="assets/js/search/jquery.quicksearch.js"
+	type="text/javascript"></script>
+<script src="assets/js/gage/jquery.easypiechart.min.js"
+	type="text/javascript"></script>
+<script src="assets/js/tip/jquery.tooltipster.js" type="text/javascript"></script>
+<script src="assets/js/nano/jquery.nanoscroller.js"
+	type="text/javascript"></script>
+<script src="assets/js/pace/pace.js" type="text/javascript"></script>
+<script src="assets/js/chart/jquery.sparkline.js" type="text/javascript"></script>
+<script src="assets/js/clock/jquery.clock.js" type="text/javascript"></script>
+<script src="assets/js/gage/raphael.2.1.0.min.js" type="text/javascript"></script>
+<script src="assets/js/gage/justgage.js" type="text/javascript"></script>
+<style type="text/css">
+.jqstooltip {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	visibility: hidden;
+	background: rgb(0, 0, 0) transparent;
+	background-color: rgba(0, 0, 0, 0.6);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,
+		endColorstr=#99000000);
+	-ms-filter:
+		"progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+	color: white;
+	font: 10px arial, san serif;
+	text-align: left;
+	white-space: nowrap;
+	padding: 5px;
+	border: 1px solid white;
+	z-index: 10000;
+}
+
+.jqsfield {
+	color: white;
+	font: 10px arial, san serif;
+	text-align: left;
+}
+</style>
+</head>
+
+<body style="overflow: visible;" class="  pace-done">
+
+
+	<div style="min-height: 1495px;" id="sb-site">
+		<div class="pace  pace-inactive">
+			<div data-progress="99" data-progress-text="100%"
+				style="width: 100%;" class="pace-progress">
+				<div class="pace-progress-inner"></div>
+			</div>
+			<div class="pace-activity"></div>
+		</div>
+
+
+		<div style="display: none;" id="preloader">
+			<div style="display: none;" id="status">&nbsp;</div>
+		</div>
+
+		<!-- 顶部导航 -->
+		<nav style="margin-left: 240px;" role="navigation"
+			class="navbar navbar-static-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button data-target="#bs-example-navbar-collapse-1"
+						data-toggle="collapse" class="navbar-toggle" type="button">
+						<span class="entypo-menu"></span>
+					</button>
+					<button class="navbar-toggle toggle-menu-mobile toggle-left"
+						type="button">
+						<span class="entypo-list-add"></span>
+					</button>
+		</nav>
+
+
+		<!-- 左侧导航栏 -->
+		<div style="visibility: visible;" class="skin-part">
+			<div id="tree-wrap">
+				<div class="side-bar">
+					<ul style="margin: 10px;" class="topnav menu-left-nest">
+						<li style="text-align: left;"><a href="#"
+							style="border-left: 0px solid ! important; display: inline-block; float: none;"
+							class="title-menu-left"> <span
+								style="display: inline-block; float: none;" class="widget-menu"></span>
+								<i data-toggle="tooltip"
+								class="entypo-cog pull-right config-wrap"></i>
+
+						</a></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable" href="#"> <i
+								class="icon-document-edit"></i> <span
+								style="display: inline-block; float: none;">Blog App</span>
+
+								<h4 style="display: inline-block; float: none;">
+									<img src="assets/img/plus.png">
+								</h4></a>
+							<ul>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="blog-list.html"><i class="entypo-doc-text"></i><span
+										style="display: inline-block; float: none;">Blog List</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="blog-detail.html"><i class="entypo-newspaper"></i><span
+										style="display: inline-block; float: none;">Blog
+											Details</span></a></li>
+							</ul></li>
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable"
+							href="social.html"> <i class="icon-feed"></i> <span
+								style="display: inline-block; float: none;">Social</span>
+
+						</a></li>
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable"
+							href="media.html"> <i class="icon-camera"></i> <span
+								style="display: inline-block; float: none;">Media</span>
+
+						</a></li>
+					</ul>
+
+					<ul style="margin: 10px;" class="topnav menu-left-nest">
+						<li style="text-align: left;"><a href="#"
+							style="border-left: 0px solid ! important; display: inline-block; float: none;"
+							class="title-menu-left"> <span
+								style="display: inline-block; float: none;" class="design-kit"></span>
+								<i data-toggle="tooltip"
+								class="entypo-cog pull-right config-wrap"></i>
+
+						</a></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable"
+							href="index.html"> <i class="icon-window"></i> <span
+								style="display: inline-block; float: none;">Dashboard</span>
+
+						</a></li>
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable"
+							href="mail.html"> <i class="icon-mail"></i> <span
+								style="display: inline-block; float: none;">mail</span>
+								<div style="display: inline-block; float: none;"
+									class="noft-blue">289</div>
+						</a></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable"
+							href="icon.html"> <i class="icon-preview"></i> <span
+								style="display: inline-block; float: none;">Icons</span>
+								<div class="noft-blue"
+									style="display: inline-block; float: none;">New</div>
+						</a></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip tooltipster-disable" href="#"> <i
+								class="icon-document-new"></i> <span
+								style="display: inline-block; float: none;">Extra Page</span>
+								<h4 style="display: inline-block; float: none;">
+									<img src="assets/img/plus.png">
+								</h4></a>
+							<ul>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="blank_page.html"><i class="icon-media-record"></i><span
+										style="display: inline-block; float: none;">Blank Page</span></a>
+								</li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="profile.html"><i class="icon-user"></i><span
+										style="display: inline-block; float: none;">Profile
+											Page</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="invoice.html"><i class="entypo-newspaper"></i><span
+										style="display: inline-block; float: none;">Invoice</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="pricing_table.html"><i class="fontawesome-money"></i><span
+										style="display: inline-block; float: none;">Pricing
+											Table</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="time-line.html"><i class="entypo-clock"></i><span
+										style="display: inline-block; float: none;">Time Line</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 tooltipster-disable" href="404.html"><i
+										class="icon-thumbs-down"></i><span
+										style="display: inline-block; float: none;">404 Error
+											Page</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 tooltipster-disable" href="500.html"><i
+										class="icon-thumbs-down"></i><span
+										style="display: inline-block; float: none;">500 Error
+											Page</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 tooltipster-disable"
+									href="lock-screen.html"><i class="icon-lock"></i><span
+										style="display: inline-block; float: none;">Lock Screen</span></a>
+								</li>
+							</ul></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip  tooltipster-disable" href="login.html"> <i
+								class="icon-download"></i> <span
+								style="display: inline-block; float: none;">Login</span>
+						</a></li>
+
+					</ul>
+
+					<ul style="margin: 10px;" id="menu-showhide"
+						class="topnav menu-left-nest">
+						<li style="text-align: left;"><a href="#"
+							style="border-left: 0px solid ! important; display: inline-block; float: none;"
+							class="title-menu-left"> <span
+								style="display: inline-block; float: none;" class="component"></span>
+								<i data-toggle="tooltip"
+								class="entypo-cog pull-right config-wrap"></i>
+
+						</a></li>
+
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip tooltipster-disable" href="#"> <i
+								class="icon-monitor"></i> <span
+								style="display: inline-block; float: none;">UI Element</span>
+								<h4 style="display: inline-block; float: none;">
+									<img src="assets/img/plus.png">
+								</h4></a>
+							<ul>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="element.html"><i class="icon-attachment"></i><span
+										style="display: inline-block; float: none;">Element</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="button.html"><i class="icon-view-list-large"></i><span
+										style="display: inline-block; float: none;">Button</span>
+										<div style="display: inline-block; float: none;"
+											class="noft-blue-number">10</div></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="wizard.html"><i class="icon-folder"></i><span
+										style="display: inline-block; float: none;">Wizard</span>
+									<div style="display: inline-block; float: none;"
+											class="noft-purple-number">3</div></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="calendar.html"><i class="icon-calendar"></i><span
+										style="display: inline-block; float: none;">Calendar</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="tree.html"><i class="icon-view-list"></i><span
+										style="display: inline-block; float: none;">Tree View</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="grids.html"><i class="icon-menu"></i><span
+										style="display: inline-block; float: none;">Grids</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="chart.html"><i class="icon-graph-pie"></i><span
+										style="display: inline-block; float: none;">Chart</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip ajax-load tooltipster-disable"
+									href="typhography.html"> <i class="icon-information"></i> <span
+										style="display: inline-block; float: none;">Typhoghrapy</span>
+								</a></li>
+							</ul></li>
+						<li style="text-align: left;"><a
+							class="tooltip-tip tooltipster-disable" href="#"> <i
+								class="icon-document"></i> <span
+								style="display: inline-block; float: none;">Form</span>
+								<h4 style="display: inline-block; float: none;">
+									<img src="assets/img/plus.png">
+								</h4></a>
+							<ul>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="form-element.html"><i class="icon-document-edit"></i><span
+										style="display: inline-block; float: none;">Form
+											Elements</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="andvance-form.html"><i class="icon-map"></i><span
+										style="display: inline-block; float: none;">Andvance
+											Form</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="text-editor.html"><i class="icon-code"></i><span
+										style="display: inline-block; float: none;">Text Editor</span></a>
+								</li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="file-upload.html"><i class="icon-upload"></i><span
+										style="display: inline-block; float: none;">File Upload</span></a>
+								</li>
+							</ul></li>
+						<li style="text-align: left;"><a
+							class="tooltip-tip tooltipster-disable" href="#"> <i
+								class="icon-view-thumb"></i> <span
+								style="display: inline-block; float: none;">Tables</span>
+								<h4 style="display: inline-block; float: none;">
+									<img src="assets/img/plus.png">
+								</h4></a>
+							<ul>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="table-static.html"><i class="entypo-layout"></i><span
+										style="display: inline-block; float: none;">Table
+											Static</span></a></li>
+								<li style="text-align: left;"><a
+									class="tooltip-tip2 ajax-load tooltipster-disable"
+									href="table-dynamic.html"><i class="entypo-menu"></i><span
+										style="display: inline-block; float: none;">Table
+											Dynamic</span></a></li>
+							</ul></li>
+
+						<li style="text-align: left;"><a
+							class="tooltip-tip ajax-load tooltipster-disable" href="map.html">
+								<i class="icon-location"></i> <span
+								style="display: inline-block; float: none;">Map</span>
+
+						</a></li>
+					</ul>
+
+
+
+
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+		<!--            模板替换 -->
+</body>
+</html>
+
+
+
+

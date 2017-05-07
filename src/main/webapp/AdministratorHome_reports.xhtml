@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Welcome to Administrator-HomePage !</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/homestyle.css"></link>
+</h:head>
+
+<body>
+	<center>
+		<div id="wapper">
+			<div id="header">
+				<div id="logo">此处为logo</div>
+				<div id="topmenu">网站顶部导航
+					
+				</div>
+			</div>
+
+			<div id="centent">
+				<div id="leftmenu">网站左边导航栏
+				
+				
+				
+					<table>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add User123" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Item123" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Category123" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Edit User Level 1000" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete User122" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete Item123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item in131" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item out131" /></td>
+						</tr>
+
+					</table>
+				
+				
+				
+				</div>
+				<div id="centercentent">
+					网站主题内容
+
+				<!-- 111111111111111111111111111111111 -->
+				<div >
+					<h:messages />
+					<h1>report:</h1>
+					<h:dataTable value="#{item_account}" var="i">
+						<h:column>
+							<f:facet name="header">
+                        flag
+                    </f:facet>
+							<h:outputText value="#{i.flag}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+                        Name
+                    </f:facet>
+							<h:outputText value="#{i.time_check}" />
+						</h:column>
+						
+					</h:dataTable>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+
+
+				<!-- 				<div id="rightsider">网站右边导航栏</div> -->
+			</div>
+			<div id="footer">网站判全省明</div>
+		</div>
+	</center>
+</body>
+</html>

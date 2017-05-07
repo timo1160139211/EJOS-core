@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="template/template.xhtml">
+        <ui:define name="content">
+
+            <h1>Add category</h1>
+            <h:form>
+                <table>
+                    <tr>
+                        <td>categoryname</td>
+                        <td><h:inputText value="#{categoryManager.newCategory.name}"/></td>
+                    </tr>
+
+                     <tr>
+                        <td></td>
+                        <td><h:commandButton action="#{categoryManager.addCategory}" value="Add category" /></td>
+                    </tr>
+                </table>
+            </h:form>
+            
+            
+            <h:messages />
+            <h1>Categories</h1>
+            <h:dataTable value="#{categories}" var="c">
+                <h:column>
+                    <f:facet name="header">
+                        name
+                    </f:facet>
+                    <h:outputText value="#{c.name}" />
+                </h:column> 
+
+
+            </h:dataTable>
+            
+        </ui:define>
+    </ui:composition>
+</html>
+

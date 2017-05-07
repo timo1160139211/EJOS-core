@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Welcome to Administrator-HomePage !</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/homestyle.css"></link>
+
+
+	<!-- link css -->
+	<link rel="stylesheet" href="assets/css/style.css"></link>
+	<link rel="stylesheet" href="assets/css/loader-style.css"></link>
+	<link rel="stylesheet" href="assets/css/bootstrap.css"></link>
+
+	<link rel="stylesheet" href="assets/js/tree/jquery.treeview.css"></link>
+	<link rel="stylesheet" href="../red-treeview.css"></link>
+
+	<link rel="stylesheet"
+		href="assets/js/tree/treetable/stylesheets/jquery.treetable.css"></link>
+	<link rel="stylesheet"
+		href="assets/js/tree/treetable/stylesheets/jquery.treetable.theme.default.css"></link>
+
+	<link href="assets/js/tree/tabelizer/tabelizer.min.css" media="all"
+		rel="stylesheet" type="text/css"></link>
+
+</h:head>
+
+<h:body>
+	<center>
+		<div id="wapper">
+			<div id="header">
+				<div id="topmenu">网站顶部导航</div>
+			</div>
+
+			<div id="centent">
+				<div id="leftmenu">
+
+					<ul style="margin: 10px;" class="topnav menu-left-nest">
+
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_additem.jsf">Add Item</a></li>
+
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_adduser.jsf">Add user</a></li>
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_deleteitem.jsf">Delete Item</a></li>
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_deleteuser.jsf">Delete User</a></li>
+
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_itemout.jsf">Item Out</a></li>
+
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_itemin.jsf">Item In</a></li>
+
+
+						<li style="text-align: left;"><a href="../SearchItemAjax.jsf">Search
+								Item</a></li>
+
+						<li style="text-align: left;"><a
+							href="../AdministratorHome_reports.jsf">Reports</a></li>
+					</ul>
+
+
+				</div>
+				<div id="centercentent">
+
+
+
+
+
+
+					<h:message />
+					<h1>Items: : ）假装有个数据表：</h1>
+
+
+					<h:form>
+						<p:dataTable id="dataTable2" var="i" value="#{items}">
+							<f:facet name="header">
+									List of Items
+							</f:facet>
+
+							<p:column headerText="name" sortBy="#{i.name}">
+								<h:outputText value="#{i.name}" />
+							</p:column>
+
+							<p:column headerText="code" sortBy="#{i.code}">
+								<h:outputText value="#{i.code}" />
+							</p:column>
+
+							<p:column headerText="dateBought" sortBy="#{i.dateBought}">
+								<h:outputText value="#{i.dateBought}" />
+							</p:column>
+
+							<p:column headerText="numTotal" sortBy="#{i.numTotal}">
+								<h:outputText value="#{i.numTotal}" />
+							</p:column>
+
+							<p:column headerText="category" sortBy="#{i.category.name}">
+								<h:outputText value="#{i.category.name}" />
+							</p:column>
+
+							<p:column headerText="status" sortBy="#{i.status}">
+								<h:outputText value="#{i.status}" />
+							</p:column>
+
+
+						</p:dataTable>
+					</h:form>
+					<h3>绑定：从方法里获得的List 无法用标签sortBy排序，。绑定数据表(e.g. items)就可以用</h3>
+
+					<a class="btn btn-link" href="../../myLMSproject/admin/Home.jsf">l返回首页</a>
+
+
+					<h:form>
+						<p:dataTable var="car" value="#{dtSortView.cars1}"
+							style="margin-bottom:40px">
+							<f:facet name="header">
+          					  Single Column Sort
+        								</f:facet>
+							<p:column headerText="Id" sortBy="#{car.id}">
+								<h:outputText value="#{car.id}" />
+							</p:column>
+
+							<p:column headerText="Year" sortBy="#{car.year}">
+								<h:outputText value="#{car.year}" />
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+				</div>
+
+
+			</div>
+		</div>
+	</center>
+</h:body>
+</html>

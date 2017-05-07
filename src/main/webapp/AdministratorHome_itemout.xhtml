@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<h:head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Welcome to Administrator-HomePage !</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/homestyle.css"></link>
+
+<style>
+.city {
+	float: center;
+	margin: 5px;
+	padding: 15px;
+	width: 600px;
+	height: 300px;
+	border: 1px solid black;
+	background: #CCFFFF;
+}
+</style>
+
+
+</h:head>
+
+<body>
+	<center>
+		<div id="wapper">
+			<div id="header">
+				<div id="logo">此处为logo</div>
+				<div id="topmenu">网站顶部导航</div>
+			</div>
+
+			<div id="centent">
+				<div id="leftmenu">
+					网站左边导航栏
+
+					<table>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add User123" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Item123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Add Category123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete User122" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Delete Item123" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item in131" /></td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Item out131" /></td>
+						</tr>
+
+					</table>
+
+
+				</div>
+
+
+
+
+				<h:form>
+					<!--  物品出库 ...  -->
+					<table>
+						<tr>
+							<td>Itemname:</td>
+							<td><h:inputText value="#{itemManager.newItem.name}" /></td>
+						</tr>
+						<tr>
+							<td>num :</td>
+							<td><h:inputText value="#{itemManager.temporNum}" /></td>
+						</tr>
+						
+						<tr>
+							<td></td>
+							<td><h:commandButton action="#{itemManager.itemOut}"
+									value="Item out " /></td>
+						</tr>
+					</table>
+				</h:form>
+
+
+
+
+			<div class="city">
+			<h:message/>
+				<h1>Items:</h1>
+				<h:dataTable value="#{items}" var="var_item">
+					<h:column>
+						<f:facet name="header">
+                        name
+                    </f:facet>
+						<h:outputText value="#{var_item.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+                        code
+                    </f:facet>
+						<h:outputText value="#{var_item.code}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+                        dateBought
+                    </f:facet>
+						<p:calendar value="#{var_item.dateBought}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+                        num_total
+                    </f:facet>
+						<h:outputText value="#{var_item.numTotal}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+                        category_id
+                    </f:facet>
+						<h:outputText value="#{var_item.category}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+                        status
+                    </f:facet>
+						<h:outputText value="#{var_item.status}" />
+					</h:column>
+				</h:dataTable>
+		</div>
+
+</div>
+				<!-- 	<div id="rightsider">网站右边导航栏</div> -->
+			</div>
+			<div id="footer">
+				Copyright(C)2014 morpheussoft All Rights Reserved<br />
+				morpheus网络科技有限公司 版权所有 京IP备38324号
+			</div>
+
+	</center>
+
+
+
+</body>
+</html>
