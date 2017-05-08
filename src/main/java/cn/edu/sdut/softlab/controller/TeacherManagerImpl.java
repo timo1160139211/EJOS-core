@@ -26,7 +26,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
 
-import cn.edu.sdut.softlab.model.Teacher;
+import cn.edu.sdut.softlab.entity.Teacher;
 import cn.edu.sdut.softlab.service.UserFacade;
 
 /**

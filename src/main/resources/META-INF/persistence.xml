@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-    <persistence-unit name="labUnit" transaction-type="JTA">
-        <description>
-            Persistence unit for myLMStest
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="labUnit" transaction-type="JTA">
+		<description>
+            Persistence unit for EJOS_test
         </description>
 
-        <jta-data-source>java:/jboss/labDS</jta-data-source>
-        <class>cn.edu.sdut.softlab.model.Item</class>
-        <class>cn.edu.sdut.softlab.model.Category</class>
-        <class>cn.edu.sdut.softlab.model.ItemAccount</class>
-        <class>cn.edu.sdut.softlab.model.Stuff</class>
-      
-       <class>cn.edu.sdut.softlab.model.Achievement</class>
-		<class>cn.edu.sdut.softlab.model.Admin</class>
-		<class>cn.edu.sdut.softlab.model.Information</class>
-		<class>cn.edu.sdut.softlab.model.ItemBank</class>
-		<class>cn.edu.sdut.softlab.model.Record</class>
-		<class>cn.edu.sdut.softlab.model.Student</class>
-		<class>cn.edu.sdut.softlab.model.Teacher</class>
-		<class>cn.edu.sdut.softlab.model.Team</class>
-        <properties>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-        </properties>
-    </persistence-unit>
+		<jta-data-source>java:jboss/datasources/mysqlDS</jta-data-source>
+
+		<class>cn.edu.sdut.softlab.entity.Achievement</class>
+		<class>cn.edu.sdut.softlab.entity.Admin</class>
+		<class>cn.edu.sdut.softlab.entity.Information</class>
+		<class>cn.edu.sdut.softlab.entity.ItemBank</class>
+		<class>cn.edu.sdut.softlab.entity.Record</class>
+		<class>cn.edu.sdut.softlab.entity.Student</class>
+		<class>cn.edu.sdut.softlab.entity.Teacher</class>
+		<class>cn.edu.sdut.softlab.entity.Team</class>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+		</properties>
+	</persistence-unit>
 
 </persistence>

@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.UserTransaction;
 
-import cn.edu.sdut.softlab.model.Category;
+import cn.edu.sdut.softlab.entity.Category;
 import cn.edu.sdut.softlab.service.CategoryFacade;
 
 

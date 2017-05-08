@@ -22,7 +22,7 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
-import cn.edu.sdut.softlab.model.Teacher;
+import cn.edu.sdut.softlab.entity.Teacher;
 
 /**
  * @author GaoYisheng 

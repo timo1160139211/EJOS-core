@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import cn.edu.sdut.softlab.model.Item;
+import cn.edu.sdut.softlab.entity.Item;
 
 /**
  * @author gaoyisheng

@@ -13,7 +13,7 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-import cn.edu.sdut.softlab.model.Category;
+import cn.edu.sdut.softlab.entity.Category;
 import cn.edu.sdut.softlab.service.CategoryFacade;
 
 /**

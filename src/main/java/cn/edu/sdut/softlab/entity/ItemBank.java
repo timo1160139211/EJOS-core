@@ -1,4 +1,4 @@
-package cn.edu.sdut.softlab.model;
+package cn.edu.sdut.softlab.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;

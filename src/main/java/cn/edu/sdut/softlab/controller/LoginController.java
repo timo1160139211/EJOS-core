@@ -18,7 +18,7 @@
 
 package cn.edu.sdut.softlab.controller;
 
-import cn.edu.sdut.softlab.model.Stuff;
+import cn.edu.sdut.softlab.entity.Stuff;
 import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.service.StuffFacade;
 

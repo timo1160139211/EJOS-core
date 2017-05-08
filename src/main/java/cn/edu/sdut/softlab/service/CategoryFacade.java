@@ -18,13 +18,14 @@
 
 package cn.edu.sdut.softlab.service;
 
-import cn.edu.sdut.softlab.model.Category;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Named;
+
+import cn.edu.sdut.softlab.entity.Category;
 
 @Stateless
 @Named("category")

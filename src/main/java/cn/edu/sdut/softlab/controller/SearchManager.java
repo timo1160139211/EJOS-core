@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 
 import org.primefaces.component.datatable.DataTable;
 
-import cn.edu.sdut.softlab.model.Item;
+import cn.edu.sdut.softlab.entity.Item;
 import cn.edu.sdut.softlab.service.SearchFacade;
 
 import java.io.Serializable;

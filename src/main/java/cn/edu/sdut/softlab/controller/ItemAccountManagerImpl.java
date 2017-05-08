@@ -11,7 +11,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
 
-import cn.edu.sdut.softlab.model.ItemAccount;
+import cn.edu.sdut.softlab.entity.ItemAccount;
 import cn.edu.sdut.softlab.service.ItemAccountFacade;
 import cn.edu.sdut.softlab.service.ItemFacade;
 import cn.edu.sdut.softlab.service.StuffFacade;

@@ -18,9 +18,9 @@
 
 package cn.edu.sdut.softlab.controller;
 
-import cn.edu.sdut.softlab.model.Stuff;
-
 import java.util.List;
+
+import cn.edu.sdut.softlab.entity.Stuff;
 
 public interface StuffManager {
 

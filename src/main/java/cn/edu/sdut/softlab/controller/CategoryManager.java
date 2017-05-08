@@ -5,8 +5,9 @@
 
 package cn.edu.sdut.softlab.controller;
 
-import cn.edu.sdut.softlab.model.Category;
 import java.util.List;
+
+import cn.edu.sdut.softlab.entity.Category;
 
 public interface CategoryManager {
 

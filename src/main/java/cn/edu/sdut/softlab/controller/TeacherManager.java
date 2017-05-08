@@ -18,7 +18,7 @@ package cn.edu.sdut.softlab.controller;
 
 import java.util.List;
 
-import cn.edu.sdut.softlab.model.Teacher;
+import cn.edu.sdut.softlab.entity.Teacher;
 
 
 /**

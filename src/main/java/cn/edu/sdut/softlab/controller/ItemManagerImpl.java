@@ -1,8 +1,8 @@
 package cn.edu.sdut.softlab.controller;
 
-import cn.edu.sdut.softlab.model.Category;
-import cn.edu.sdut.softlab.model.Item;
-import cn.edu.sdut.softlab.model.Stuff;
+import cn.edu.sdut.softlab.entity.Category;
+import cn.edu.sdut.softlab.entity.Item;
+import cn.edu.sdut.softlab.entity.Stuff;
 import cn.edu.sdut.softlab.service.CategoryFacade;
 import cn.edu.sdut.softlab.service.ItemAccountFacade;
 import cn.edu.sdut.softlab.service.ItemFacade;
