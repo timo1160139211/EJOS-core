@@ -10,6 +10,15 @@
         <class>cn.edu.sdut.softlab.model.Category</class>
         <class>cn.edu.sdut.softlab.model.ItemAccount</class>
         <class>cn.edu.sdut.softlab.model.Stuff</class>
+      
+       <class>cn.edu.sdut.softlab.model.Achievement</class>
+		<class>cn.edu.sdut.softlab.model.Admin</class>
+		<class>cn.edu.sdut.softlab.model.Information</class>
+		<class>cn.edu.sdut.softlab.model.ItemBank</class>
+		<class>cn.edu.sdut.softlab.model.Record</class>
+		<class>cn.edu.sdut.softlab.model.Student</class>
+		<class>cn.edu.sdut.softlab.model.Teacher</class>
+		<class>cn.edu.sdut.softlab.model.Team</class>
         <properties>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
