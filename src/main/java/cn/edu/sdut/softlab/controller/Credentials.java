@@ -27,15 +27,15 @@ import javax.inject.Named;
 @Default
 public class Credentials {
 
-	private String username;
+	private String stuNO;
 	private String password;
 
-	public String getUsername() {
-		return username;
+	public String getStuNO() {
+		return stuNO;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setStuNO(String no) {
+		this.stuNO = no;
 	}
 
 	public String getPassword() {
