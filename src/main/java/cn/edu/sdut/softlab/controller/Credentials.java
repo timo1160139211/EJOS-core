@@ -18,6 +18,8 @@
 
 package cn.edu.sdut.softlab.controller;
 
+import java.math.BigInteger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Named;
@@ -27,14 +29,14 @@ import javax.inject.Named;
 @Default
 public class Credentials {
 
-	private String stuNO;
+	private BigInteger stuNO;
 	private String password;
 
-	public String getStuNO() {
+	public BigInteger getStuNO() {
 		return stuNO;
 	}
 
-	public void setStuNO(String no) {
+	public void setStuNO(BigInteger no) {
 		this.stuNO = no;
 	}
 

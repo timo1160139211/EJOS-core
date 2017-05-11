@@ -19,11 +19,13 @@
 package cn.edu.sdut.softlab.controller;
 
 import cn.edu.sdut.softlab.entity.*;
+import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.service.StudentFacade;
 
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -38,15 +40,20 @@ public class LoginController implements Serializable {
 	@Inject
 	private Credentials credentials;
 
-//	@SuppressWarnings("cdi-ambiguous-dependency")
-//	@Inject       WHY???
+	@Inject       
 	StudentFacade studentService;
 
 	@Inject
 	FacesContext facesContext;
 
 	private Student currentUser = null;
-
+	
+	@Produces
+	@LoggedIn
+	public Student getCurrentUser() {
+		return currentUser;
+	}
+	
 	/**
 	 * 处理登录逻辑.
 	 */
@@ -58,27 +65,23 @@ public class LoginController implements Serializable {
 		}
 	}
 
-//	/**
-//	 * 处理退出登录逻辑.
-//	 */
-//	public void logout() {
-//		facesContext.addMessage(null, new FacesMessage("Goodbye, " + currentUser.getUsername()));
-//		currentUser = null;
-//	}
-//
-//	/**
-//	 * 判断用户是否登录.
-//	 *
-//	 * @return true：已经登录；false：没有登录
-//	 */
-//	public boolean isLoggedIn() {
-//		return currentUser != null;
-//	}
-//
-//	@Produces
-//	@LoggedIn
-//	public Stuff getCurrentUser() {
-//		return currentUser;
-//	}
+	/**
+	 * 处理退出登录逻辑.
+	 */
+	public void logout() {
+		facesContext.addMessage(null, new FacesMessage("Goodbye, " + currentUser.getName()));
+		currentUser = null;
+	}
+
+	/**
+	 * 判断用户是否登录.
+	 *
+	 * @return true：已经登录；false：没有登录
+	 */
+	public boolean isLoggedIn() {
+		return currentUser != null;
+	}
+
+
 
 }
