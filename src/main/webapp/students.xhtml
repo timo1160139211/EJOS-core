@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template/template.xhtml">
+	<ui:define name="content">
+
+		<h:message />
+
+			<h1>Students:</h1>
+			<h:dataTable value="#{student}" var="s">
+				<h:column>
+					<f:facet name="header">
+                        id
+                    </f:facet>
+					<h:outputText value="#{s.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+                              学号：
+                    </f:facet>
+					<h:outputText value="#{s.studentNum}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+                        		姓名：
+                    </f:facet>
+					<h:outputText value="#{s.name}" />
+				</h:column>
+
+			</h:dataTable>
+
+	</ui:define>
+</ui:composition>
+</html>
