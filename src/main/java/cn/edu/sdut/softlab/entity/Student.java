@@ -159,55 +159,55 @@ public class Student implements Serializable {
 	/*
 	 * 1.重写equals方法修饰符必须是public,因为是重写的Object的方法. 2.参数类型必须是Object.
 	 */
-//	@Override
-//	public boolean equals(Object other) {
-//
-//		if (this == other) { // 先检查是否其自反性，后比较 obj 是否为空。这样效率高
-//			return true;
-//		}
-//
-//		if (other == null) {
-//			return false;
-//		}
-//
-//		if (!(other instanceof Student))
-//			return false;
-//
-//		
-//		final Student c = (Student) other;
-//
-//		if (id == null) {
-//
-//			if (c.getId() != null) {
-//				return false;
-//			}
-//
-//		} else if (!id.equals(c.getId())) {
-//			return false;
-//		}
-//		
-//		if (name == null) {
-//
-//			if (c.getName() != null) {
-//				return false;
-//			}
-//
-//		} else if (!name.equals(c.getName())) {
-//			return false;
-//		}
-//		
-//
-//		//几项检查都没问题 返回true
-//		return true;
-//	}
-//
-//	@Override
-//	public int hashCode() {  //hashCode主要是用来提高hash系统的查询效率。当hashCode中不进行任何操作时，可以直接让其返回 一常数，或者不进行重写。
-//		final int prime = 29;
-//		int result = 1;
-//		result = prime * result + ((id == null) ? 0 : id.hashCode());
-//		result = prime * result + ((name == null) ? 0 : name.hashCode());
-//		return result;
-//	}
-	
+	@Override
+	public boolean equals(Object other) {
+
+		if (this == other) { // 先检查是否其自反性，后比较 obj 是否为空。这样效率高
+			return true;
+		}
+
+		if (other == null) {
+			return false;
+		}
+
+		if (!(other instanceof Student))
+			return false;
+
+		
+		final Student s = (Student) other;
+
+		if (studentNum == null) {
+
+			if (s.getStudentNum() != null) {
+				return false;
+			}
+
+		} else if (!studentNum.equals(s.getId())) {
+			return false;
+		}
+		
+		if (name == null) {
+
+			if (s.getName() != null) {
+				return false;
+			}
+
+		} else if (!name.equals(s.getName())) {
+			return false;
+		}
+		
+
+		//几项检查都没问题 返回true
+		return true;
+	}
+
+	@Override
+	public int hashCode() {  //hashCode主要是用来提高hash系统的查询效率。当hashCode中不进行任何操作时，可以直接让其返回 一常数，或者不进行重写。
+		final int prime = 29;
+		int result = 1;
+		result = prime * result + ((studentNum == null) ? 0 : studentNum.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
 }
