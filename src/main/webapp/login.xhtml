@@ -79,11 +79,12 @@
 								<label> <input type="checkbox"></input>记住用户名
 								</label>
 							</div>
-							<!-- <div class="checkbox pull-left"> -->
 							<div>
-								<label> <input type="radio"></input>学生</label> 
-								<label> <input type="radio"></input>老师</label>
-								<label> <input type="radio"></input>管理员</label>
+								<h:selectOneRadio value="">
+								<f:selectItem itemLabel="学生" itemvalue="student"/> 
+								<f:selectItem itemLabel="老师" itemvalue="teacher"/> 
+								<f:selectItem itemLabel="管理员" itemvalue="admin"/> 
+								</h:selectOneRadio>
 							</div>
 							<h:messages />
 
@@ -91,10 +92,8 @@
 								rendered="#{!login.loggedIn}"
 								styleClass="btn btn btn-primary pull-right" />
 
-							<!-- 						<button class="btn btn btn-primary pull-right" type="submit">
-							登 录</button> -->
+
 						</h:form>
-						<!-- 						<a class="forgotLnk" href="index.html"></a> -->
 
 						<div class="row-block">
 							<div class="row"></div>
