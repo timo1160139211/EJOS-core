@@ -26,7 +26,7 @@ import cn.edu.sdut.softlab.entity.Teacher;
  * 2017年5月6日
  * TODO 作为teacher user manager interface
  */
-public interface TeacherManager {
+public interface OldTeacherManager {
 	
 	/**
 	 * 获得所有 老师 列表.

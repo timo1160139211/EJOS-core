@@ -1,3 +1,4 @@
+package cn.edu.sdut.softlab.controller;
 ///*
 // * file_name: TeacherManagerImpl.java 
 // *
