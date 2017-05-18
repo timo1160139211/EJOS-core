@@ -29,15 +29,15 @@ import javax.inject.Named;
 @Default
 public class Credentials {
 
-	private BigInteger stuNO;
+	private BigInteger NO;
 	private String password;
 
-	public BigInteger getStuNO() {
-		return stuNO;
+	public BigInteger getNO() {
+		return NO;
 	}
 
-	public void setStuNO(BigInteger no) {
-		this.stuNO = no;
+	public void setNO(BigInteger no) {
+		this.NO = no;
 	}
 
 	public String getPassword() {

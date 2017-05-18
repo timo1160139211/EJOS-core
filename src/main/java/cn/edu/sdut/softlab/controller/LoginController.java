@@ -58,7 +58,7 @@ public class LoginController implements Serializable {
 	 * 处理登录逻辑.
 	 */
 	public void login() {
-		Student student = studentService.findByStuNOAndPassword(credentials.getStuNO(), credentials.getPassword());
+		Student student = studentService.findByStuNOAndPassword(credentials.getNO(), credentials.getPassword());
 		if (student != null) {
 			currentUser = student;
 			facesContext.addMessage(null, new FacesMessage("Welcome, " + currentUser.getName()));

@@ -14,7 +14,8 @@ import java.util.Set;
 @Table(name="teacher")
 @NamedQueries({
 	  @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t"),
-	  @NamedQuery(name = "Teacher.findById", query = "SELECT t FROM Teacher t WHERE t.id = :id")})
+	  @NamedQuery(name = "Teacher.findByTeaNOAndPassword", query = "SELECT t FROM Teacher t WHERE t.teacherNum = :teaNO and t.password = :password"),
+	  @NamedQuery(name = "Teacher.findByTeaNO", query = "SELECT t FROM Teacher t WHERE t.teacherNum = :teaNO")})
 public class Teacher implements Serializable {
 	private static final long serialVersionUID = 1L;
 
