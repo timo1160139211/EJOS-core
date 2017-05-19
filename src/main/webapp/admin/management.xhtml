@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<head>
+<meta charset="utf-8"></meta>
+<title>Welcome to EJOSystem !</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+<!-- <script type="text/javascript" src="assets/js/jquery.min.js"></script> -->
+
+<!--  <link rel="stylesheet" href="assets/css/style.css"> -->
+<link rel="stylesheet" href="assets/css/loader-style.css"></link>
+<link rel="stylesheet" href="assets/css/bootstrap.css"></link>
+<link rel="stylesheet" href="assets/css/signin.css"></link>
+
+
+<link rel="shortcut icon" href="assets/ico/minus.png"></link>
+</head>
+
+<body>
+				<h:form>
+					<h:messages />
+					<!-- 添加老师的 一系列...  -->
+					<table>
+						<tr>
+							<td>工号：</td>
+							<td><h:inputText value="#{teacherManager.newTeacher.teacherNum}">
+								</h:inputText></td>
+						</tr>
+
+						<tr>
+							<td>密码：</td>
+							<td><h:inputText value="#{teacherManager.newTeacher.password}" /></td>
+						</tr>
+						<tr>
+							<td>身份证号码：</td>
+							<td><h:inputText value="#{teacherManager.newTeacher.idCard}" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton action="#{teacherManager.addTeacher}"
+									value="Add Teacher" /></td>
+						</tr>
+					</table>
+				</h:form>
+				
+				
+				
+				
+
+		<!-- <p>&nbsp;</p> -->
+		<div style="text-align: center; margin: 0 auto;">
+			<h6 style="color: #fff;">
+				Copyright(C)2017 fjcloudsoft.com All Rights Reserved<br />
+				2333网络科技有限公司 版权所有 鲁ICP备17021168号
+			</h6>
+		</div>
+
+
+	<div id="test1" class="gmap3"></div>
+
+
+
+
+</body>
+
+</html>
+
