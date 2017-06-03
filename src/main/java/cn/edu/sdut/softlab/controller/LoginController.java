@@ -10,8 +10,10 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.application.ConfigurableNavigationHandler;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -63,9 +65,18 @@ public class LoginController implements Serializable {
 	 * @return true：已经登录；false：没有登录
 	 */
 	public boolean isLoggedIn() {
-		return currentUser != null;
+		return currentUser != null;//才看明白，null != null 没登录！
 	}
 
-
+	public void checkLogin(ComponentSystemEvent event){
+		if(!this.isLoggedIn()){
+			FacesContext context = FacesContext.getCurrentInstance();
+			
+			ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
+			handler.performNavigation("login");
+		
+		}
+		
+	}
 
 }

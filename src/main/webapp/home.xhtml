@@ -1,26 +1,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition template="template/template.xhtml">
-        <ui:define name="content">
-            <h:messages/>
-            <h:form id="loginForm">
-                <h:panelGrid columns="2" rendered="#{!login.loggedIn}">   
-          <!--    <h:panelGrid columns="2" >--> 
-                    <h:outputLabel for="stuNO"> 学号:</h:outputLabel>
-                    <h:inputText id="stuNO" value="#{credentials.NO}"/>
-                    <h:outputLabel for="password">密码:</h:outputLabel>
-                    <h:inputSecret id="password" value="#{credentials.password}"/>
-                </h:panelGrid>
-            <h:commandButton id="login" value="Login" action="#{login.login}" rendered="#{!login.loggedIn}"/>
-           
-                <h:commandButton id="logout" value="Logout" action="#{login.logout}" rendered="#{login.loggedIn}"/> 
-            </h:form>
-            <h:link outcome="/students.xhtml">View Students</h:link>
-        </ui:define>
-    </ui:composition>
+<f:view>
+	<f:event type="preRenderView" listener="#{login.checkLogin}" />
+
+	<h:head>
+	</h:head>
+	<h:body>
+		<ui:composition template="template/template.xhtml">
+			<ui:define name="content">
+				<h:messages />
+				<h:form id="loginForm">
+					<h:panelGrid columns="2" rendered="#{!login.loggedIn}">
+						<!--    <h:panelGrid columns="2" >-->
+						<h:outputLabel for="stuNO"> 学号:</h:outputLabel>
+						<h:inputText id="stuNO" value="#{credentials.NO}" />
+						<h:outputLabel for="password">密码:</h:outputLabel>
+						<h:inputSecret id="password" value="#{credentials.password}" />
+					</h:panelGrid>
+					<h:commandButton id="login" value="Login" action="#{login.login}"
+						rendered="#{!login.loggedIn}" />
+
+					<h:commandButton id="logout" value="Logout"
+						action="#{login.logout}" rendered="#{login.loggedIn}" />
+				</h:form>
+				<h:link outcome="/students.xhtml">View Students</h:link>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</f:view>
 </html>
