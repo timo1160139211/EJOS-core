@@ -27,10 +27,26 @@ import javax.inject.Named;
 @Named
 @Default
 public class ExpReport {
+	private String fileName;//文件名
+	private String result;//返回值
+	private String filePath;//文件保存的路径
+	private String answerText;//代码(答案)
 
-	private String result;
-	private String answerPath;
-	private String answertext;
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getAnswerText() {
+		return answerText;
+	}
+
+	public void setAnswerText(String answerText) {
+		this.answerText = answerText;
+	}
 
 	public String getResult() {
 		return result;
@@ -40,19 +56,12 @@ public class ExpReport {
 		this.result = result;
 	}
 
-	public String getAnswerPath() {
-		return answerPath;
+	public String getFilePath() {
+		return filePath;
 	}
 
-	public void setAnswerPath(String answerPath) {
-		this.answerPath = answerPath;
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
-	public String getAnswertext() {
-		return answertext;
-	}
-
-	public void setAnswertext(String answertext) {
-		this.answertext = answertext;
-	}
 }
