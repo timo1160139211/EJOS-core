@@ -3,14 +3,18 @@ package cn.edu.sdut.softlab.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the achievements database table.
  * 
  */
 @Entity
 @Table(name="achievements")
-@NamedQuery(name="Achievement.findAll", query="SELECT a FROM Achievement a")
+@NamedQueries({
+	  @NamedQuery(name="Achievement.findAll", query="SELECT a FROM Achievement a"),
+	  @NamedQuery(name = "Achievement.insertSave", query = "insert into Achievement (question_id,student_id,answer,answer_path) values (:qid,:sid,:answer,:answPath)"),
+	  @NamedQuery(name = "Student.findByStuNO", query = "SELECT s FROM Student s WHERE s.studentNum = :stuNO"),
+	  @NamedQuery(name = "Student.findByStuNOAndPassword", query = "SELECT s FROM Student s WHERE s.studentNum = :stuNO and s.password = :password"),
+	  @NamedQuery(name = "Student.findById", query = "SELECT s FROM Student s WHERE s.id = :id")})
 public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -17,6 +17,7 @@
 package cn.edu.sdut.softlab.controller;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
@@ -30,7 +31,7 @@ import cn.edu.sdut.softlab.qualifiers.LoggedIn;
  * @author GaoYisheng 2017年6月6日 TODO 提交实验报告的管理类
  */
 @SessionScoped
-@Named("handin")
+@Named("handInManager")
 public class HandInManager implements Serializable {
 
 	private static final long serialVersionUID = 7965455427888195913L;
@@ -74,6 +75,18 @@ public class HandInManager implements Serializable {
 	 *  *********************************************************************************
 	 */
 	void save() {
+		//BigInteger stuNO = currentUser.getStudentNum();//获取学生学号[StuNO]
+		String testNum = "15110471070";
+		BigInteger stuNO = new BigInteger(testNum);
+		
+		int pid = 1;//获取题目[PId]
+		String fn = exp.getFileName();//获取文件命名[fileName]
+		
+		//将路径加上参数配置成全路径    /data/ejos/exp/StuNO/PId/fileName
+		String path = "/data/ejos/exp/" + stuNO + "/" + pid + "/" + fn ;
+		exp.setFilePath(path);
+		
+		
 		
 		//handInService.create(newAchie) 
 	}
