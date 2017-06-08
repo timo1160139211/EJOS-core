@@ -20,7 +20,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-
+import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 
 /**
@@ -47,12 +47,24 @@ public class HandInService extends AbstractFacade<Achievement> {
 
 	@Inject
 	EntityManager em;
-	
-	//To insert
-//	public void insertSave() {
-//		Map<String, Object> parameters = new HashMap<>(0);
-//		parameters.put("id", id);
-//		return findSingleByNamedQuery("Achievement.insertsave", parameters, Achievement.class).get();
-//	}
 
+	// @NamedQuery(name = "Achievement.insertSave", query = "insert into
+	// Achievement (question_id,student_id,answer,answer_path) values
+	// (:qid,:sid,:answer,:answPath)"),
+
+	// To insert
+	// 传入一个ExpReport的对象
+	// public void insertSave(int sid,int pid,String path) {
+	// Map<String, Object> parameters = new HashMap<>(0);
+	// parameters.put("sid", sid);//:qid,:sid,:answer,:answPath
+	// parameters.put("qid", pid);
+	// parameters.put("answer", id);
+	// parameters.put("answPath", p);
+	// return findSingleByNamedQuery("Achievement.insertSave", parameters,
+	// Achievement.class);
+	// }
+
+	public void insertSave2(ExpReport exp) {
+
+	}
 }

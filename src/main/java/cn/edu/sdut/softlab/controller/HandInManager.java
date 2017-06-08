@@ -18,14 +18,26 @@ package cn.edu.sdut.softlab.controller;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.qualifiers.LoggedIn;
+import cn.edu.sdut.softlab.service.HandInService;
 
 /**
  * @author GaoYisheng 2017年6月6日 TODO 提交实验报告的管理类
@@ -36,6 +48,21 @@ public class HandInManager implements Serializable {
 
 	private static final long serialVersionUID = 7965455427888195913L;
 
+	@Inject
+	private transient Logger logger;
+	
+	@Inject
+	private UserTransaction utx;
+
+	@Inject
+	EntityManager em;
+	
+	@Inject
+	FacesContext facesContext;
+	
+	@Inject
+	private HandInService his;
+	
 	@Inject
 	private ExpReport exp;
 	/*
@@ -56,39 +83,36 @@ public class HandInManager implements Serializable {
 	 		Student student;
 	 * */
 	
-	private Student currentUser = null;
 
-	@Produces
-	@LoggedIn
-	public Student getCurrentUser() {
-		return currentUser;
-	}
 
 	
 	/** *********************************************************************************
 	 * core  1/3
 	 * 保存编辑内容 到数据库=<<achievement>>
-	 *     1.获取题目[PId]，学生学号[SId],[StuNO],获取文件命名[fileName]
+	 *     1.获取题目[PId]，学生学号[SId],获取文件命名[fileName]
 	 *     2.获取{editor}的值[value],保存到 表<achie> 的 (answer)字段中
-	 *     3.把 "StuNO/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中
+	 *     3.把 "SId/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中
 	 *     4.
 	 *  *********************************************************************************
 	 */
-	void save() {
-		//BigInteger stuNO = currentUser.getStudentNum();//获取学生学号[StuNO]
-		String testNum = "15110471070";
-		BigInteger stuNO = new BigInteger(testNum);
-		
-		int pid = 1;//获取题目[PId]
-		String fn = exp.getFileName();//获取文件命名[fileName]
-		
-		//将路径加上参数配置成全路径    /data/ejos/exp/StuNO/PId/fileName
-		String path = "/data/ejos/exp/" + stuNO + "/" + pid + "/" + fn ;
+	void save() throws Exception {
+		//将路径加上参数配置成全路径    /data/ejos/exp/SId/PId/fileName
+		String path = "/data/ejos/exp/" + exp.getCurrentUser().getId() 
+							+ "/" + exp.getQuestion().getId() + "/" + exp.getFileName() ;
 		exp.setFilePath(path);
+		merge(exp,achie);//将exp赋值给achie
 		
+		try {
+			utx.begin();
+			his.create(achie);
+			logger.log(Level.INFO, "Added {0}", achie);
+		} catch (NotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			utx.commit();
+		}
 		
-		
-		//handInService.create(newAchie) 
 	}
 
 	
@@ -131,7 +155,16 @@ public class HandInManager implements Serializable {
 
 	
 	
-	
+	/**
+	 * 将ExpReport e 赋值给 Achievement a;
+	 * 
+	 */
+	public void merge(ExpReport e,Achievement a){
+		a.setAnswer(e.getAnswerText());//答案赋值
+		a.setAnswerPath(e.getFilePath());//答案路径赋值
+		if(e.getCurrentUser() != null) { a.setStudent(e.getCurrentUser());} //学生赋值
+		a.setItemBank(e.getQuestion());//问题赋值
+	}
 	
 	/**
 	 * @return the achie

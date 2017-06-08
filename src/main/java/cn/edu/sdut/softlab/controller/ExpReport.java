@@ -18,7 +18,11 @@ package cn.edu.sdut.softlab.controller;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
+
+import cn.edu.sdut.softlab.entity.*;
+import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 
 /**
  * @author GaoYisheng 2017年6月5日 TODO 实验报告
@@ -31,6 +35,23 @@ public class ExpReport {
 	private String result;//返回值
 	private String filePath;//文件保存的路径
 	private String answerText;//代码(答案)
+	
+	private ItemBank question;//当前题目
+	private Student currentUser = null;//当前用户
+
+	@Produces
+	@LoggedIn
+	public Student getCurrentUser() {
+		return currentUser;
+	}
+	
+	public ItemBank getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(ItemBank question) {
+		this.question = question;
+	}
 
 	public String getFileName() {
 		return fileName;
