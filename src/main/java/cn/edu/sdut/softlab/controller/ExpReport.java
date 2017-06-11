@@ -19,6 +19,7 @@ package cn.edu.sdut.softlab.controller;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Produces;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.*;
@@ -28,7 +29,7 @@ import cn.edu.sdut.softlab.qualifiers.LoggedIn;
  * @author GaoYisheng 2017年6月5日 TODO 实验报告
  */
 @RequestScoped
-@Named
+@Named("expReport")
 @Default
 public class ExpReport {
 	private String fileName;//文件名
@@ -37,7 +38,10 @@ public class ExpReport {
 	private String answerText;//代码(答案)
 	
 	private ItemBank question;//当前题目
-	private Student currentUser = null;//当前用户
+	
+	//注入受管bean
+	@ManagedProperty(value ="#{login.currentUser}" )
+	private Student currentUser ;//当前用户
 
 	@Produces
 	@LoggedIn

@@ -30,7 +30,19 @@
 
 			<div>上部条</div>
 
-			<div>上部题目要求</div>
+			<div>
+				上部题目要求
+<!-- selectOneMenu converter="myCategoryConverter" -->
+				<h:selectOneMenu value="#{expReport.question.id}"
+					 var="e">
+					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
+					<f:selectItem itemLabel="Select a question" />
+
+					<f:selectItems value="#{QuestionManager.questions}" var="q"
+						itemLabel="#{q.question}" itemValue="#{q.id}" />
+
+				</h:selectOneMenu>
+			</div>
 
 			<div>
 				文件的命名区域:
@@ -41,7 +53,7 @@
 				</p:panel>
 			</div>
 
-			<div>上部题目要求</div>
+
 
 			<div>
 				编辑器
@@ -49,7 +61,7 @@
 				<h:form>
 					<p:editor id="editor" controls="size cut copy paste undo redo"
 						widgetVar="editorWidget" value="#{ExpReport.answerText}"
-						width="600" class="ui-editor"/>
+						width="600" class="ui-editor" />
 
 					<h:panelGrid columns="3" style="margin-top: 10px">
 						<p:commandButton value="保存" update="display"
@@ -80,9 +92,12 @@
 
 			</div>
 
-			<div>console
+			<div>
+				console
 				<h3 style="margin-top: 0">AutoComplete</h3>
-				<p:inputTextarea rows="10" cols="50" completeMethod="#{inputTextareaView.completeArea}" queryDelay="750" minQueryLength="4" />			
+				<p:inputTextarea rows="10" cols="50"
+					completeMethod="#{inputTextareaView.completeArea}" queryDelay="750"
+					minQueryLength="4" />
 			</div>
 
 

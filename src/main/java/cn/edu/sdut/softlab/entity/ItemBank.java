@@ -12,7 +12,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name="item_bank")
-@NamedQuery(name="ItemBank.findAll", query="SELECT i FROM ItemBank i")
+@NamedQueries({
+	@NamedQuery(name="ItemBank.findAll", query="SELECT i FROM ItemBank i"),
+	@NamedQuery(name="ItemBank.findByQid",query="SELECT i FROM ItemBank i WHERE i.id = :qid "),
+	@NamedQuery(name="ItemBank.findByTeamId",query="SELECT i FROM ItemBank i WHERE i.team.id = :teamId ")})
 public class ItemBank implements Serializable {
 	private static final long serialVersionUID = 1L;
 

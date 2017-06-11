@@ -17,27 +17,24 @@
 package cn.edu.sdut.softlab.controller;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import cn.edu.sdut.softlab.entity.Achievement;
-import cn.edu.sdut.softlab.entity.Student;
-import cn.edu.sdut.softlab.qualifiers.LoggedIn;
+import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.service.HandInService;
+import cn.edu.sdut.softlab.service.QuestionFacade;
 
 /**
  * @author GaoYisheng 2017年6月6日 TODO 提交实验报告的管理类
@@ -62,6 +59,18 @@ public class HandInManager implements Serializable {
 	
 	@Inject
 	private HandInService his;
+	
+	@Inject
+	private QuestionFacade questionFacade;
+	
+	@RequestScoped
+	@ManagedProperty(value ="#{questionManager.questions}" )
+	private List<ItemBank> questions;
+
+	public List<ItemBank> getQuestions() {
+		
+		return questionFacade.findQuestionsList(1);//!!!暂设为1××××××××××××××
+	}
 	
 	@Inject
 	private ExpReport exp;
