@@ -28,29 +28,64 @@
 		<div>
 			整体
 
-			<div>上部条</div>
-
 			<div>
-				上部题目要求
-<!-- selectOneMenu converter="myCategoryConverter" -->
-				<h:selectOneMenu value="#{expReport.question.id}"
-					 var="e">
-					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
-					<f:selectItem itemLabel="Select a question" />
+				上部条
+				<p>
+					<h:outputLabel value="hi , #{login.currentUser.name}"></h:outputLabel>
+				</p>
 
-					<f:selectItems value="#{QuestionManager.questions}" var="q"
-						itemLabel="#{q.question}" itemValue="#{q.id}" />
+				<p>
+					<h:outputLabel value="you are in , #{login.currentUser.team.name}"></h:outputLabel>
+				</p>
 
-				</h:selectOneMenu>
+
+				<p>
+					<h:outputLabel value="your id is , #{login.currentUser.id}"></h:outputLabel>
+				</p>
+
+				<p>
+					<h:outputLabel
+						value="your card id is  , #{login.currentUser.idCard}"></h:outputLabel>
+				</p>
+
+				<p>
+					<h:outputLabel
+						value="your student number is , #{login.currentUser.studentNum}"></h:outputLabel>
+				</p>
+
+				<p:commandButton value="home" />
+
 			</div>
+			<h:form>
+				<div>
+					上部题目要求
+					<!-- selectOneMenu converter="myCategoryConverter" -->
+					<h:selectOneMenu value="#{expReport.question}" var="e">
+						<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
+						<f:selectItem itemLabel="Select a question" />
+
+						<f:selectItems value="#{QuestionManager.questions}" var="q"
+							itemLabel="#{q.question}" itemValue="#{q.id}" />
+
+					</h:selectOneMenu>
+				</div>
+			</h:form>
 
 			<div>
-				文件的命名区域:
+				<!-- 	根据第edit_96		撤销此区域
+            	文件的命名区域:
 				<p:panel id="panel" header="Form" style="margin-bottom:10px;">
 					<h:outputLabel value="命名为" />
-					<h:inputText value="#{ExpReport.fileName}" />
+					<h:inputText value="ExpReport.fileName" />
 					<h:outputLabel value="e.g. Stu.java" />
-				</p:panel>
+				</p:panel> -->
+
+				<p>消息提示</p>
+				<div class="alert alert-danger">
+					<span class="entypo-attention"></span> <strong>Oh Notice !
+					</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
+				</div>
+
 			</div>
 
 
@@ -94,7 +129,7 @@
 
 			<div>
 				console
-				<h3 style="margin-top: 0">AutoComplete</h3>
+				<h3 style="margin-top: 0">编译输出：</h3>
 				<p:inputTextarea rows="10" cols="50"
 					completeMethod="#{inputTextareaView.completeArea}" queryDelay="750"
 					minQueryLength="4" />
