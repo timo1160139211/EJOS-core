@@ -15,7 +15,7 @@ import java.util.Set;
 @NamedQueries({
 	@NamedQuery(name="ItemBank.findAll", query="SELECT i FROM ItemBank i"),
 	@NamedQuery(name="ItemBank.findByQid",query="SELECT i FROM ItemBank i WHERE i.id = :qid "),
-	@NamedQuery(name="ItemBank.findByTeamId",query="SELECT i FROM ItemBank i WHERE i.team.id = :teamId ")})
+	@NamedQuery(name="ItemBank.findByTeam",query="SELECT i FROM ItemBank i WHERE i.team = :team ")})
 public class ItemBank implements Serializable {
 	private static final long serialVersionUID = 1L;
 

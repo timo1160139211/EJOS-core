@@ -39,7 +39,7 @@ public class LoginController implements Serializable {
 	public Student getCurrentUser() {
 		return currentUser;
 	}
-	
+
 	/**
 	 * 处理登录逻辑.
 	 */
@@ -74,7 +74,6 @@ public class LoginController implements Serializable {
 			
 			ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
 			handler.performNavigation("login");
-		
 		}
 		
 	}

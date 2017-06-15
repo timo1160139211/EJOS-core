@@ -72,7 +72,7 @@ public class QuestionManager implements Serializable{
 	//
 	public List<ItemBank> getQuestions() {
 		
-		return questionFacade.findQuestionsList(currentUser.getTeam().getId());
+		return questionFacade.findQuestionsList(currentUser.getTeam());
 	}
 }
 

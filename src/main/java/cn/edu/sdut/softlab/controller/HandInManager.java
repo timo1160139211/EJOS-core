@@ -33,6 +33,7 @@ import javax.transaction.UserTransaction;
 
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
+import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.service.HandInService;
 import cn.edu.sdut.softlab.service.QuestionFacade;
 
@@ -47,70 +48,66 @@ public class HandInManager implements Serializable {
 
 	@Inject
 	private transient Logger logger;
-	
+
 	@Inject
 	private UserTransaction utx;
 
 	@Inject
 	EntityManager em;
-	
+
+	// 注入受管bean
+	@ManagedProperty(value = "#{login.currentUser}")
+	@SessionScoped
+	private Student currentUser;// 当前用户
+
 	@Inject
 	FacesContext facesContext;
-	
+
 	@Inject
 	private HandInService his;
-	
+
 	@Inject
-	private QuestionFacade questionFacade;
-	
+	private QuestionFacade questionService;
+
 	@RequestScoped
-	@ManagedProperty(value ="#{questionManager.questions}" )
+	@ManagedProperty(value = "#{questionManager.questions}")
 	private List<ItemBank> questions;
 
 	public List<ItemBank> getQuestions() {
-		
-		return questionFacade.findQuestionsList(1);//!!!暂设为1××××××××××××××
+
+		return questionService.findQuestionsList(currentUser.getTeam());
 	}
-	
+
 	@Inject
+	@SessionScoped
 	private ExpReport exp;
 	/*
-	 * String fileName;//文件名 
-	 * String result;//返回值 
-	 * String filePath;//文件保存的路径 
+	 * String fileName;//文件名 String result;//返回值 String filePath;//文件保存的路径
 	 * String answerText;//代码(答案)
 	 */
 
 	private Achievement achie;
 	/*
- 		  	int id;
-        	String answer;
-		  	String answerPath;
-		  	String result;
-		 	int score;
-	 		ItemBank itemBank;
-	 		Student student;
-	 * */
-	
+	 * int id; String answer; String answerPath; String result; int score;
+	 * ItemBank itemBank; Student student;
+	 */
 
-
-	
-	/** *********************************************************************************
-	 * core  1/3
-	 * 保存编辑内容 到数据库=<<achievement>>
-	 *     1.获取题目[PId]，学生学号[SId],获取文件命名[fileName]
-	 *     2.获取{editor}的值[value],保存到 表<achie> 的 (answer)字段中
-	 *     3.把 "SId/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中
-	 *     4.
-	 *  *********************************************************************************
+	/**
+	 * *********************************************************************************
+	 * core 1/3 保存编辑内容 到数据库=<<achievement>>
+	 * 1.获取题目[PId]，学生学号[SId],获取文件命名[fileName] 
+	 * 2.获取{editor}的值[value],保存到 表<achie>的 (answer)字段中 
+	 * 3.把 "SId/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中 
+	 * 4.
+	 * *********************************************************************************
 	 */
 	void save() throws Exception {
-		//将路径加上参数配置成全路径    /data/ejos/exp/SId/PId/fileName
-		String path = "/data/ejos/exp/" + exp.getCurrentUser().getId() 
-							+ "/" + exp.getQuestion().getId() + "/" + exp.getFileName() ;
+		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
+		String path = "/data/ejos/exp/" + exp.getCurrentUser().getId() + "/" + exp.getQuestion().getId() + "/"
+				+ exp.getFileName();
 		exp.setFilePath(path);
-		merge(exp,achie);//将exp赋值给achie
-		
+		merge(exp, achie);// 将exp赋值给achie
+
 		try {
 			utx.begin();
 			his.create(achie);
@@ -121,60 +118,57 @@ public class HandInManager implements Serializable {
 		} finally {
 			utx.commit();
 		}
-		
+
 	}
 
-	
-	/** *********************************************************************************
-	 * core  2/3
-	 * 保存并编译。保存到数据库=<<achievement>>，保存到文件
-	 *     1.获取题目[PId]，学生学号[SId],[StuNO],获取文件命名[fileName]
-	 *     2.获取{editor}的值[value],保存到 表<achie> 的(answer)字段中
-	 *     3.把 "StuNO/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中
-	 *     4.开启线程，调用 #javac 、#java 命令,并获取返回值[return]
-	 *     5.将返回值[return] 写入表<achie> 的(result)字段中
-	 *     6.比较[return]与 表<itemBank>中的(result)字段是否相等 => - 通过   80
-	 *                                          .eqaul()   - 未通过 20 
-	 *       存到表<achie>的(score)字段中
-	 *     7. 
-	 *  *********************************************************************************
+	/**
+	 * *********************************************************************************
+	 * core 2/3 保存并编译。保存到数据库=<<achievement>>，保存到文件
+	 * 1.获取题目[PId]，学生学号[SId],[StuNO],获取文件命名[fileName] 
+	 * 2.获取{editor}的值[value],保存到表<achie> 的(answer)字段中 
+	 * 3.把 "StuNO/PId/fileName" 作为路径，保存到 表<achie>的(answerPath)中 
+	 * 4.开启线程，调用 #javac 、#java 命令,并获取返回值[return] 
+	 * 5.将返回值[return]写入表<achie> 的(result)字段中 
+	 * 6.比较[return]与 表<itemBank>中的(result)字段是否相等 => - 通过80 .eqaul() 
+	 *                                                              - 未通过 20  
+	 *                  存到表<achie>的(score)字段中 
+	 * 7.
+	 * *********************************************************************************
 	 */
 	void saveAndCompile() {
 
 	}
 
-	
-	/** ********************************************************************************
-	 * core  3/3                                 
-	 * 保存\编译。并退出。 保存到数据库=<<achievement>>，保存到文件。返回至列表页
-	 *     1.获取题目[PId]，学生学号[SId],[StuNO],获取文件命名[fileName]
-	 *     2.获取{editor}的值[value],保存到 表<achie> 的(answer)字段中
-	 *     3.把 "StuNO/PId/fileName" 作为路径，保存到 表<achie> 的(answerPath)中
-	 *     4.开启线程，调用 #javac 、#java 命令,并获取返回值[return]
-	 *     5.将返回值[return] 写入表<achie> 的(result)字段中
-	 *     6.比较[return]与 表<itemBank>中的(result)字段是否相等 => - 通过   80
-	 *                                          .eqaul()   - 未通过 20  
-	 *       存到表<achie>的(score)字段中
-	 *     7.返回到&list页面 = "todoexplist.jsf"
-	 *  ********************************************************************************
+	/**
+	 * ********************************************************************************
+	 * core 3/3 保存\编译。并退出。 保存到数据库=<<achievement>>，保存到文件。返回至列表页
+	 * 1.获取题目[PId]，学生学号[SId],[StuNO],获取文件命名[fileName] 
+	 * 2.获取{editor}的值[value],保存到表<achie> 的(answer)字段中 
+	 * 3.把 "StuNO/PId/fileName" 作为路径，保存到 表<achie>的(answerPath)中 
+	 * 4.开启线程，调用 #javac 、#java 命令,并获取返回值[return] 
+	 * 5.将返回值[return]写入表<achie> 的(result)字段中 
+	 * 6.比较[return]与 表<itemBank>中的(result)字段是否相等 => - 通过80 .eqaul() 
+	 *                                                           - 未通过 20 存到表<achie>的(score)字段中 
+	 * 7.返回到&list页面 ="todoexplist.jsf"
+	 * ********************************************************************************
 	 */
 	String saveCompileExit() {
-			return "";
+		return "";
 	}
 
-	
-	
 	/**
 	 * 将ExpReport e 赋值给 Achievement a;
 	 * 
 	 */
-	public void merge(ExpReport e,Achievement a){
-		a.setAnswer(e.getAnswerText());//答案赋值
-		a.setAnswerPath(e.getFilePath());//答案路径赋值
-		if(e.getCurrentUser() != null) { a.setStudent(e.getCurrentUser());} //学生赋值
-		a.setItemBank(e.getQuestion());//问题赋值
+	public void merge(ExpReport e, Achievement a) {
+		a.setAnswer(e.getAnswerText());// 答案赋值
+		a.setAnswerPath(e.getFilePath());// 答案路径赋值
+		if (e.getCurrentUser() != null) {
+			a.setStudent(e.getCurrentUser());
+		} // 学生赋值
+		a.setItemBank(e.getQuestion());// 问题赋值
 	}
-	
+
 	/**
 	 * @return the achie
 	 */
@@ -183,7 +177,8 @@ public class HandInManager implements Serializable {
 	}
 
 	/**
-	 * @param achie the achie to set
+	 * @param achie
+	 *            the achie to set
 	 */
 	public void setAchie(Achievement achie) {
 		this.achie = achie;
@@ -197,10 +192,12 @@ public class HandInManager implements Serializable {
 	}
 
 	/**
-	 * @param exp the exp to set
+	 * @param exp
+	 *            the exp to set
 	 */
 	public void setExp(ExpReport exp) {
 		this.exp = exp;
 	}
+
 
 }

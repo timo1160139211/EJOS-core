@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import cn.edu.sdut.softlab.entity.ItemBank;
+import cn.edu.sdut.softlab.entity.Team;
 
 /**
  * @author GaoYisheng 2017年6月11日 TODO 题目服务类
@@ -51,10 +52,10 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 	EntityManager em;
 
 	// 查找题目列表
-	public List<ItemBank> findQuestionsList(int teamId) {
+	public List<ItemBank> findQuestionsList(Team t) {
 		Map<String, Object> parameters = new HashMap<>(0);
-		parameters.put("teamId", teamId);
-		return findByNamedQuery("ItemBank.findByTeamId", parameters);
+		parameters.put("team", t);
+		return findByNamedQuery("ItemBank.findByTeam", parameters);
 
 	}
 }
