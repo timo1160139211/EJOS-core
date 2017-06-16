@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="ejos" version="4">
+  <OBJECT>
+    <ID name="ejos" mc="Standard.Project" uid="d6ce711f-2974-42f8-8c24-7d8df88e92fc"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[ejos]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Model">
+        <COMPID name="用例图" mc="Standard.Package" uid="d3bd6a99-e4cf-4df7-873e-53bae4d96a7e"/>
+      </COMP>
+      <COMP relation="DiagramRoot">
+        <COMPID name="ejos" mc="Infrastructure.DiagramSet" uid="aec6da22-aad2-4c95-8bff-b7ad932340e9"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

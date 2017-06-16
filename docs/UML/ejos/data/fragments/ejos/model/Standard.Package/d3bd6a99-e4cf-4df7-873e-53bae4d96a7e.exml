@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="用例图" version="4">
+  <OBJECT>
+    <ID name="用例图" mc="Standard.Package" uid="d3bd6a99-e4cf-4df7-873e-53bae4d96a7e"/>
+    <PID name="ejos" mc="Standard.Project" uid="d6ce711f-2974-42f8-8c24-7d8df88e92fc"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[用例图]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedElement">
+        <COMPID name="后台管理员" mc="Standard.Actor" uid="b0195a1d-e428-4fbe-af83-33f32e70e0f4"/>
+        <COMPID name="学生" mc="Standard.Actor" uid="119435c8-f3dd-4402-a467-dcd96da62916"/>
+        <COMPID name="老师" mc="Standard.Actor" uid="1346bff9-a6bb-46d1-a09d-6dcd0ae769d6"/>
+        <COMPID name="查看记录" mc="Standard.UseCase" uid="4abeb199-9979-4d2d-b507-d7caf6f168ae"/>
+        <COMPID name="提交实验报告" mc="Standard.UseCase" uid="469ef0c1-dc9d-4fad-92a0-6fc8c158a4d3"/>
+        <COMPID name="管理所有题目/成绩" mc="Standard.UseCase" uid="95f42b83-ab77-4524-8411-4316506dc0c8"/>
+        <COMPID name="创建/管理题目" mc="Standard.UseCase" uid="e1018a60-1c09-49ac-afb1-d2d3d7d0169b"/>
+        <COMPID name="查找老师/题目" mc="Standard.UseCase" uid="6c4c97f7-6e35-4c69-9427-5b9442eece6e"/>
+        <COMPID name="管理所有老师/学生" mc="Standard.UseCase" uid="5eb054c4-1b67-4083-8f8e-c178eb2bfcc0"/>
+        <COMPID name="修改个人资料" mc="Standard.UseCase" uid="94c2a931-d826-437c-9b8c-0674e96ce52d"/>
+        <COMPID name="发布通知" mc="Standard.UseCase" uid="e30ff94c-1918-4140-8543-2c29e75611aa"/>
+        <COMPID name="管理成绩" mc="Standard.UseCase" uid="dfd449b7-e48a-444b-9fbc-5c6a95f9d3d8"/>
+        <COMPID name="创建/管理班级/学生" mc="Standard.UseCase" uid="2e99db5e-e9a8-4d5e-82ba-378a717fdbcc"/>
+        <COMPID name="管理用户权限" mc="Standard.UseCase" uid="33dc6231-7f4f-44fd-80fd-60bfa8d605f7"/>
+        <COMPID name="修改个人资料" mc="Standard.UseCase" uid="346debac-b460-4dc3-8669-e0323ce51526"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Package Use Case diagram" mc="Standard.UseCaseDiagram" uid="cb559365-e302-434a-a848-2dbd0d43cad5"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
