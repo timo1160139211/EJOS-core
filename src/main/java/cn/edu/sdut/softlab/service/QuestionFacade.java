@@ -48,11 +48,15 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 		// TODO Auto-generated constructor stub
 	}
 
+	public List<ItemBank> findAllQuestion() {
+		return findAll();
+	}
+
 	@Inject
 	EntityManager em;
 
 	// 查找题目列表
-	public List<ItemBank> findQuestionsList(Team t) {
+	public List<ItemBank> findQuestionsListForTeam(Team t) {
 		Map<String, Object> parameters = new HashMap<>(0);
 		parameters.put("team", t);
 		return findByNamedQuery("ItemBank.findByTeam", parameters);

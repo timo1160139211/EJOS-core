@@ -35,7 +35,6 @@ import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.service.HandInService;
-import cn.edu.sdut.softlab.service.QuestionFacade;
 
 /**
  * @author GaoYisheng 2017年6月6日 TODO 提交实验报告的管理类
@@ -66,17 +65,9 @@ public class HandInManager implements Serializable {
 	@Inject
 	private HandInService his;
 
-	@Inject
-	private QuestionFacade questionService;
-
 	@RequestScoped
 	@ManagedProperty(value = "#{questionManager.questions}")
 	private List<ItemBank> questions;
-
-	public List<ItemBank> getQuestions() {
-
-		return questionService.findQuestionsList(currentUser.getTeam());
-	}
 
 	@Inject
 	@SessionScoped
@@ -103,17 +94,16 @@ public class HandInManager implements Serializable {
 	 */
 	void save() throws Exception {
 		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-		String path = "/data/ejos/exp/" + exp.getCurrentUser().getId() + "/" + exp.getQuestion().getId() + "/"
+		String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/"
 				+ exp.getFileName();
 		exp.setFilePath(path);
-		merge(exp, achie);// 将exp赋值给achie
+		//merge(exp, achie);// 将exp赋值给achie
 
 		try {
 			utx.begin();
 			his.create(achie);
 			logger.log(Level.INFO, "Added {0}", achie);
 		} catch (NotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			utx.commit();
@@ -160,7 +150,7 @@ public class HandInManager implements Serializable {
 	 * 将ExpReport e 赋值给 Achievement a;
 	 * 
 	 */
-	public void merge(ExpReport e, Achievement a) {
+/*	public void merge(ExpReport e, Achievement a) {
 		a.setAnswer(e.getAnswerText());// 答案赋值
 		a.setAnswerPath(e.getFilePath());// 答案路径赋值
 		if (e.getCurrentUser() != null) {
@@ -168,7 +158,7 @@ public class HandInManager implements Serializable {
 		} // 学生赋值
 		a.setItemBank(e.getQuestion());// 问题赋值
 	}
-
+*/
 	/**
 	 * @return the achie
 	 */

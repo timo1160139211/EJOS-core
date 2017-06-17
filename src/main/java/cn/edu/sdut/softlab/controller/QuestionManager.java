@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -58,21 +58,33 @@ public class QuestionManager implements Serializable{
 	@Inject
 	FacesContext facesContext;
 	
+	@Inject
+	@SessionScoped
+	ItemBank question;
+	
+	public ItemBank getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(ItemBank question) {
+		this.question = question;
+	}
+
 	//注入受管bean
 	@ManagedProperty(value ="#{login.currentUser}" )
 	private Student currentUser ;//当前用户
 
-
 	@Inject
 	private QuestionFacade questionFacade;
 	
-	@RequestScoped
+	@Inject
+	@SessionScoped
 	private List<ItemBank> questions;
 
-	//
+	@Produces
 	public List<ItemBank> getQuestions() {
 		
-		return questionFacade.findQuestionsList(currentUser.getTeam());
+		return questionFacade.findQuestionsListForTeam(currentUser.getTeam());
 	}
 }
 

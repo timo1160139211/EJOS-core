@@ -17,12 +17,12 @@
 		<h:messages />
 		<h:form>
 			<h1>待做实验清单:</h1>
-			<h:dataTable value="#{item_bank}" var="i">
+			<h:dataTable value="#{questionManager.questions}" var="i">
 				<h:column>
 					<f:facet name="header">
                         名称
                     </f:facet>
-					<h:outputText value="#{i.name}" />
+					<h:outputText value="#{i.question}" />
 				</h:column>
 
 				<h:column>

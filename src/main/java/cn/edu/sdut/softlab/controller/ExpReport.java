@@ -17,13 +17,12 @@
 package cn.edu.sdut.softlab.controller;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.Produces;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.*;
-import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 
 /**
  * @author GaoYisheng 2017年6月5日 TODO 实验报告
@@ -40,15 +39,11 @@ public class ExpReport {
 	private ItemBank question;//当前题目
 	
 	//注入受管bean
+	@SessionScoped
 	@ManagedProperty(value ="#{login.currentUser}" )
 	private Student currentUser ;//当前用户
 
-	@Produces
-	@LoggedIn
-	public Student getCurrentUser() {
-		return currentUser;
-	}
-	
+
 	public ItemBank getQuestion() {
 		return question;
 	}
