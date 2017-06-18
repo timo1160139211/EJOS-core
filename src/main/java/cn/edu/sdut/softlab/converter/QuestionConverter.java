@@ -18,10 +18,12 @@ package cn.edu.sdut.softlab.converter;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
@@ -29,39 +31,75 @@ import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.service.QuestionFacade;
 
 /**
- * @author GaoYisheng 
- * 2017年6月17日
- * TODO
+ * @author GaoYisheng 2017年6月17日 TODO
  */
 @ManagedBean(name = "questionConverter")
-@FacesConverter(forClass = ItemBank.class, value = "questionConverter")
-public class QuestionConverter implements Converter,Serializable {
+@FacesConverter(value = "questionConverter")
+@RequestScoped
+public class QuestionConverter implements Converter, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Inject
 	QuestionFacade questionService;
 
 	@Inject
 	FacesContext facesContext;
 
-	
-	/* (non-Javadoc)
-	 * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.
+	 * FacesContext, javax.faces.component.UIComponent, java.lang.String)
 	 */
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		// TODO Auto-generated method stub
+	public Object getAsObject(FacesContext context, UIComponent component, String question) throws ConverterException {
+
+		if (question == null || question.isEmpty()) {
+			return null;
+		}
+		
+		if (!question.equals("") && question != null) {
+
+			// 根据名字查找到对象 不行
+			/*
+			 * Category category =
+			 * categoryservice.findSpecifiedCategoryByName(name); return
+			 * category.getName();
+			 */
+
+			// 法二,直接
+			return questionService.findSpecifiedItemBankByQuestion(question);
+
+		}
+
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
+	/**
+	 * @param value
+	 * 
+	 * @return String
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.faces.convert.Converter#getAsString(javax.faces.context.
+	 * FacesContext, javax.faces.component.UIComponent, java.lang.Object)
 	 */
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		// TODO Auto-generated method stub
-		return null;
+		if (value == null) {
+			return "";
+		}
+		
+		if (value instanceof ItemBank)
+
+			return ((ItemBank) value).getQuestion();
+
+		else {
+			return null;
+		}
 	}
 
 }
