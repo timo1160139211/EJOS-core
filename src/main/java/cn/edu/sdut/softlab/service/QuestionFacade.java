@@ -52,6 +52,12 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 		return findAll();
 	}
 
+	public ItemBank findSpecifiedItemBankByQuestion(String question) {
+	Map<String, Object> parameters = new HashMap<>();
+	parameters.put("question", question);
+	return findSingleByNamedQuery("ItemBank.findByQuestion", parameters, ItemBank.class).get();
+}
+	
 	@Inject
 	EntityManager em;
 
