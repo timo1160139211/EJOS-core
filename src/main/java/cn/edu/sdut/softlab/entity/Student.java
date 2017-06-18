@@ -182,7 +182,8 @@ public class Student implements Serializable {
 				return false;
 			}
 
-		} else if (!studentNum.equals(s.getId())) {
+//		} else if (!studentNum.equals(s.getId())) {
+		} else if (!studentNum.equals(s.getStudentNum())) {
 			return false;
 		}
 		
@@ -196,7 +197,6 @@ public class Student implements Serializable {
 			return false;
 		}
 		
-
 		//几项检查都没问题 返回true
 		return true;
 	}

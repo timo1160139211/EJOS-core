@@ -59,13 +59,12 @@
 			<h:form>
 				<div>
 					上部题目要求
-					<!-- selectOneMenu converter="myCategoryConverter" -->
-					<h:selectOneMenu value="#{QuestionManager.questions}" var="e">
+					<h:selectOneMenu value="#{ExpReport.question}" converter="questionConverter" var="e">
 						<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
-						<f:selectItem itemLabel="Select a question" />
+						<f:selectItem itemLabel="#{q.question}"  />
 
 						<f:selectItems value="#{QuestionManager.questions}" var="q"
-							itemLabel="#{q.question}" itemValue="#{q.id}" />
+							itemLabel="#{q.question}" itemValue="#{q}" />
 
 					</h:selectOneMenu>
 				</div>

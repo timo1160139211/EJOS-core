@@ -34,8 +34,8 @@ public class Resources {
 
 	@Produces
 	Logger getLogger(InjectionPoint ip) {
-		String category = ip.getMember().getDeclaringClass().getName();
-		return Logger.getLogger(category);
+		String s = ip.getMember().getDeclaringClass().getName();
+		return Logger.getLogger(s);
 	}
 
 	@Produces
