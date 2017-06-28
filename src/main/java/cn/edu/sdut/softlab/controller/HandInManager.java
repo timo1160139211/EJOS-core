@@ -57,8 +57,17 @@ public class HandInManager implements Serializable {
 	FacesContext facesContext;
 
 	@Inject
-	private HandInService his;
+	private HandInService handInService;
+	
+	
+	void ad(){
+		
+		
+	}
 
-
+	String saveCompileBack(){
+		
+		return handInService.saveCompileExit();
+	}
 
 }
