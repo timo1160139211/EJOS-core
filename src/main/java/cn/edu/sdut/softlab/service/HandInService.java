@@ -133,6 +133,8 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 *                  存到表<achie>的(score)字段中 
 	 * 7.
 	 * *********************************************************************************
+	 *
+	 * 0x01:把编译结果返回到页面，得到通过与否
 	 */
 	void saveAndCompile() {
 		
@@ -188,6 +190,8 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 *                                                           - 未通过 20 存到表<achie>的(score)字段中 
 	 * 7.返回到&list页面 ="todoexplist.jsf"
 	 * ********************************************************************************
+	 *
+	 * 0x01:不把编译结果返回到页面，直接跳转到OK页面
 	 */
 	public String saveCompileExit() {
 		
