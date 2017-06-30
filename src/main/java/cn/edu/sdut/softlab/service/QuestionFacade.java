@@ -45,7 +45,6 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 	 */
 	public QuestionFacade(Class<ItemBank> entityClass) {
 		super(entityClass);
-		// TODO Auto-generated constructor stub
 	}
 
 	public List<ItemBank> findAllQuestion() {
@@ -62,10 +61,17 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 	EntityManager em;
 
 	// 查找题目列表
-	public List<ItemBank> findQuestionsListForTeam(Team t) {
-		Map<String, Object> parameters = new HashMap<>(0);
-		parameters.put("team", t);
-		return findByNamedQuery("ItemBank.findByTeam", parameters);
+//	public List<ItemBank> findQuestionsListForTeam(Team t) {
+//		Map<String, Object> parameters = new HashMap<>(0);
+//		parameters.put("team", t);
+//		return findByNamedQuery("ItemBank.findByTeam", parameters);
+//
+//	}
+	
+	public List<ItemBank> findQuestionsListForTeam(int teamId) {
+	Map<String, Object> parameters = new HashMap<>(0);
+	parameters.put("teamId", teamId);
+	return findByNamedQuery("ItemBank.findByTeamId", parameters);
 
-	}
+}
 }

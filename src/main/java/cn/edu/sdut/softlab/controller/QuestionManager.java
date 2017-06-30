@@ -72,6 +72,7 @@ public class QuestionManager implements Serializable{
 
 	//注入受管bean
 	@ManagedProperty(value ="#{login.currentUser}" )
+	@SessionScoped
 	private Student currentUser ;//当前用户
 
 	@Inject
@@ -81,10 +82,15 @@ public class QuestionManager implements Serializable{
 	@SessionScoped
 	private List<ItemBank> questions;
 
+//	@Produces
+//	public List<ItemBank> getQuestions() {
+//		
+//		return questionFacade.findQuestionsListForTeam(currentUser.getTeam());
+//	}
 	@Produces
 	public List<ItemBank> getQuestions() {
 		
-		return questionFacade.findQuestionsListForTeam(currentUser.getTeam());
+		return questionFacade.findQuestionsListForTeam(currentUser.getTeam().getId());
 	}
 }
 
