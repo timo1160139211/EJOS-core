@@ -5,7 +5,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <f:view>
-	<f:event type="preRenderView" listener="#{login.checkLogin}" />
+	<f:event type="preRenderView" listener="#{login.checkLoginExt}" />
 	<h:head>
 		<meta charset="utf-8"></meta>
 		<title>Welcome to EJOSystem !</title>
@@ -35,10 +35,13 @@
 				</p>
 
 				<p>
-					<h:outputLabel value="you are in , #{login.currentUser.team.name}"></h:outputLabel>
+					<h:outputLabel value="you are in  #{login.currentUser.team.name}"></h:outputLabel>
 				</p>
-
-
+				
+				<p>
+					<h:outputLabel value="your teacher is  #{login.currentUser.team.teacher.name}"></h:outputLabel>
+				</p>
+				
 				<p>
 					<h:outputLabel value="your id is , #{login.currentUser.id}"></h:outputLabel>
 				</p>
@@ -59,9 +62,9 @@
 			<h:form>
 				<div>
 					上部题目要求
-					<h:selectOneMenu value="#{ExpReport.question}" converter="questionConverter" var="e">
+					<h:selectOneMenu value="#{expReport.question}" converter="questionConverter" var="e">
 						<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
-						<f:selectItem itemLabel="#{q.question}"  />
+						<f:selectItem itemLabel="select one :"  />
 
 						<f:selectItems value="#{QuestionManager.questions}" var="q"
 							itemLabel="#{q.question}" itemValue="#{q}" />
@@ -75,7 +78,7 @@
             	文件的命名区域:
 				<p:panel id="panel" header="Form" style="margin-bottom:10px;">
 					<h:outputLabel value="命名为" />
-					<h:inputText value="ExpReport.fileName" />
+					<h:inputText value="expReport.fileName" />
 					<h:outputLabel value="e.g. Stu.java" />
 				</p:panel> -->
 
@@ -94,7 +97,7 @@
 
 				<h:form>
 					<p:editor id="editor" controls="size cut copy paste undo redo"
-						widgetVar="editorWidget" value="#{ExpReport.answerText}"
+						widgetVar="editorWidget" value="#{expReport.answerText}"
 						width="600" class="ui-editor" />
 
 					<h:panelGrid columns="3" style="margin-top: 10px">
@@ -109,6 +112,9 @@
 							
 						<p:commandButton value="语法提示" update="display"
 							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
+							
+						<p:commandButton value="compile test" action="#{handInService.compileJava()}"
+							 icon="ui-icon-disk" />
 
 
 
@@ -121,7 +127,7 @@
 
 					<p:dialog header="Content" widgetVar="dlg" showEffect="fade"
 						hideEffect="fade">
-						<h:outputText id="display" value="#{ExpReport.answerText}"
+						<h:outputText id="display" value="#{expReport.answerText}"
 							escape="false" />
 					</p:dialog>
 

@@ -39,7 +39,7 @@ import cn.edu.sdut.softlab.entity.Student;
  * @author GaoYisheng 2017年6月7日 TODO 提交实验报告的服务类
  */
 @Stateless
-@Named("handIn")
+@Named("handInService")
 public class HandInService extends AbstractFacade<Achievement> {
 	
 	public HandInService() {
@@ -238,6 +238,41 @@ public class HandInService extends AbstractFacade<Achievement> {
 		return "../student/home.xhtml?faces-redirect=true";
 	}
 
+	
+	/**
+	 * just compile:
+	 * 
+	 */
+	public void compileJava(){
+		
+		
+
+
+		Runtime runtime = Runtime.getRuntime();  
+			try {
+				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+		
+	     //获取控制台输出的结果  
+//	     Thread runtimeInput = new Thread(new RuntimeInput());  
+//	     runtimeInput.start();  
+
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 将ExpReport e 赋值给 Achievement a;
 	 * 
