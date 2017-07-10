@@ -44,7 +44,7 @@ public class RuntimeInput implements Runnable {
 		   } catch (IOException e) {  
 		    e.printStackTrace();  
 		   }  
-		  }  
+		  } 
 	}
 
 

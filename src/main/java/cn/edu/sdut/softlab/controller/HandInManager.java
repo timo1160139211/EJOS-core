@@ -58,15 +58,22 @@ public class HandInManager implements Serializable {
 
 	@Inject
 	private HandInService handInService;
-	
-	
-	void ad(){
-		
-		
-	}
 
-	String saveCompileBack(){
-		
+
+//	void compile() {
+//
+//		handInService.compileJava();
+//
+//	}
+//	
+//	void compile(String fileType) {
+//
+//		handInService.compileJava();
+//
+//	}
+
+	String saveCompileBack() {
+
 		return handInService.saveCompileExit();
 	}
 

@@ -243,7 +243,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 * just compile:
 	 * 
 	 */
-	public void compileJava(){
+	public void compileJavaBackUp(){
 		
 		
 
@@ -255,18 +255,34 @@ public class HandInService extends AbstractFacade<Achievement> {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-
-		
+					
 	     //获取控制台输出的结果  
 //	     Thread runtimeInput = new Thread(new RuntimeInput());  
 //	     runtimeInput.start();  
 
 		
-		
 	}
 	
-	
+	/**
+	 * just compile:
+	 * 
+	 */
+	public void compileJava(){
+		
+		Runtime runtime = Runtime.getRuntime();  
+			try {
+				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+					
+	     //获取控制台输出的结果  
+	     Thread runtimeInput = new Thread(new RuntimeInput());  
+	     runtimeInput.start();  
+
+		
+	}
 	
 	
 	
