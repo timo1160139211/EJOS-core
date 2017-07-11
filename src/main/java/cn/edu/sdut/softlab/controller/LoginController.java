@@ -77,15 +77,5 @@ public class LoginController implements Serializable {
 		}
 		
 	}
-	
-	public void checkLoginExt(ComponentSystemEvent event){
-		if(!this.isLoggedIn()){
-			FacesContext context = FacesContext.getCurrentInstance();
-			
-			ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
-			handler.performNavigation("../login");
-		}
-		
-	}
 
 }

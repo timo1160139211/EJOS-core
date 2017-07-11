@@ -16,10 +16,12 @@
  */
 package cn.edu.sdut.softlab.service;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -41,6 +43,7 @@ import cn.edu.sdut.softlab.entity.Student;
 @Stateless
 @Named("handInService")
 public class HandInService extends AbstractFacade<Achievement> {
+	private static Process process ;
 	
 	public HandInService() {
 		super(Achievement.class);
@@ -257,11 +260,13 @@ public class HandInService extends AbstractFacade<Achievement> {
 			}
 					
 	     //获取控制台输出的结果  
-//	     Thread runtimeInput = new Thread(new RuntimeInput());  
-//	     runtimeInput.start();  
+	     Thread runtimeInput = new Thread(new RuntimeInput());  
+	     runtimeInput.start();  
 
 		
 	}
+	
+	
 	
 	/**
 	 * just compile:
@@ -271,17 +276,20 @@ public class HandInService extends AbstractFacade<Achievement> {
 		
 		Runtime runtime = Runtime.getRuntime();  
 			try {
-				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
+				process = runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
+				//runtime.exec("java /home/morpheus/ejosData/userid/questionid/HelloWorld");
+			
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 					
-	     //获取控制台输出的结果  
+//	     //获取控制台输出的结果  
 	     Thread runtimeInput = new Thread(new RuntimeInput());  
-	     runtimeInput.start();  
+	     runtimeInput.start(); 
+	     
 
-		
+
 	}
 	
 	
@@ -332,5 +340,24 @@ public class HandInService extends AbstractFacade<Achievement> {
 		this.exp = exp;
 	}
 
+	
+	
+	public class RuntimeInput implements Runnable {
 
+		@Override
+		public void run() {
+			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String content = null;
+			try {
+				while ((content = br.readLine()) != null) {
+					System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
+					
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 }
