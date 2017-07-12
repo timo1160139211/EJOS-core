@@ -109,7 +109,6 @@ public class CompileAndRunJavaFile extends HttpServlet implements Serializable {
 		}
 
 		req.getRequestDispatcher("/test.jsp").forward(req, resp);
-
 	}
 
 	public class RuntimeInput implements Runnable {
@@ -126,7 +125,6 @@ public class CompileAndRunJavaFile extends HttpServlet implements Serializable {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 }
