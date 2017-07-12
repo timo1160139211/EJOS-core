@@ -4,8 +4,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<f:view>
-	<f:event type="preRenderView" listener="#{login.checkLogin}" />
+
 	<h:head>
 		<meta charset="utf-8"></meta>
 		<title>Welcome to EJOSystem !</title>
@@ -113,10 +112,11 @@
 						<p:commandButton value="语法提示" update="display"
 							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
 							
-						<p:commandButton value="compile test" action="#{handInService.compileJava()}"
+						<p:commandButton value="compile" action="#{handInService.compileJava()}"
 							 icon="ui-icon-disk" />
 
-
+						<p:commandButton value="run" action="#{handInService.runJava()}"
+							 icon="ui-icon-disk" />
 
 						<!--<p:commandButton value="Submit" update="display"
 							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
@@ -149,7 +149,6 @@
 
 		</div>
 	</h:body>
-</f:view>
 </html>
 
 
