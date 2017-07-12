@@ -274,29 +274,88 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 */
 	public void compileJava(){
 		
+		log.info("调用compileJava()");
 		Runtime runtime = Runtime.getRuntime();  
 			try {
-				process = runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
-				//runtime.exec("java /home/morpheus/ejosData/userid/questionid/HelloWorld");
+				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/HelloWorld.class");//如果文件存在，则删除该文件
+				if (sourceFile.exists()) {
+					log.info("调用HelloWorld.class--sourceFile.delete();");
+					sourceFile.delete();
+				}
+				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
 			
+			} catch (IOException e) {
+				e.printStackTrace();
+			//} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+			//	e.printStackTrace();
+			}
+	    
+	}
+	
+	public void runJava(){
+
+		Runtime runtime = Runtime.getRuntime();  
+			try {
+
+//				String[] cmd = {
+//						"/bin/sh",
+//						"-c",
+//						"java /home/morpheus/ejosData/userid/questionid/HelloWorld >> /home/morpheus/ejosData/userid/questionid/output.txt"
+//						};
+				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");//如果文件存在，则删除该文件
+				File sourceFile2 = new File("/home/morpheus/ejosData/userid/questionid/1.txt");
+				File sourceFile3 = new File("/home/morpheus/ejosData/userid/questionid/3.txt");
+				if (sourceFile.exists()) {
+					log.info("调用output.txt--sourceFile.delete();");
+					sourceFile.delete();
+				}
+				if (sourceFile2.exists()) {
+					log.info("调用1.txt--sourceFile.delete();");
+					sourceFile2.delete();
+				}
+				if (sourceFile3.exists()) {
+					log.info("调用3.txt--sourceFile.delete();");
+					sourceFile3.delete();
+				}
+				String[] cmd = {
+						"/bin/sh",
+						"-c",
+						"java /home/morpheus/ejosData/userid/questionid/HelloWorld >> /home/morpheus/ejosData/userid/questionid/output.txt"
+						};	
+				
+				//String[] cmd1 = { "java", "/home/morpheus/ejosData/userid/questionid/HelloWorld", "-exec", "java MyClass2 arg1 arg2"};
+				
+				String[] cmd2 = {
+						"/bin/sh",
+						"-c",
+						"echo hello >> /home/morpheus/ejosData/userid/questionid/1.txt"
+						};
+				log.info("调用runJava(cmd)");
+				
+				String[] cmd3 = {
+						"/bin/sh",
+						"-c",
+						"echo hello3 >>",
+						sourceFile3.getAbsolutePath().toString(),
+						};
+				
+				runtime.exec(cmd2);
+				runtime.exec(cmd3);
+				runtime.exec(cmd).waitFor();
+
+				log.info("调用runJava(cmd2)");
+				
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-					
-//	     //获取控制台输出的结果  
-	     Thread runtimeInput = new Thread(new RuntimeInput());  
-	     runtimeInput.start(); 
-	     
-
-
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * 将ExpReport e 赋值给 Achievement a;
 	 * 
@@ -340,24 +399,31 @@ public class HandInService extends AbstractFacade<Achievement> {
 		this.exp = exp;
 	}
 
-	
-	
 	public class RuntimeInput implements Runnable {
 
 		@Override
 		public void run() {
 			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String content = null;
+			BufferedWriter bw = null;
+			File outputFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");
 			try {
+				FileWriter fr = new FileWriter(outputFile);
+				bw = new BufferedWriter(fr);
+
 				while ((content = br.readLine()) != null) {
-					System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
-					
+
+                bw.write(content);				
+					//System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
+
 				}
+
+				bw.close();
+				fr.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	
+
 }
