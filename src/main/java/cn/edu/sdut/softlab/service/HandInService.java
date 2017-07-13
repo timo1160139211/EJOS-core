@@ -44,7 +44,7 @@ import cn.edu.sdut.softlab.entity.Student;
 @Named("handInService")
 public class HandInService extends AbstractFacade<Achievement> {
 	private static Process process ;
-	
+
 	public HandInService() {
 		super(Achievement.class);
 		// TODO Auto-generated constructor stub
@@ -197,7 +197,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 * 0x01:不把编译结果返回到页面，直接跳转到OK页面
 	 */
 	public String saveCompileExit() {
-		
+
 		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
 		String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
 		exp.setFilePath(path);
@@ -286,9 +286,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 			
 			} catch (IOException e) {
 				e.printStackTrace();
-			//} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-			//	e.printStackTrace();
 			}
 	    
 	}
@@ -298,14 +295,9 @@ public class HandInService extends AbstractFacade<Achievement> {
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-//				String[] cmd = {
-//						"/bin/sh",
-//						"-c",
-//						"java /home/morpheus/ejosData/userid/questionid/HelloWorld >> /home/morpheus/ejosData/userid/questionid/output.txt"
-//						};
 				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");//如果文件存在，则删除该文件
 				File sourceFile2 = new File("/home/morpheus/ejosData/userid/questionid/1.txt");
-				File sourceFile3 = new File("/home/morpheus/ejosData/userid/questionid/3.txt");
+				File dir = new File("/home/morpheus/ejosData/userid/questionid/");
 				if (sourceFile.exists()) {
 					log.info("调用output.txt--sourceFile.delete();");
 					sourceFile.delete();
@@ -314,17 +306,11 @@ public class HandInService extends AbstractFacade<Achievement> {
 					log.info("调用1.txt--sourceFile.delete();");
 					sourceFile2.delete();
 				}
-				if (sourceFile3.exists()) {
-					log.info("调用3.txt--sourceFile.delete();");
-					sourceFile3.delete();
-				}
 				String[] cmd = {
 						"/bin/sh",
 						"-c",
-						"java /home/morpheus/ejosData/userid/questionid/HelloWorld >> /home/morpheus/ejosData/userid/questionid/output.txt"
+						"java HelloWorld >> output.txt"
 						};	
-				
-				//String[] cmd1 = { "java", "/home/morpheus/ejosData/userid/questionid/HelloWorld", "-exec", "java MyClass2 arg1 arg2"};
 				
 				String[] cmd2 = {
 						"/bin/sh",
@@ -332,19 +318,37 @@ public class HandInService extends AbstractFacade<Achievement> {
 						"echo hello >> /home/morpheus/ejosData/userid/questionid/1.txt"
 						};
 				log.info("调用runJava(cmd)");
-				
-				String[] cmd3 = {
-						"/bin/sh",
-						"-c",
-						"echo hello3 >>",
-						sourceFile3.getAbsolutePath().toString(),
-						};
-				
-				runtime.exec(cmd2);
-				runtime.exec(cmd3);
-				runtime.exec(cmd).waitFor();
+
+				runtime.exec(cmd2,null,dir);
+				runtime.exec(cmd,null,dir).waitFor();
 
 				log.info("调用runJava(cmd2)");
+				
+				
+				String s = null;
+	          Process p = Runtime
+	        		  .getRuntime()
+	        		  .exec(
+	        				  new String[]{"/bin/sh",
+						                  "-c",
+						                  "java HelloWorld"},null,dir);
+	          BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	          BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+	            //从命令行打印出输出结果
+	          log.info("标准输出命令");
+	          while ((s = stdInput.readLine()) != null) {
+	        	    log.info(s);
+//	        	    System.out.println(s);
+	            }
+	          
+	          log.info("标准错误的输出命令");
+	          while ((s = stdError.readLine()) != null) {
+	        	    log.info(s);
+//	              System.out.println(s);
+	            }
+				
+				
+				
 				
 				
 			} catch (IOException e) {
