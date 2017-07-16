@@ -323,8 +323,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 				runtime.exec(cmd,null,dir).waitFor();
 
 				log.info("调用runJava(cmd2)");
-				
-				
+
 				String s = null;
 	          Process p = Runtime
 	        		  .getRuntime()
@@ -340,17 +339,13 @@ public class HandInService extends AbstractFacade<Achievement> {
 	        	    log.info(s);
 //	        	    System.out.println(s);
 	            }
-	          
+
 	          log.info("标准错误的输出命令");
 	          while ((s = stdError.readLine()) != null) {
 	        	    log.info(s);
 //	              System.out.println(s);
 	            }
-				
-				
-				
-				
-				
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
