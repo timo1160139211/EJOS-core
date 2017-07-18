@@ -45,6 +45,8 @@ import cn.edu.sdut.softlab.entity.Student;
 public class HandInService extends AbstractFacade<Achievement> {
 	private static Process process ;
 
+	public ExpReport expreport = new ExpReport(); 
+	
 	public HandInService() {
 		super(Achievement.class);
 		// TODO Auto-generated constructor stub
@@ -241,33 +243,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 		return "../student/home.xhtml?faces-redirect=true";
 	}
 
-	
-	/**
-	 * just compile:
-	 * 
-	 */
-	public void compileJavaBackUp(){
-		
-		
-
-
-		Runtime runtime = Runtime.getRuntime();  
-			try {
-				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-					
-	     //获取控制台输出的结果  
-	     Thread runtimeInput = new Thread(new RuntimeInput());  
-	     runtimeInput.start();  
-
-		
-	}
-	
-	
-	
 	/**
 	 * just compile:
 	 * 
@@ -296,55 +271,41 @@ public class HandInService extends AbstractFacade<Achievement> {
 			try {
 
 				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");//如果文件存在，则删除该文件
-				File sourceFile2 = new File("/home/morpheus/ejosData/userid/questionid/1.txt");
 				File dir = new File("/home/morpheus/ejosData/userid/questionid/");
 				if (sourceFile.exists()) {
 					log.info("调用output.txt--sourceFile.delete();");
 					sourceFile.delete();
 				}
-				if (sourceFile2.exists()) {
-					log.info("调用1.txt--sourceFile.delete();");
-					sourceFile2.delete();
-				}
+				
 				String[] cmd = {
 						"/bin/sh",
 						"-c",
 						"java HelloWorld >> output.txt"
 						};	
-				
-				String[] cmd2 = {
-						"/bin/sh",
-						"-c",
-						"echo hello >> /home/morpheus/ejosData/userid/questionid/1.txt"
-						};
 				log.info("调用runJava(cmd)");
-
-				runtime.exec(cmd2,null,dir);
 				runtime.exec(cmd,null,dir).waitFor();
 
-				log.info("调用runJava(cmd2)");
-
-				String s = null;
-	          Process p = Runtime
-	        		  .getRuntime()
-	        		  .exec(
-	        				  new String[]{"/bin/sh",
-						                  "-c",
-						                  "java HelloWorld"},null,dir);
-	          BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-	          BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-	            //从命令行打印出输出结果
-	          log.info("标准输出命令");
-	          while ((s = stdInput.readLine()) != null) {
-	        	    log.info(s);
-//	        	    System.out.println(s);
-	            }
-
-	          log.info("标准错误的输出命令");
-	          while ((s = stdError.readLine()) != null) {
-	        	    log.info(s);
-//	              System.out.println(s);
-	            }
+//				String s = null;
+//	          Process p = Runtime
+//	        		  .getRuntime()
+//	        		  .exec(
+//	        				  new String[]{"/bin/sh",
+//						                  "-c",
+//						                  "java HelloWorld"},null,dir);
+//	          BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//	          BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//	            //从命令行打印出输出结果
+//	          log.info("标准输出命令");
+//	          while ((s = stdInput.readLine()) != null) {
+//	        	    log.info(s);
+////	        	    System.out.println(s);
+//	            }
+//
+//	          log.info("标准错误的输出命令");
+//	          while ((s = stdError.readLine()) != null) {
+//	        	    log.info(s);
+////	              System.out.println(s);
+//	            }
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
