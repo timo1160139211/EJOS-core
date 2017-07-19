@@ -16,10 +16,6 @@
  */
 package cn.edu.sdut.softlab.controller;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Default;
 import javax.faces.application.FacesMessage;
@@ -29,26 +25,24 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.*;
+import java.io.Serializable;
 
 /**
  * @author GaoYisheng 2017年6月5日 TODO 实验报告
  */
-@RequestScoped
+@SessionScoped
 @Named("expReport")
 @Default
-public class ExpReport {
-	@Inject
-	FacesContext facesContext;
+public class ExpReport implements Serializable {
+	private static final long serialVersionUID = 714155121L;
 
 	@Inject
-	private transient Logger logger;
+	FacesContext facesContext;
 
 	private String className;// 文件名
 	private String result;// 返回值
 	private String filePath;// 文件保存的路径
 	private String answerText;// 代码(答案)
-
-
 
 	private ItemBank question;// 当前题目
 
