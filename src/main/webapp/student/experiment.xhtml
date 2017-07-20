@@ -5,150 +5,127 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:head>
-		<meta charset="utf-8"></meta>
-		<title>Welcome to EJOSystem !</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-		<meta name="description" content=""></meta>
-		<meta name="author" content=""></meta>
+<h:head>
+	<meta charset="utf-8"></meta>
+	<title>Welcome to EJOSystem !</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<meta name="description" content=""></meta>
+	<meta name="author" content=""></meta>
 
-		<!-- <script type="text/javascript" src="assets/js/jquery.min.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/jquery.min.js"></script> -->
 
-		<link rel="stylesheet" href="../assets/css/style.css"></link>
-		<link rel="stylesheet" href="../assets/css/loader-style.css"></link>
-		<link rel="stylesheet" href="../assets/css/bootstrap.css"></link>
+	<link rel="stylesheet" href="../assets/css/style.css"></link>
+	<link rel="stylesheet" href="../assets/css/loader-style.css"></link>
+	<link rel="stylesheet" href="../assets/css/bootstrap.css"></link>
 
 
-		<link rel="shortcut icon" href="../assets/ico/minus.png"></link>
-	</h:head>
+	<link rel="shortcut icon" href="../assets/ico/minus.png"></link>
+</h:head>
 
-	<h:body>
+<h:body>
+
+	<div>
+		整体
 
 		<div>
-			整体
+			上部条
+			<p>
+				<h:outputLabel value="hi , #{login.currentUser.name}"></h:outputLabel>
+			</p>
 
-			<div>
-				上部条
-				<p>
-					<h:outputLabel value="hi , #{login.currentUser.name}"></h:outputLabel>
-				</p>
+			<p>
+				<h:outputLabel value="you are in  #{login.currentUser.team.name}"></h:outputLabel>
+			</p>
 
-				<p>
-					<h:outputLabel value="you are in  #{login.currentUser.team.name}"></h:outputLabel>
-				</p>
-				
-				<p>
-					<h:outputLabel value="your teacher is  #{login.currentUser.team.teacher.name}"></h:outputLabel>
-				</p>
-				
-				<p>
-					<h:outputLabel value="your id is , #{login.currentUser.id}"></h:outputLabel>
-				</p>
+			<p>
+				<h:outputLabel
+					value="your teacher is  #{login.currentUser.team.teacher.name}"></h:outputLabel>
+			</p>
 
-				<p>
-					<h:outputLabel
-						value="your card id is  , #{login.currentUser.idCard}"></h:outputLabel>
-				</p>
+			<p>
+				<h:outputLabel value="your id is , #{login.currentUser.id}"></h:outputLabel>
+			</p>
 
-				<p>
-					<h:outputLabel
-						value="your student number is , #{login.currentUser.studentNum}"></h:outputLabel>
-				</p>
+			<p>
+				<h:outputLabel
+					value="your card id is  , #{login.currentUser.idCard}"></h:outputLabel>
+			</p>
 
-				<p:commandButton value="home" />
+			<p>
+				<h:outputLabel
+					value="your student number is , #{login.currentUser.studentNum}"></h:outputLabel>
+			</p>
 
-			</div>
-			<h:form>
-				<div>
-					上部题目要求
-					<h:selectOneMenu value="#{expReport.question}" converter="questionConverter" var="e">
-						<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
-						<f:selectItem itemLabel="select one :"  />
-
-						<f:selectItems value="#{QuestionManager.questions}" var="q"
-							itemLabel="#{q.question}" itemValue="#{q}" />
-
-					</h:selectOneMenu>
-				</div>
-			</h:form>
-
-			<div>
-				<!-- 	根据第edit_96		撤销此区域
-            	文件的命名区域:
-				<p:panel id="panel" header="Form" style="margin-bottom:10px;">
-					<h:outputLabel value="命名为" />
-					<h:inputText value="expReport.fileName" />
-					<h:outputLabel value="e.g. Stu.java" />
-				</p:panel> -->
-
-				<p>消息提示</p>
-				<div class="alert alert-danger">
-					<span class="entypo-attention"></span> <strong>Oh notice !
-					</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
-				</div>
-
-			</div>
-
-
-
-			<div>
-				编辑器
-
-				<h:form>
-					<p:editor id="editor" controls="size cut copy paste undo redo"
-						widgetVar="editorWidget" value="#{expReport.answerText}"
-						width="600" class="ui-editor" />
-
-					<h:panelGrid columns="3" style="margin-top: 10px">
-						<p:commandButton value="保存" update="display"
-							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-
-						<p:commandButton value="保存并编译" update="display"
-							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-
-						<p:commandButton value="提交并退出" update="display"
-							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-							
-						<p:commandButton value="语法提示" update="display"
-							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-							
-						<p:commandButton value="compile" action="#{handInService.compileJava()}"
-							 icon="ui-icon-disk" />
-
-						<p:commandButton value="run" action="#{handInService.runJava()}"
-							 icon="ui-icon-disk" />
-
-						<!--<p:commandButton value="Submit" update="display"
-							oncomplete="PF('dlg').show()" icon="ui-icon-disk" />
-
-						 <p:commandButton value="Clear" type="button"
-							onclick="PF('editorWidget').clear();" icon="ui-icon-close" /> -->
-					</h:panelGrid>
-
-					<p:dialog header="Content" widgetVar="dlg" showEffect="fade"
-						hideEffect="fade">
-						<h:outputText id="display" value="#{expReport.answerText}"
-							escape="false" />
-					</p:dialog>
-
-				</h:form>
-
-			</div>
-
-			<div>
-				console
-				<h3 style="margin-top: 0">编译输出：</h3>
-				<p:inputTextarea rows="10" cols="50"
-					completeMethod="#{inputTextareaView.completeArea}" queryDelay="750"
-					minQueryLength="4" />
-			</div>
-
-
-
-
+			<p:commandButton value="home" />
 
 		</div>
-	</h:body>
+		<h:form>
+			<div>
+				上部题目要求
+				<h:selectOneMenu value="#{expReport.question}"
+					converter="questionConverter" var="e">
+					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
+					<f:selectItem itemLabel="select one :" />
+
+					<f:selectItems value="#{QuestionManager.questions}" var="q"
+						itemLabel="#{q.question}" itemValue="#{q}" />
+
+				</h:selectOneMenu>
+			</div>
+		</h:form>
+
+		<div>
+
+			<p>消息提示</p>
+			<div class="alert alert-danger">
+				<span class="entypo-attention"></span> <strong>Oh notice !
+				</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
+			</div>
+
+		</div>
+
+
+		<h:form>
+		
+		<h:panelGrid columns="3" id="runAndResult" style="margin-top: 10px">
+			<div>
+
+				<p:editor id="editor" controls="size cut copy paste undo redo"
+					widgetVar="editorWidget" value="#{expReport.answerText}"
+					width="600" class="ui-editor" />
+
+				<h:panelGrid columns="1" style="margin-top: 10px">
+
+					<p:commandButton value="clear" type="button"
+						onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+					
+					<p:commandButton value="save"
+						action="#{handInService.saveFile()}" icon="ui-icon-disk" />
+						
+					<p:commandButton value="compile"
+						action="#{handInService.compileJava()}" icon="ui-icon-disk" />
+
+					<p:commandButton value="run" action="#{handInService.runJava()}"
+						icon="ui-icon-disk" />
+
+					<p:commandButton value="show result" update="result"
+						icon="ui-icon-disk" />
+				</h:panelGrid>
+			</div>
+			<div>
+				<h3 style="margin-top: 0">编译输出：</h3>
+				<p:inputTextarea title="编译输出" id="result" disabled="true"
+					autoResize="true" value="#{handInService.showResult()}" />
+
+			</div>
+			</h:panelGrid>
+		</h:form>
+
+
+
+
+	</div>
+</h:body>
 </html>
 
 
