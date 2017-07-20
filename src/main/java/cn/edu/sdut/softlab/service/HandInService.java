@@ -19,6 +19,8 @@ package cn.edu.sdut.softlab.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,6 +47,9 @@ import cn.edu.sdut.softlab.entity.Student;
 public class HandInService extends AbstractFacade<Achievement> {
 	private static Process process ;
 
+//	@ManagedProperty(value = "#{expReport}")
+//	private ExpReport er;
+
 	public ExpReport expreport = new ExpReport(); 
 	
 	public HandInService() {
@@ -62,7 +67,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 		// TODO Auto-generated constructor stub
 	}
 	
-
 	@Inject
 	EntityManager em;
 
@@ -98,30 +102,34 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 * 4.
 	 * *********************************************************************************
 	 */
-	void save() throws Exception {
+	public void saveFile() throws Exception {
+		
 		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-		String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-		exp.setFilePath(path);
-		//merge(exp, achie);// 将exp赋值给achie
+		///home/morpheus/ejosData/userid/questionid/HelloWorld.class
+
+		
+		//String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
+
+		File sourceFile = new File( exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
 			
 		try {
-			
-			File sourceFile = new File(exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
-		     if(sourceFile.exists()){  
+					
+		    if(sourceFile.exists()){  
 		      sourceFile.delete();  
 		     }  
-		     FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
-		     BufferedWriter bw = new BufferedWriter(fr);  
-		     bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
-		     bw.close();  
-		     fr.close();  
+		
+		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
+		    BufferedWriter bw = new BufferedWriter(fr);  
+		    bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
+		    bw.close();  
+		    fr.close();  
 
-		}  catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
 			
-		}finally {
-			
-		}
+		}//save done
+		
 
 	}
 
@@ -145,9 +153,9 @@ public class HandInService extends AbstractFacade<Achievement> {
 		
 			// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
 			String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-			exp.setFilePath(path);
+			//exp.setFilePath(path);
 			//merge(exp, achie);// 将exp赋值给achie
-			File sourceFile = new File(exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
+			File sourceFile = new File( exp.getClassName() +".java");//保存源代码  
 				
 			try {
 				
@@ -201,22 +209,24 @@ public class HandInService extends AbstractFacade<Achievement> {
 	public String saveCompileExit() {
 
 		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-		String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-		exp.setFilePath(path);
-		//merge(exp, achie);// 将exp赋值给achie
-		File sourceFile = new File(exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
+		///home/morpheus/ejosData/userid/questionid/HelloWorld.class
+		String path = "/home/morpheus/ejosData/userid/questionid/";
+		
+		//String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
+
+		File sourceFile = new File( path + exp.getClassName() +".java");//保存源代码  
 			
 		try {
-			
-			
-		     if(sourceFile.exists()){  
+					
+		    if(sourceFile.exists()){  
 		      sourceFile.delete();  
 		     }  
-		     FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
-		     BufferedWriter bw = new BufferedWriter(fr);  
-		     bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
-		     bw.close();  
-		     fr.close();  
+		
+		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
+		    BufferedWriter bw = new BufferedWriter(fr);  
+		    bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
+		    bw.close();  
+		    fr.close();  
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -252,12 +262,14 @@ public class HandInService extends AbstractFacade<Achievement> {
 		log.info("调用compileJava()");
 		Runtime runtime = Runtime.getRuntime();  
 			try {
-				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/HelloWorld.class");//如果文件存在，则删除该文件
+				File sourceFile = new File(exp.getFilePath() + exp.getClassName() + ".class");//如果文件存在，则删除该文件
 				if (sourceFile.exists()) {
-					log.info("调用HelloWorld.class--sourceFile.delete();");
+					log.info("调用" + exp.getClassName() + ".class--sourceFile.delete();");
 					sourceFile.delete();
 				}
-				runtime.exec("javac /home/morpheus/ejosData/userid/questionid/HelloWorld.java");
+				
+				String cmdCompile = "javac " + exp.getFilePath() + exp.getClassName() + ".java";
+				runtime.exec(cmdCompile);
 			
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -267,45 +279,29 @@ public class HandInService extends AbstractFacade<Achievement> {
 	
 	public void runJava(){
 
+		log.info("调用runJava()");
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-				File sourceFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");//如果文件存在，则删除该文件
-				File dir = new File("/home/morpheus/ejosData/userid/questionid/");
+				File sourceFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
+				File dir = new File(exp.getFilePath());
 				if (sourceFile.exists()) {
 					log.info("调用output.txt--sourceFile.delete();");
 					sourceFile.delete();
 				}
 				
-				String[] cmd = {
+				String cmd = "java " + exp.getClassName() + " >> output.txt";
+
+//				"java " + exp.getClassName() + " >> output.txt"
+				
+				String[] cmdarray = {
 						"/bin/sh",
 						"-c",
-						"java HelloWorld >> output.txt"
+						cmd
 						};	
-				log.info("调用runJava(cmd)");
-				runtime.exec(cmd,null,dir).waitFor();
+				log.info("调用"+ cmdarray.toString());
+				runtime.exec(cmdarray,null,dir).waitFor();
 
-//				String s = null;
-//	          Process p = Runtime
-//	        		  .getRuntime()
-//	        		  .exec(
-//	        				  new String[]{"/bin/sh",
-//						                  "-c",
-//						                  "java HelloWorld"},null,dir);
-//	          BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//	          BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//	            //从命令行打印出输出结果
-//	          log.info("标准输出命令");
-//	          while ((s = stdInput.readLine()) != null) {
-//	        	    log.info(s);
-////	        	    System.out.println(s);
-//	            }
-//
-//	          log.info("标准错误的输出命令");
-//	          while ((s = stdError.readLine()) != null) {
-//	        	    log.info(s);
-////	              System.out.println(s);
-//	            }
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -316,19 +312,38 @@ public class HandInService extends AbstractFacade<Achievement> {
 			}
 	}
 
-	/**
-	 * 将ExpReport e 赋值给 Achievement a;
-	 * 
-	 */
-/*	public void merge(ExpReport e, Achievement a) {
-		a.setAnswer(e.getAnswerText());// 答案赋值
-		a.setAnswerPath(e.getFilePath());// 答案路径赋值
-		if (e.getCurrentUser() != null) {
-			a.setStudent(e.getCurrentUser());
-		} // 学生赋值
-		a.setItemBank(e.getQuestion());// 问题赋值
+	public String showResult(){
+		log.info("调用showResult()");
+		//读取文件，并返回到前台
+      String result = "";
+		try {
+			
+			File resultFile = new File(exp.getFilePath()+"output.txt");
+			if (!resultFile.exists()) {
+				//如果文件不存在，创建一个文件
+				log.info("调用output.txt--sourceFile.create();");
+				resultFile.createNewFile();
+			}
+			
+         InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
+         BufferedReader bufferedReader = new BufferedReader(read);
+         String line = null;
+         while((line = bufferedReader.readLine()) != null){
+			     result = result + line;
+			     log.info(result);
+			}
+     
+     
+      read.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+		return result;
 	}
-*/
+	
 	/**
 	 * @return the achie
 	 */
