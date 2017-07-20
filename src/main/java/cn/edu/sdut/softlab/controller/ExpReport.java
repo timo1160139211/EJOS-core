@@ -46,10 +46,19 @@ public class ExpReport implements Serializable {
 
 	private ItemBank question;// 当前题目
 
-	// 注入受管bean
-	@SessionScoped
-	@ManagedProperty(value = "#{login.currentUser}")
-	private Student currentUser;// 当前用户
+	public ExpReport(){
+		this.className = "Student";
+		this.result = "a = 1";
+		this.answerText = "a = 1";
+		this.filePath = "/home/morpheus/ejosData/userid/questionid/";
+		
+		this.question = new ItemBank();
+	}
+	
+//	// 注入受管bean
+//	@SessionScoped
+//	@ManagedProperty(value = "#{login.currentUser}")
+//	private Student currentUser;// 当前用户
 
 	public ItemBank getQuestion() {
 		return question;
