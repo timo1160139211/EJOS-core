@@ -21,9 +21,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -78,7 +80,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 	@ManagedProperty(value = "#{questionManager.questions}")
 	private List<ItemBank> questions;
 
-
 	@Inject
 	@SessionScoped
 	private ExpReport exp;
@@ -111,7 +112,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 		//String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
 
 		File sourceFile = new File( exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
-			
+		
 		try {
 					
 		    if(sourceFile.exists()){  
@@ -120,7 +121,19 @@ public class HandInService extends AbstractFacade<Achievement> {
 		
 		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
 		    BufferedWriter bw = new BufferedWriter(fr);  
-		    bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
+		    
+//		    exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
+//		    exp.getAnswerText().replaceAll("&nbsp;","");
+//           .replaceAll("<br>","").replaceAll("&nbsp;","")
+		    
+		    log.info(exp.getAnswerText());
+		    log.info("--------------------------------------------------\n");
+		    log.info(exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;",""));
+		    log.info("--------------------------------------------------\n");
+		    String writeString = exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
+		    log.info(writeString);
+		    
+		    bw.write(writeString);//将获取的代码内容存到文件中  
 		    bw.close();  
 		    fr.close();  
 
@@ -129,8 +142,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 		} finally {
 			
 		}//save done
-		
-
 	}
 
 	/**
@@ -156,7 +167,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 			//exp.setFilePath(path);
 			//merge(exp, achie);// 将exp赋值给achie
 			File sourceFile = new File( exp.getClassName() +".java");//保存源代码  
-				
+			
 			try {
 				
 				
@@ -260,21 +271,54 @@ public class HandInService extends AbstractFacade<Achievement> {
 	public void compileJava(){
 		
 		log.info("调用compileJava()");
-		Runtime runtime = Runtime.getRuntime();  
-			try {
-				File sourceFile = new File(exp.getFilePath() + exp.getClassName() + ".class");//如果文件存在，则删除该文件
-				if (sourceFile.exists()) {
-					log.info("调用" + exp.getClassName() + ".class--sourceFile.delete();");
-					sourceFile.delete();
-				}
-				
-				String cmdCompile = "javac " + exp.getFilePath() + exp.getClassName() + ".java";
-				runtime.exec(cmdCompile);
+		try {
+			File sourceFile = new File(exp.getFilePath() + exp.getClassName() + ".class");//如果文件存在，则删除该文件
+			if (sourceFile.exists()) {
+				log.info("调用" + exp.getClassName() + ".class--sourceFile.delete();");
+				sourceFile.delete();
+			}
 			
+			String cmdCompile = "javac " + exp.getClassName() + ".java";
+//			String s = null;
+			@SuppressWarnings("unused")
+			Process p = Runtime
+			       		  .getRuntime()
+			       		  .exec(cmdCompile,null,new File(exp.getFilePath()));
+			
+//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//			
+//			File outputFile = new File(exp.getFilePath()+"output.txt");
+//			if (outputFile.exists()) {
+//				log.info("调用" + exp.getClassName() + ".class--outputFile.delete();");
+//				outputFile.delete();
+//			}
+//			OutputStream os = new FileOutputStream(outputFile);
+//			
+//	        InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
+//	         BufferedReader bufferedReader = new BufferedReader(read);
+//	         String line = null;
+//	         while((line = bufferedReader.readLine()) != null){
+//				     result = result + line;
+//				     log.info(result);
+//				}
+//			//从命令行打印出输出结果
+//			log.info("标准输出命令");
+//			while ((s = stdInput.readLine()) != null) {
+//				log.info(s);
+//			//System.out.println(s);
+//			}
+//			
+//			log.info("标准错误的输出命令");
+//			while ((s = stdError.readLine()) != null) {
+//				log.info(s);
+//			//System.out.println(s);
+//			}
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	    
+	    	
 	}
 	
 	public void runJava(){
