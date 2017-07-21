@@ -86,38 +86,36 @@
 
 
 		<h:form>
-		
-		<h:panelGrid columns="3" id="runAndResult" style="margin-top: 10px">
-			<div>
 
-				<p:editor id="editor" controls="size cut copy paste undo redo"
-					widgetVar="editorWidget" value="#{expReport.answerText}"
-					width="600" class="ui-editor" />
+			<h:panelGrid columns="3" id="runAndResult" style="margin-top: 10px">
+				<div>
 
-				<h:panelGrid columns="1" style="margin-top: 10px">
+					<p:editor id="editor" controls="cut copy paste undo redo"
+						escape="true" widgetVar="editorWidget"
+						value="#{expReport.answerText}" width="600" class="ui-editor" />
 
-					<p:commandButton value="clear" type="button"
-						onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
-					
-					<p:commandButton value="save"
-						action="#{handInService.saveFile()}" icon="ui-icon-disk" />
-						
-					<p:commandButton value="compile"
-						action="#{handInService.compileJava()}" icon="ui-icon-disk" />
+					<!-- <h:panelGrid columns="1" style="margin-top: 10px"> -->
 
-					<p:commandButton value="run" action="#{handInService.runJava()}"
-						icon="ui-icon-disk" />
+						<p:commandButton value="clear" type="button"
+							onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
 
-					<p:commandButton value="show result" update="result"
-						icon="ui-icon-disk" />
-				</h:panelGrid>
-			</div>
-			<div>
-				<h3 style="margin-top: 0">编译输出：</h3>
-				<p:inputTextarea title="编译输出" id="result" disabled="true"
-					autoResize="true" value="#{handInService.showResult()}" />
+						<p:commandButton value="save" action="#{handInService.saveFile()}"
+							icon="ui-icon-disk" />
 
-			</div>
+						<p:commandButton value="compile"
+							action="#{handInService.compileJava()}" icon="ui-icon-disk" />
+
+						<p:commandButton value="run" action="#{handInService.runJava()}"
+							icon="ui-icon-disk" />
+
+						<p:commandButton value="show result" update="result"
+							icon="ui-icon-disk" />
+					<!-- </h:panelGrid> -->
+
+					<p:inputTextarea title="编译输出" id="result" disabled="true"
+						autoResize="true" value="#{handInService.showResult()}" />
+
+				</div>
 			</h:panelGrid>
 		</h:form>
 
