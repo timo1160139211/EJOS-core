@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import cn.edu.sdut.softlab.entity.ItemBank;
-import cn.edu.sdut.softlab.entity.Team;
 
 /**
  * @author GaoYisheng 2017年6月11日 TODO 题目服务类
