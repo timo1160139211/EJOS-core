@@ -27,8 +27,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.transaction.UserTransaction;
-
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.service.QuestionFacade;
@@ -42,15 +40,13 @@ import cn.edu.sdut.softlab.service.QuestionFacade;
 @Named("questionManager")
 public class QuestionManager implements Serializable{
 
-	
-
 	private static final long serialVersionUID = 7965455427888195913L;
 
 	@Inject
 	private transient Logger logger;
 	
-	@Inject
-	private UserTransaction utx;
+//	@Inject
+//	private UserTransaction utx;
 
 	@Inject
 	EntityManager em;
@@ -78,19 +74,21 @@ public class QuestionManager implements Serializable{
 	@Inject
 	private QuestionFacade questionFacade;
 	
-	@Inject
-	@SessionScoped
-	private List<ItemBank> questions;
+//	@Inject
+//	@SessionScoped
+//	private List<ItemBank> questions;
 
-//	@Produces
-//	public List<ItemBank> getQuestions() {
-//		
-//		return questionFacade.findQuestionsListForTeam(currentUser.getTeam());
-//	}
 	@Produces
 	public List<ItemBank> getQuestions() {
-		
-		return questionFacade.findQuestionsListForTeam(currentUser.getTeam().getId());
+		logger.info("getQUestions is called , current user's team is :");
+		logger.info(currentUser.getTeam().getName());
+		return questionFacade.findAll();
 	}
+	
+//	@Produces
+//	public List<ItemBank> getQuestions() {
+//		logger.info(currentUser.getTeam().getName());
+//		return questionFacade.findQuestionsListForTeam(currentUser.getTeam().getId());
+//	}
 }
 
