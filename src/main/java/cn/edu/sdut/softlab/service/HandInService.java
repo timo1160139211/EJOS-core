@@ -271,6 +271,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 	public void compileJava(){
 		
 		log.info("调用compileJava()");
+		Runtime runtime = Runtime.getRuntime();  
 		try {
 			File sourceFile = new File(exp.getFilePath() + exp.getClassName() + ".class");//如果文件存在，则删除该文件
 			if (sourceFile.exists()) {
@@ -278,13 +279,40 @@ public class HandInService extends AbstractFacade<Achievement> {
 				sourceFile.delete();
 			}
 			
-			String cmdCompile = "javac " + exp.getClassName() + ".java";
+			File dir = new File(exp.getFilePath());
+			File outputFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
+			if (outputFile.exists()) {
+				log.info("调用output.txt--sourceFile.delete();");
+				outputFile.delete();
+			}	
+			
+			
+			
+			String cmdCompile = "javac " + exp.getClassName() + ".java 2>> output.txt";
+
+//			"java " + exp.getClassName() + " >> output.txt"
+			
+			String[] cmdarray = {
+					"/bin/sh",
+					"-c",
+					cmdCompile
+					};	
+			log.info("调用"+ cmdarray);
+			try {
+				runtime.exec(cmdarray,null,dir).waitFor();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+/*			String cmdCompile = "javac " + exp.getClassName() + ".java";
 //			String s = null;
 			@SuppressWarnings("unused")
 			Process p = Runtime
 			       		  .getRuntime()
-			       		  .exec(cmdCompile,null,new File(exp.getFilePath()));
-			
+			       		  .exec(cmdCompile,null,new File(exp.getFilePath()));*/
+//			
 //			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
 //			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 //			
@@ -327,12 +355,12 @@ public class HandInService extends AbstractFacade<Achievement> {
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-				File sourceFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
+//				File sourceFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
 				File dir = new File(exp.getFilePath());
-				if (sourceFile.exists()) {
-					log.info("调用output.txt--sourceFile.delete();");
-					sourceFile.delete();
-				}
+//				if (sourceFile.exists()) {
+//					log.info("调用output.txt--sourceFile.delete();");
+//					sourceFile.delete();
+//				}
 				
 				String cmd = "java " + exp.getClassName() + " >> output.txt";
 
@@ -373,7 +401,7 @@ public class HandInService extends AbstractFacade<Achievement> {
          BufferedReader bufferedReader = new BufferedReader(read);
          String line = null;
          while((line = bufferedReader.readLine()) != null){
-			     result = result + line;
+			     result = result +  "\n" + line;
 			     log.info(result);
 			}
      
