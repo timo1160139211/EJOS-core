@@ -21,11 +21,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -35,7 +33,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-
 import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
@@ -52,7 +49,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 //	@ManagedProperty(value = "#{expReport}")
 //	private ExpReport er;
 
-	public ExpReport expreport = new ExpReport(); 
+/////////////////////////////////////////	public ExpReport expreport = new ExpReport(); 
 	
 	public HandInService() {
 		super(Achievement.class);
@@ -105,12 +102,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 */
 	public void saveFile() throws Exception {
 		
-		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-		///home/morpheus/ejosData/userid/questionid/HelloWorld.class
-
-		
-		//String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-
+		//FilePath 以 /home/morpheus/ejosData/为基础， uid/qid为动态值．
 		File sourceFile = new File( exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
 		
 		try {
@@ -121,10 +113,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 		
 		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
 		    BufferedWriter bw = new BufferedWriter(fr);  
-		    
-//		    exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
-//		    exp.getAnswerText().replaceAll("&nbsp;","");
-//           .replaceAll("<br>","").replaceAll("&nbsp;","")
 		    
 		    log.info(exp.getAnswerText());
 		    log.info("--------------------------------------------------\n");
@@ -164,8 +152,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 		
 			// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
 			String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-			//exp.setFilePath(path);
-			//merge(exp, achie);// 将exp赋值给achie
 			File sourceFile = new File( exp.getClassName() +".java");//保存源代码  
 			
 			try {
@@ -219,12 +205,8 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 */
 	public String saveCompileExit() {
 
-		// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-		///home/morpheus/ejosData/userid/questionid/HelloWorld.class
 		String path = "/home/morpheus/ejosData/userid/questionid/";
 		
-		//String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-
 		File sourceFile = new File( path + exp.getClassName() +".java");//保存源代码  
 			
 		try {
@@ -287,11 +269,8 @@ public class HandInService extends AbstractFacade<Achievement> {
 			}	
 			
 			
-			
 			String cmdCompile = "javac " + exp.getClassName() + ".java 2>> output.txt";
 
-//			"java " + exp.getClassName() + " >> output.txt"
-			
 			String[] cmdarray = {
 					"/bin/sh",
 					"-c",
@@ -301,48 +280,10 @@ public class HandInService extends AbstractFacade<Achievement> {
 			try {
 				runtime.exec(cmdarray,null,dir).waitFor();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			
-/*			String cmdCompile = "javac " + exp.getClassName() + ".java";
-//			String s = null;
-			@SuppressWarnings("unused")
-			Process p = Runtime
-			       		  .getRuntime()
-			       		  .exec(cmdCompile,null,new File(exp.getFilePath()));*/
-//			
-//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//			
-//			File outputFile = new File(exp.getFilePath()+"output.txt");
-//			if (outputFile.exists()) {
-//				log.info("调用" + exp.getClassName() + ".class--outputFile.delete();");
-//				outputFile.delete();
-//			}
-//			OutputStream os = new FileOutputStream(outputFile);
-//			
-//	        InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
-//	         BufferedReader bufferedReader = new BufferedReader(read);
-//	         String line = null;
-//	         while((line = bufferedReader.readLine()) != null){
-//				     result = result + line;
-//				     log.info(result);
-//				}
-//			//从命令行打印出输出结果
-//			log.info("标准输出命令");
-//			while ((s = stdInput.readLine()) != null) {
-//				log.info(s);
-//			//System.out.println(s);
-//			}
-//			
-//			log.info("标准错误的输出命令");
-//			while ((s = stdError.readLine()) != null) {
-//				log.info(s);
-//			//System.out.println(s);
-//			}
-				
+							
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -355,17 +296,10 @@ public class HandInService extends AbstractFacade<Achievement> {
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-//				File sourceFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
 				File dir = new File(exp.getFilePath());
-//				if (sourceFile.exists()) {
-//					log.info("调用output.txt--sourceFile.delete();");
-//					sourceFile.delete();
-//				}
 				
 				String cmd = "java " + exp.getClassName() + " >> output.txt";
 
-//				"java " + exp.getClassName() + " >> output.txt"
-				
 				String[] cmdarray = {
 						"/bin/sh",
 						"-c",
@@ -376,10 +310,8 @@ public class HandInService extends AbstractFacade<Achievement> {
 
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
