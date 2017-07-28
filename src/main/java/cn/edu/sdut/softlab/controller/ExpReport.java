@@ -47,9 +47,14 @@ public class ExpReport implements Serializable {
 	private ItemBank question;// 当前题目
 
 	public ExpReport(){
-		this.className = "Student";
+		this.answerText = "public class Student { awdawd }";
+		
+		String s = this.answerText ;
+		String classStr = s.substring(s.indexOf("public class"),s.indexOf("{")).toString();//获取类名字符串  
+		String[] classStrArray = classStr.split("\\s{1,}");//按空格分开  
+		
+		this.className = classStrArray[classStrArray.length-1];
 		this.result = "a = 1";
-		this.answerText = "a = 1";
 		this.filePath = "/home/morpheus/ejosData/userid/questionid/";
 		
 		this.question = new ItemBank();
