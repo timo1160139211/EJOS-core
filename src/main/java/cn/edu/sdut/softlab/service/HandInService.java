@@ -149,42 +149,7 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 * 0x01:把编译结果返回到页面，得到通过与否
 	 */
 	void saveAndCompile() {
-		
-			// 将路径加上参数配置成全路径 /data/ejos/exp/SId/PId/fileName
-			String path = "/data/ejos/exp/" + currentUser.getId() + "/" + exp.getQuestion().getId() + "/";
-			File sourceFile = new File( exp.getClassName() +".java");//保存源代码  
-			
-			try {
-				
-				
-			     if(sourceFile.exists()){  
-			      sourceFile.delete();  
-			     }  
-			     FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
-			     BufferedWriter bw = new BufferedWriter(fr);  
-			     bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
-			     bw.close();  
-			     fr.close();  
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				
-			}//save done
-			
-			//compile
-			try {
-			Runtime runtime = Runtime.getRuntime();  
-		     	
-				runtime.exec("javac "+ sourceFile );
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}  
-			
-		     //获取控制台输出的结果  
-		     Thread runtimeInput = new Thread(new RuntimeInput());  
-		     runtimeInput.start();  
 
 	}
 
@@ -205,44 +170,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 */
 	public String saveCompileExit() {
 
-		String path = "/home/morpheus/ejosData/userid/questionid/";
-		
-		File sourceFile = new File( path + exp.getClassName() +".java");//保存源代码  
-			
-		try {
-					
-		    if(sourceFile.exists()){  
-		      sourceFile.delete();  
-		     }  
-		
-		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
-		    BufferedWriter bw = new BufferedWriter(fr);  
-		    bw.write(exp.getAnswerText());//将获取的代码内容存到文件中  
-		    bw.close();  
-		    fr.close();  
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			
-		}//save done
-		
-		//compile
-		try {
-		Runtime runtime = Runtime.getRuntime();  
-	     	
-			runtime.exec("javac "+ sourceFile );
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}  
-		
-	     //获取控制台输出的结果  
-	     Thread runtimeInput = new Thread(new RuntimeInput());  
-	     runtimeInput.start();  
-
-		
-		
 		return "../student/home.xhtml?faces-redirect=true";
 	}
 
