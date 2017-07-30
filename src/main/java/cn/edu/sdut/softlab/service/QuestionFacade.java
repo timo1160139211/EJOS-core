@@ -19,6 +19,7 @@ package cn.edu.sdut.softlab.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,6 +33,9 @@ import cn.edu.sdut.softlab.entity.ItemBank;
 @Stateless
 @Named("questionService")
 public class QuestionFacade extends AbstractFacade<ItemBank> {
+
+	@Inject
+	private transient Logger logger;
 
 	public QuestionFacade() {
 		super(ItemBank.class);
@@ -47,30 +51,37 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 	}
 
 	public List<ItemBank> findAllQuestion() {
+		logger.info("findAllQuestion------------is called in QuestionFacade");
 		return findAll();
 	}
 
 	public ItemBank findSpecifiedItemBankByQuestion(String question) {
-	Map<String, Object> parameters = new HashMap<>();
-	parameters.put("question", question);
-	return findSingleByNamedQuery("ItemBank.findByQuestion", parameters, ItemBank.class).get();
-}
-	
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("question", question);
+		return findSingleByNamedQuery("ItemBank.findByQuestion", parameters, ItemBank.class).get();
+	}
+
+	public ItemBank findSpecifiedItemBankById(int id) {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("id", id);
+		return findSingleByNamedQuery("ItemBank.findByQid", parameters, ItemBank.class).get();
+	}
+
 	@Inject
 	EntityManager em;
 
 	// 查找题目列表
-//	public List<ItemBank> findQuestionsListForTeam(Team t) {
-//		Map<String, Object> parameters = new HashMap<>(0);
-//		parameters.put("team", t);
-//		return findByNamedQuery("ItemBank.findByTeam", parameters);
-//
-//	}
-	
-	public List<ItemBank> findQuestionsListForTeam(int teamId) {
-	Map<String, Object> parameters = new HashMap<>(0);
-	parameters.put("teamId", teamId);
-	return findByNamedQuery("ItemBank.findByTeamId", parameters);
+	// public List<ItemBank> findQuestionsListForTeam(Team t) {
+	// Map<String, Object> parameters = new HashMap<>(0);
+	// parameters.put("team", t);
+	// return findByNamedQuery("ItemBank.findByTeam", parameters);
+	//
+	// }
 
-}
+	public List<ItemBank> findQuestionsListForTeam(int teamId) {
+		Map<String, Object> parameters = new HashMap<>(0);
+		parameters.put("teamId", teamId);
+		return findByNamedQuery("ItemBank.findByTeamId", parameters);
+
+	}
 }
