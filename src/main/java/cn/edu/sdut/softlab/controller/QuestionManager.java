@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.bean.ManagedProperty;
@@ -27,9 +28,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.UserTransaction;
+
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
-import cn.edu.sdut.softlab.service.QuestionFacade;
+import cn.edu.sdut.softlab.entity.Team;
 
 /**
  * @author GaoYisheng 
@@ -45,8 +50,8 @@ public class QuestionManager implements Serializable{
 	@Inject
 	private transient Logger logger;
 	
-//	@Inject
-//	private UserTransaction utx;
+	@Inject
+	private UserTransaction utx;
 
 	@Inject
 	EntityManager em;
@@ -71,24 +76,31 @@ public class QuestionManager implements Serializable{
 	@SessionScoped
 	private Student currentUser ;//当前用户
 
-	@Inject
-	private QuestionFacade questionFacade;
-	
 //	@Inject
-//	@SessionScoped
-//	private List<ItemBank> questions;
-
-	@Produces
-	public List<ItemBank> getQuestions() {
-		logger.info("getQUestions is called , current user's team is :");
-		logger.info(currentUser.getTeam().getName());
-		return questionFacade.findAll();
-	}
+//	private QuestionFacade questionFacade;
 	
-//	@Produces
-//	public List<ItemBank> getQuestions() {
-//		logger.info(currentUser.getTeam().getName());
-//		return questionFacade.findQuestionsListForTeam(currentUser.getTeam().getId());
-//	}
+	/**
+	 * @return the questions
+	 */
+	
+	@SuppressWarnings({ "unchecked" })
+	@Produces
+	@Named
+	@RequestScoped
+	public List<ItemBank> getAllQuestions() throws Exception {
+		try {
+			utx.begin();
+			logger.info("getQuestions---------------in Manager is calledddd");
+//			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//			cq.select(cq.from(ItemBank.class));
+			
+//			Team t = currentUser.getTeam();
+//			String query = "select i from ItemBank i where i.team = t";
+//			return em.createQuery(cq).getResultList();
+			return em.createQuery("SELECT i FROM ItemBank i ").getResultList();
+		} finally {
+			utx.commit();
+		}
+	}
 }
 
