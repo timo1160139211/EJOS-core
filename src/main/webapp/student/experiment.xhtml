@@ -30,11 +30,12 @@
 		<div>
 			上部条
 			<p>
-				<h:outputLabel value="hi , #{login.currentUser.name}"></h:outputLabel>
+				<h:outputLabel value="hi , #{handInService.currentUser.name}"></h:outputLabel>
 			</p>
 
 			<p>
-				<h:outputLabel value="you are in  #{login.currentUser.team.name}"></h:outputLabel>
+				<h:outputLabel
+					value="you are in  #{questionManager.currentUser.team.name}"></h:outputLabel>
 			</p>
 
 			<p>
@@ -43,46 +44,51 @@
 			</p>
 
 		</div>
-		
-		
-		
-		
-			<h:dataTable value="#{questionManager.getAllQuestions()}" var="i">
-					<h:column>
-						<f:facet name="header">
-                        name
+
+
+
+		<h:dataTable value="#{questionManager.getAllQuestionsWithoutTeam()}"
+			var="q">
+			<h:column>
+				<f:facet name="header">
+                        id
                     </f:facet>
-						<h:outputText value="#{i.id}" />
-					</h:column>
-				</h:dataTable>
-				
-		
-		
-		
-			<div>
-				上部题目要求
-				<h:selectOneMenu id="selector" value="#{expReport.question.id}"
-					converter="questionConverter" var="e">
-					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
-					<f:selectItem itemLabel="select one " />
+				<h:outputText value="#{q.id}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+                        question
+                    </f:facet>
+				<h:outputText value="#{q.question}" />
+			</h:column>
+		</h:dataTable>
 
-					<f:selectItems value="#{questionManager.getAllQuestions()}" var="q"
-						itemLabel="#{q.question}" itemValue="#{q.id}" />
 
-				</h:selectOneMenu>
-				<p:message for="selector" />
-			</div>
-		
-		<h:form>
+
 		<div>
+			上部题目要求
+			<h:selectOneMenu id="selector" value="#{expReport.question.id}"
+				converter="questionConverter" var="e">
+				<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
+				<f:selectItem itemLabel="select one " />
 
-			<p>消息提示</p>
-			<div class="alert alert-danger">
-				<span class="entypo-attention"></span> <strong>Oh notice !
-				</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
-			</div>
+				<f:selectItems value="#{questionManager.getAllQuestions()}" var="q"
+					itemLabel="#{q.question}" itemValue="#{q.id}" />
 
+			</h:selectOneMenu>
+			<p:message for="selector" />
 		</div>
+
+		<h:form>
+			<div>
+
+				<p>消息提示</p>
+				<div class="alert alert-danger">
+					<span class="entypo-attention"></span> <strong>Oh notice !
+					</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
+				</div>
+
+			</div>
 
 			<h:panelGrid columns="3" id="runAndResult" style="margin-top: 10px">
 				<div>
@@ -93,20 +99,20 @@
 
 					<!-- <h:panelGrid columns="1" style="margin-top: 10px"> -->
 
-						<p:commandButton value="clear" type="button"
-							onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
+					<p:commandButton value="clear" type="button"
+						onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
 
-						<p:commandButton value="save" action="#{handInService.saveFile()}"
-							icon="ui-icon-disk" />
+					<p:commandButton value="save" action="#{handInService.saveFile()}"
+						icon="ui-icon-disk" />
 
-						<p:commandButton value="compile"
-							action="#{handInService.compileJava()}" icon="ui-icon-disk" />
+					<p:commandButton value="compile"
+						action="#{handInService.compileJava()}" icon="ui-icon-disk" />
 
-						<p:commandButton value="run" action="#{handInService.runJava()}"
-							icon="ui-icon-disk" />
+					<p:commandButton value="run" action="#{handInService.runJava()}"
+						icon="ui-icon-disk" />
 
-						<p:commandButton value="show result" update="result"
-							icon="ui-icon-disk" />
+					<p:commandButton value="show result" update="result"
+						icon="ui-icon-disk" />
 					<!-- </h:panelGrid> -->
 
 					<p:inputTextarea title="编译输出" id="result" disabled="true"
