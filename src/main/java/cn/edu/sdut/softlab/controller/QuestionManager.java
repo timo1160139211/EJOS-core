@@ -29,12 +29,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.entity.Team;
+import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 
 /**
  * @author GaoYisheng 
@@ -66,41 +69,80 @@ public class QuestionManager implements Serializable{
 	public ItemBank getQuestion() {
 		return question;
 	}
-
+                                 
 	public void setQuestion(ItemBank question) {
 		this.question = question;
 	}
 
-	//注入受管bean
-	@ManagedProperty(value ="#{login.currentUser}" )
-	@SessionScoped
-	private Student currentUser ;//当前用户
-
+	@Inject
+	@LoggedIn
+	private Student currentUser;// 当前用户
+	
 //	@Inject
 //	private QuestionFacade questionFacade;
 	
+	public Student getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(Student currentUser) {
+		this.currentUser = currentUser;
+	}
+
 	/**
 	 * @return the questions
 	 */
 	
 	@SuppressWarnings({ "unchecked" })
-	@Produces
-	@Named
-	@RequestScoped
 	public List<ItemBank> getAllQuestions() throws Exception {
 		try {
 			utx.begin();
-			logger.info("getQuestions---------------in Manager is calledddd");
-//			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-//			cq.select(cq.from(ItemBank.class));
+			logger.info(currentUser.getName()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+			Team paramTeam = currentUser.getTeam();
+			Query query = em.createQuery(
+					"select q from ItemBank q where q.team = :paramTeam"
+					).setParameter("paramTeam", paramTeam);
 			
-//			Team t = currentUser.getTeam();
-//			String query = "select i from ItemBank i where i.team = t";
-//			return em.createQuery(cq).getResultList();
-			return em.createQuery("SELECT i FROM ItemBank i ").getResultList();
+//			logger.info("getQuestions---------------in Manager is calledddd");
+//			
+//			logger.info(currentUser.getName()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//			String searchString = currentUser.getTeam().getName();
+//			CriteriaBuilder cb = em.getCriteriaBuilder();
+//			CriteriaQuery criteria = cb.createQuery();
+//			Root<Team> team = criteria.from(Team.class);
+//			
+//			Query query = em.createQuery(
+//					criteria.select(team).where(
+//						cb.equal(
+//								team.get("name"), 
+//								cb.parameter(String.class, "teamName")
+//							)
+//						)
+//					).setParameter("teamName", searchString);
+//					
+			return query.getResultList();		
 		} finally {
 			utx.commit();
 		}
 	}
+	
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<ItemBank> getAllQuestionsWithoutTeam() throws Exception {
+		try {
+			utx.begin();
+			logger.info("getQuestions---------------in Manager is calledddd");
+			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+			cq.select(cq.from(ItemBank.class));
+			
+			return em.createQuery(cq).getResultList();
+			
+		} finally {
+			utx.commit();
+		}
+	}
+	
 }
 
