@@ -37,6 +37,7 @@ import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
+import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 
 /**
  * @author GaoYisheng 2017年6月7日 TODO 提交实验报告的服务类
@@ -69,13 +70,25 @@ public class HandInService extends AbstractFacade<Achievement> {
 	@Inject
 	EntityManager em;
 
-	@ManagedProperty(value = "#{login.currentUser}")
-	@SessionScoped
+	@Inject
+	@LoggedIn
 	private Student currentUser;// 当前用户
-	
+
+	public Student getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(Student currentUser) {
+		this.currentUser = currentUser;
+	}
+
 	@RequestScoped
-	@ManagedProperty(value = "#{questionManager.questions}")
+	@ManagedProperty(value = "#{questionManager.allQuestions}")
 	private List<ItemBank> questions;
+
+	public void setQuestions(List<ItemBank> questions) {
+		this.questions = questions;
+	}
 
 	@Inject
 	@SessionScoped
