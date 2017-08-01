@@ -25,14 +25,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-
 import javax.ejb.Stateless;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+
 import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
@@ -49,12 +52,9 @@ public class HandInService extends AbstractFacade<Achievement> {
 
 //	@ManagedProperty(value = "#{expReport}")
 //	private ExpReport er;
-
-/////////////////////////////////////////	public ExpReport expreport = new ExpReport(); 
 	
 	public HandInService() {
 		super(Achievement.class);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -64,7 +64,6 @@ public class HandInService extends AbstractFacade<Achievement> {
 	 */
 	public HandInService(Class<Achievement> entityClass) {
 		super(entityClass);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Inject
@@ -318,6 +317,15 @@ public class HandInService extends AbstractFacade<Achievement> {
 		this.exp = exp;
 	}
 
+	
+	//选择的值，改变listener
+   public void selectedChanged(ValueChangeEvent event) {
+	   log.info("onSelect is called ------------------");
+      FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", "hah"));
+      //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", event.getNewValue().toString()));
+   }	
+	
 	public class RuntimeInput implements Runnable {
 
 		@Override
