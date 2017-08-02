@@ -25,6 +25,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.*;
+import cn.edu.sdut.softlab.qualifiers.LoggedIn;
+
 import java.io.Serializable;
 
 /**
@@ -44,7 +46,15 @@ public class ExpReport implements Serializable {
 	private String filePath;// 文件保存的路径
 	private String answerText;// 代码(答案)
 
-	private ItemBank question;// 当前题目
+	private ItemBank itembank;// 当前题目
+
+	public ItemBank getItembank() {
+		return itembank;
+	}
+
+	public void setItembank(ItemBank itembank) {
+		this.itembank = itembank;
+	}
 
 	public ExpReport(){
 		this.answerText = "public class Student { awdawd }";
@@ -57,20 +67,19 @@ public class ExpReport implements Serializable {
 		this.result = "a = 1";
 		this.filePath = "/home/morpheus/ejosData/userid/questionid/";
 		
-		this.question = new ItemBank();
-	}
-	
-//	// 注入受管bean
-//	@SessionScoped
-//	@ManagedProperty(value = "#{login.currentUser}")
-//	private Student currentUser;// 当前用户
-
-	public ItemBank getQuestion() {
-		return question;
+		this.itembank = new ItemBank();
 	}
 
-	public void setQuestion(ItemBank question) {
-		this.question = question;
+	@Inject
+	@LoggedIn
+	private Student currentUser;// 当前用户
+
+	public Student getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(Student currentUser) {
+		this.currentUser = currentUser;
 	}
 
 	public String getClassName() {
