@@ -19,26 +19,24 @@ package cn.edu.sdut.softlab.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import cn.edu.sdut.softlab.entity.ItemBank;
 
 /**
  * @author GaoYisheng 2017年6月11日 TODO 题目服务类
  */
 @Stateless
-@Named("questionService")
+@Named("item_bank")
 public class QuestionFacade extends AbstractFacade<ItemBank> {
 
-	@Inject
-	private transient Logger logger;
-
+	public String name="questionService";
+	
 	public QuestionFacade() {
+		
 		super(ItemBank.class);
+		System.out.println("QuestionFacade is called----------------------- \n\n\n");
 	}
 
 	/**
@@ -46,15 +44,19 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 	 * 
 	 * @param entityClass
 	 */
-	public QuestionFacade(Class<ItemBank> entityClass) {
-		super(entityClass);
-	}
+//	public QuestionFacade(Class<ItemBank> entityClass) {
+//		super(entityClass);
+//		
+//		System.out.println("QuestionFacade Class<ItemBank> entityClass is called----------------------- \n\n\n");
+//	}
 
 	public List<ItemBank> findAllQuestion() {
-		logger.info("findAllQuestion------------is called in QuestionFacade");
 		return findAll();
 	}
 
+	/*
+	 * 查找指定 Question,服务于 converter
+	 */
 	public ItemBank findSpecifiedItemBankByQuestion(String question) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("question", question);
@@ -67,9 +69,8 @@ public class QuestionFacade extends AbstractFacade<ItemBank> {
 		return findSingleByNamedQuery("ItemBank.findByQid", parameters, ItemBank.class).get();
 	}
 
-	@Inject
-	EntityManager em;
-
+	
+	
 	// 查找题目列表
 	// public List<ItemBank> findQuestionsListForTeam(Team t) {
 	// Map<String, Object> parameters = new HashMap<>(0);
