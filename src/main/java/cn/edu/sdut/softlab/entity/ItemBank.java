@@ -160,10 +160,10 @@ public class ItemBank implements Serializable {
 		this.team = team;
 	}
 	
-	@Override
-	public String toString() {
-	    return question;
-	}
+    @Override
+    public String toString() {
+        return "cn.edu.sdut.softlab.entity.ItemBank[ id=" + id + " ]";
+     }
 
 
 	/*
@@ -207,6 +207,10 @@ public class ItemBank implements Serializable {
 			return false;
 		}
 		
+
+//		if (id!=s.getId()) {
+//			return false;
+//		}
 
 		//几项检查都没问题 返回true
 		return true;

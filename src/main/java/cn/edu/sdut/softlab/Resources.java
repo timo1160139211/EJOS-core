@@ -28,7 +28,7 @@ import javax.persistence.PersistenceContext;
 public class Resources {
 
 	// Expose an entity manager using the resource producer pattern
-	@PersistenceContext
+	@PersistenceContext(unitName="labUnit")
 	@Produces
 	private EntityManager em;
 

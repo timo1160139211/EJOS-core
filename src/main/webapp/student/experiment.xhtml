@@ -70,15 +70,15 @@
 				<p:growl id="msg" showDetail="true" escape="false" />
 				<h:messages />
 				<h:selectOneMenu id="selector" 
-				   value="#{expReport.question.id}"
+				   value="#{expReport.itembank}"
 					converter="questionConverter" 
 					onchange="submit()"
-					valueChangeListener="#{handInManager.selectedChanged()}">
+					valueChangeListener="#{handInManager.selectedChanged}">
 					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
 					<f:selectItem itemLabel="select one " />
 
 					<f:selectItems value="#{questionManager.getAllQuestions()}" var="q"
-						itemLabel="#{q.question}" itemValue="#{q.id}" />
+						itemLabel="#{q.question}" itemValue="#{q}" />
         　　　　
 				</h:selectOneMenu>
 			</div>

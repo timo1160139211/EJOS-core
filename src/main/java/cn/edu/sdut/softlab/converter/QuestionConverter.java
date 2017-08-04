@@ -17,7 +17,6 @@
 package cn.edu.sdut.softlab.converter;
 
 import java.io.Serializable;
-
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
@@ -26,7 +25,13 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 
+import cn.edu.sdut.softlab.controller.QuestionManager;
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.service.QuestionFacade;
 
@@ -35,17 +40,16 @@ import cn.edu.sdut.softlab.service.QuestionFacade;
  */
 @ManagedBean(name = "questionConverter")
 @FacesConverter(value = "questionConverter")
-@RequestScoped
 public class QuestionConverter implements Converter, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	QuestionFacade questionService;
-
+//	@Inject
+	QuestionFacade questionService = new QuestionFacade();
+	
 	@Inject
 	FacesContext facesContext;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,26 +57,50 @@ public class QuestionConverter implements Converter, Serializable {
 	 * FacesContext, javax.faces.component.UIComponent, java.lang.String)
 	 */
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component, String question) throws ConverterException {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 
-		if (question == null || question.isEmpty()) {
+		System.out.println("-----------------------getAsObject-value-is-" + value + "0" + "\0" + "1");
+
+		if (value == null || value.isEmpty()) {
+			
+			System.out.println("-----------------------1.if ");
 			return null;
 		}
+
+		if (!value.equals("") && value != null) {
+			System.out.println("-----------------------2.if ");
+			
+			System.out.println(
+					"-----------------------" + questionService.name);
+			
+			
+//			//延迟4,000ms
+//			for(int i=0;i<99999;i++){
+//				for(int j=0;j<999;j++){
+//					
+//				}
+//			}
+			
+			ItemBank ib = questionService.findSpecifiedItemBankByQuestion(value);
+			
+			System.out.println(
+					"-----------------------" + ib.getId() + " in ib " + ib.getIntroduce());
+			
+			//return ib.getQuestion();
+			return ib;
+			
+//			return questionService.findSpecifiedItemBankByQuestion(value);
+			
+//			ItemBank ib = new ItemBank();
+//			ib.setId(1024);
+//			ib.setQuestion(value);
+
+			
+//			return ib0;
 		
-		if (!question.equals("") && question != null) {
-
-			// 根据名字查找到对象 不行
-			/*
-			 * Category category =
-			 * categoryservice.findSpecifiedCategoryByName(name); return
-			 * category.getName();
-			 */
-
-			// 法二,直接
-			return questionService.findSpecifiedItemBankByQuestion(question);
-
 		}
 
+		System.out.println("-----------------------no.if ");
 		return null;
 	}
 
@@ -92,11 +120,11 @@ public class QuestionConverter implements Converter, Serializable {
 		if (value == null) {
 			return "";
 		}
-		
+
 		if (value instanceof ItemBank)
 
-			return ((ItemBank) value).getQuestion();
-
+			// return ((ItemBank) value).getQuestion();
+			return String.valueOf((ItemBank) value);
 		else {
 			return null;
 		}

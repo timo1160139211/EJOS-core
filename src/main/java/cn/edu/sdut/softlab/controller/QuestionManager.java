@@ -20,24 +20,20 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
 import cn.edu.sdut.softlab.entity.ItemBank;
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.entity.Team;
 import cn.edu.sdut.softlab.qualifiers.LoggedIn;
+import cn.edu.sdut.softlab.service.QuestionFacade;
 
 /**
  * @author GaoYisheng 
@@ -63,7 +59,6 @@ public class QuestionManager implements Serializable{
 	FacesContext facesContext;
 	
 	@Inject
-	@SessionScoped
 	ItemBank question;
 	
 	public ItemBank getQuestion() {
@@ -78,8 +73,8 @@ public class QuestionManager implements Serializable{
 	@LoggedIn
 	private Student currentUser;// 当前用户
 	
-//	@Inject
-//	private QuestionFacade questionFacade;
+	@Inject
+	private QuestionFacade questionService;
 	
 	public Student getCurrentUser() {
 		return currentUser;
@@ -104,23 +99,6 @@ public class QuestionManager implements Serializable{
 					"select q from ItemBank q where q.team = :paramTeam"
 					).setParameter("paramTeam", paramTeam);
 			
-//			logger.info("getQuestions---------------in Manager is calledddd");
-//			
-//			logger.info(currentUser.getName()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-//			String searchString = currentUser.getTeam().getName();
-//			CriteriaBuilder cb = em.getCriteriaBuilder();
-//			CriteriaQuery criteria = cb.createQuery();
-//			Root<Team> team = criteria.from(Team.class);
-//			
-//			Query query = em.createQuery(
-//					criteria.select(team).where(
-//						cb.equal(
-//								team.get("name"), 
-//								cb.parameter(String.class, "teamName")
-//							)
-//						)
-//					).setParameter("teamName", searchString);
-//					
 			return query.getResultList();		
 		} finally {
 			utx.commit();
@@ -142,6 +120,37 @@ public class QuestionManager implements Serializable{
 		} finally {
 			utx.commit();
 		}
+	}
+	
+	//可以用的 不用service
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public ItemBank getSpecifiedQuestion(String question) throws Exception {
+		try {
+			utx.begin();
+			logger.info("getQuestions---------------in Manager is calledddd");
+			
+			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+			cq.select(cq.from(ItemBank.class));
+			
+			return (ItemBank) em.createQuery(cq).getSingleResult();
+			
+		} finally {
+			utx.commit();
+		}
+	}
+	
+	//测试Service
+	public ItemBank getSpecifiedQuestionByQuestion(String question)throws Exception{
+		try{
+			utx.begin();
+			
+			return questionService.findSpecifiedItemBankByQuestion(question);
+			
+			// TODO Auto-generated catch block
+		} finally{
+			utx.commit();
+		}
+		
 	}
 	
 }

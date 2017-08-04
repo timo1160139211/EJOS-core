@@ -16,10 +16,9 @@
  */
 package cn.edu.sdut.softlab.controller;
 
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Default;
+//import javax.enterprise.inject.Default;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,7 +33,6 @@ import java.io.Serializable;
  */
 @SessionScoped
 @Named("expReport")
-@Default
 public class ExpReport implements Serializable {
 	private static final long serialVersionUID = 714155121L;
 

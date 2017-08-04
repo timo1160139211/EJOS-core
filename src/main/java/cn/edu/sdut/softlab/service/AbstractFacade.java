@@ -223,9 +223,5 @@ public abstract class AbstractFacade<T> {
 
 		T retrieve() throws NoResultException;
 	}
-	
-	public void sv(){
-		
-	}
 
 }
