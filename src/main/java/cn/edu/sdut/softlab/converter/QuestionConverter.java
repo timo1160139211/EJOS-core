@@ -45,7 +45,10 @@ public class QuestionConverter implements Converter, Serializable {
 	private static final long serialVersionUID = 1L;
 
 //	@Inject
-	QuestionFacade questionService = new QuestionFacade();
+//	QuestionFacade questionService;// = new QuestionFacade();
+	
+	@Inject
+	QuestionManager qm;
 	
 	@Inject
 	FacesContext facesContext;
@@ -59,7 +62,7 @@ public class QuestionConverter implements Converter, Serializable {
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) throws ConverterException {
 
-		System.out.println("-----------------------getAsObject-value-is-" + value + "0" + "\0" + "1");
+		System.out.println("-----------------------getAsObject-value-is-" + value + "-0" + "\0" + "1");
 
 		if (value == null || value.isEmpty()) {
 			
@@ -70,8 +73,8 @@ public class QuestionConverter implements Converter, Serializable {
 		if (!value.equals("") && value != null) {
 			System.out.println("-----------------------2.if ");
 			
-			System.out.println(
-					"-----------------------" + questionService.name);
+//			System.out.println(
+//					"-----------------------" + questionService.name);
 			
 			
 //			//延迟4,000ms
@@ -81,13 +84,22 @@ public class QuestionConverter implements Converter, Serializable {
 //				}
 //			}
 			
-			ItemBank ib = questionService.findSpecifiedItemBankByQuestion(value);
+			try {
+				
+				return qm.getSpecifiedQuestion(value);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			System.out.println(
-					"-----------------------" + ib.getId() + " in ib " + ib.getIntroduce());
+//			ItemBank ib = questionService.findSpecifiedItemBankByQuestion(value);
+			
+//			System.out.println(
+//					"-----------------------" + ib.getId() + " in ib " + ib.getIntroduce());
 			
 			//return ib.getQuestion();
-			return ib;
+//			return ib;
 			
 //			return questionService.findSpecifiedItemBankByQuestion(value);
 			
