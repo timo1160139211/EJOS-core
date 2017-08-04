@@ -161,9 +161,13 @@ public class ItemBank implements Serializable {
 	}
 	
     @Override
-    public String toString() {
-        return "cn.edu.sdut.softlab.entity.ItemBank[ id=" + id + " ]";
-     }
+    public String toString(){
+    	return this.question;
+    }
+    
+//    public String toString() {
+//        return "cn.edu.sdut.softlab.entity.ItemBank[ id=" + id + " ]";
+//     }
 
 
 	/*
