@@ -70,7 +70,7 @@
 				<p:growl id="msg" showDetail="true" escape="false" />
 				<h:messages />
 				<h:selectOneMenu id="selector" 
-				   value="#{expReport.itembank}"
+				   value="#{questionManager.QMquestion}"
 					converter="questionConverter" 
 					onchange="submit()"
 					valueChangeListener="#{handInManager.selectedChanged}">
