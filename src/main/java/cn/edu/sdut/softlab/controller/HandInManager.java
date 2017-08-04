@@ -19,9 +19,9 @@ package cn.edu.sdut.softlab.controller;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -49,7 +49,7 @@ import cn.edu.sdut.softlab.entity.ItemBank;
 @SessionScoped
 @Named("handInManager")
 public class HandInManager implements Serializable {
-	private static Process process ;
+//	private static Process process ;
 	private static final long serialVersionUID = 7965455427888195913L;
 
 	@Inject
@@ -81,8 +81,8 @@ public class HandInManager implements Serializable {
 		this.questions = questions;
 	}
 
+
 	@Inject
-	@SessionScoped
 	private ExpReport exp;
 	/*
 	 * String fileName;//文件名 String result;//返回值 String filePath;//文件保存的路径
@@ -317,41 +317,41 @@ public class HandInManager implements Serializable {
 	//选择的值，改变listener
 	   public void selectedChanged(ValueChangeEvent event) {
 		   log.info("onSelect is called ------------------");
-	      FacesContext context = FacesContext.getCurrentInstance();
-	      context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", "hah"));
+//	      FacesContext context = FacesContext.getCurrentInstance();
+//	      context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", "hah"));
 	      //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", event.getNewValue().toString()));
+			facesContext.addMessage(null, new FacesMessage("--Welcome, " + event.getNewValue().toString()));
 	   }	
 		
 	
 	
 	
 	
-	
-	public class RuntimeInput implements Runnable {
-
-		@Override
-		public void run() {
-			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			String content = null;
-			BufferedWriter bw = null;
-			File outputFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");
-			try {
-				FileWriter fr = new FileWriter(outputFile);
-				bw = new BufferedWriter(fr);
-
-				while ((content = br.readLine()) != null) {
-
-                bw.write(content);				
-					//System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
-
-				}
-
-				bw.close();
-				fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public class RuntimeInput implements Runnable {
+//
+//		@Override
+//		public void run() {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//			String content = null;
+//			BufferedWriter bw = null;
+//			File outputFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");
+//			try {
+//				FileWriter fr = new FileWriter(outputFile);
+//				bw = new BufferedWriter(fr);
+//
+//				while ((content = br.readLine()) != null) {
+//
+//                bw.write(content);				
+//					//System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
+//
+//				}
+//
+//				bw.close();
+//				fr.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 }
