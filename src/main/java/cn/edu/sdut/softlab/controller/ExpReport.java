@@ -54,6 +54,7 @@ public class ExpReport implements Serializable {
 		this.itembank = itembank;
 	}
 
+	@Inject
 	public ExpReport(){
 		this.answerText = "public class Student { awdawd }";
 		

@@ -58,17 +58,19 @@ public class QuestionManager implements Serializable{
 	@Inject
 	FacesContext facesContext;
 	
-	@Inject
-	ItemBank question;
 	
-	public ItemBank getQuestion() {
-		return question;
-	}
-                                 
-	public void setQuestion(ItemBank question) {
-		this.question = question;
+	ItemBank QMquestion;
+	
+
+	public ItemBank getQMquestion() {
+		return QMquestion;
 	}
 
+	public void setQMquestion(ItemBank qMquestion) {
+		QMquestion = qMquestion;
+	}
+
+	
 	@Inject
 	@LoggedIn
 	private Student currentUser;// 当前用户
