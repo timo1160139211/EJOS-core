@@ -16,9 +16,8 @@
  */
 package cn.edu.sdut.softlab.controller;
 
-//import javax.enterprise.inject.Default;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,7 +53,6 @@ public class ExpReport implements Serializable {
 		this.itembank = itembank;
 	}
 
-	@Inject
 	public ExpReport(){
 		this.answerText = "public class Student { awdawd }";
 		
