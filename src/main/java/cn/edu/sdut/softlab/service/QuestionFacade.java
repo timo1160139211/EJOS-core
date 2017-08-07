@@ -4,7 +4,7 @@
  * Copyright GaoYisheng Corporation 2017 
  * 
  * License： 
- * date：2017年6月11日 
+ * date：2017年8月7日 
  *       https://www.gaoyisheng.site
  *       https://github.com/timo1160139211
  *
@@ -21,88 +21,59 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 
 import cn.edu.sdut.softlab.entity.ItemBank;
+import cn.edu.sdut.softlab.entity.Team;
 
 /**
- * @author GaoYisheng 2017年6月11日 TODO 题目服务类
+ * @author GaoYisheng 
+ * 2017年8月7日 
+ * TODO 问题服务类
  */
 @Stateless
-@Named("item_bank")
+@Named
 public class QuestionFacade extends AbstractFacade<ItemBank> {
-
-	@Inject EntityManager em;
 	
-	public String name="questionService";
-	
-	public QuestionFacade() {
+	public QuestionFacade(){
 		super(ItemBank.class);
-		System.out.println("QuestionFacade is called----------------------- \n\n\n");
+		System.out.println("log print --------------------------问题service类 构造器调用");
 	}
+
+	public String name = "i am question service .";
 
 	/**
-	 * 2017-06-11
-	 * 
-	 * @param entityClass
+	 * 2017-08-07
+	 * @param question
+	 * @return
 	 */
-	public QuestionFacade(Class<ItemBank> entityClass) {
-		super(entityClass);
-		System.out.println("QuestionFacade Class<ItemBank> entityClass is called----------------------- \n\n\n");
-	}
-
-	public List<ItemBank> findAllQuestion() {
-		return findAll();
-	}
-
-	/*
-	 * 查找指定 Question,服务于 converter
-	 */
-/*	public ItemBank findSpecifiedItemBankByQuestion(String question) {
+	public ItemBank findSpecifiedItemBankByQuestion(String question) {
+		System.out.println("log print ----------------findSpecifiedItemBankByQuestion is called");
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("question", question);
 		return findSingleByNamedQuery("ItemBank.findByQuestion", parameters, ItemBank.class).get();
-	}*/
+	}
 
-	//为converter服务
-//	public ItemBank findSpecifiedItemBankByQuestion(String question) {
-//		String queryString = "SELECT i FROM ItemBank i WHERE i.question=:question";
-//		Query query = em.createQuery(queryString);
-//		query.setParameter("question", question);
-//		return (ItemBank) query.getSingleResult();
-//	}
-	
-	public ItemBank findSpecifiedItemBankByQuestion(String question) {
-    	System.out.println("findSpecifiedItemBankByQuestion  --  is called \n\n\n\n");
-		
-    	int id = 1;
-    	return (ItemBank) em.createQuery("SELECT i FROM ItemBank i " + 
-    								"WHERE i.id=:id")
-    			.setParameter("id", id)
-    			.getSingleResult();
-    }
-	
-	
-	public ItemBank findSpecifiedItemBankById(int id) {
+	/**
+	 * 2017-08-07
+	 * @return
+	 */
+	public List<ItemBank> findAllQuestionsWithoutTeam() {
+		System.out.println("Question Facade:log print ----------------findAllQuestionWithoutTeam is called\n");
+		return findAll();
+	}
+
+	/**
+	 * 2017-08-07
+	 * @param paramTeam
+	 * @return
+	 */
+	public List<ItemBank> findAllQuestionsWithTeam(Team paramTeam) {
+		System.out.println("log print ----------------findSpecifiedItemBankByQuestion is called");
 		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("id", id);
-		return findSingleByNamedQuery("ItemBank.findByQid", parameters, ItemBank.class).get();
+		parameters.put("team", paramTeam);
+		return findByNamedQuery("ItemBank.findByTeam", parameters);
 	}
 
-	// 查找题目列表
-	// public List<ItemBank> findQuestionsListForTeam(Team t) {
-	// Map<String, Object> parameters = new HashMap<>(0);
-	// parameters.put("team", t);
-	// return findByNamedQuery("ItemBank.findByTeam", parameters);
-	//
-	// }
-
-	public List<ItemBank> findQuestionsListForTeam(int teamId) {
-		Map<String, Object> parameters = new HashMap<>(0);
-		parameters.put("teamId", teamId);
-		return findByNamedQuery("ItemBank.findByTeamId", parameters);
-
-	}
+	
 }
