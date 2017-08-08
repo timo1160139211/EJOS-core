@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.ItemBank;
@@ -31,16 +31,14 @@ import cn.edu.sdut.softlab.entity.Team;
  * 2017年8月7日 
  * TODO 问题服务类
  */
-@Stateless
 @Named
+@RequestScoped
 public class QuestionFacade extends AbstractFacade<ItemBank> {
 	
 	public QuestionFacade(){
 		super(ItemBank.class);
 		System.out.println("log print --------------------------问题service类 构造器调用");
 	}
-
-	public String name = "i am question service .";
 
 	/**
 	 * 2017-08-07

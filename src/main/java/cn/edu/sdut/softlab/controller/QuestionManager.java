@@ -20,12 +20,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.UserTransaction;
 
@@ -58,25 +59,25 @@ public class QuestionManager implements Serializable{
 	@Inject
 	FacesContext facesContext;
 	
+	@Inject
+	QuestionFacade questionService;
 	
-	ItemBank QMquestion;
+	@Inject
+	ItemBank currentQuestion;
 	
-
-	public ItemBank getQMquestion() {
-		return QMquestion;
+//	@Produces
+//	@Selected
+	public ItemBank getCurrentQuestion() {
+		return currentQuestion;
 	}
 
-	public void setQMquestion(ItemBank qMquestion) {
-		QMquestion = qMquestion;
+	public void setCurrentQuestion(ItemBank ib) {
+		currentQuestion = ib;
 	}
 
-	
 	@Inject
 	@LoggedIn
 	private Student currentUser;// 当前用户
-	
-	@Inject
-	private QuestionFacade questionService;
 	
 	public Student getCurrentUser() {
 		return currentUser;
@@ -90,34 +91,54 @@ public class QuestionManager implements Serializable{
 	 * @return the questions
 	 */
 	
-	@SuppressWarnings({ "unchecked" })
-	public List<ItemBank> getAllQuestions() throws Exception {
+//	@SuppressWarnings({ "unchecked" })
+//	public List<ItemBank> getAllQuestionsWithTeam() throws Exception {
+//		try {
+//			utx.begin();
+//
+//			Team paramTeam = currentUser.getTeam();
+//			Query query = em.createQuery(
+//					"select q from ItemBank q where q.team = :paramTeam"
+//					).setParameter("paramTeam", paramTeam);
+//			
+//			return query.getResultList();		
+//		} finally {
+//			utx.commit();
+//		}
+//	}
+	
+	public List<ItemBank> getAllQuestionsWithTeam() throws Exception {
 		try {
 			utx.begin();
-			logger.info(currentUser.getName()+"++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-
 			Team paramTeam = currentUser.getTeam();
-			Query query = em.createQuery(
-					"select q from ItemBank q where q.team = :paramTeam"
-					).setParameter("paramTeam", paramTeam);
-			
-			return query.getResultList();		
+			return questionService.findAllQuestionsWithTeam(paramTeam);
 		} finally {
 			utx.commit();
 		}
 	}
 	
 	
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	public List<ItemBank> getAllQuestionsWithoutTeam() throws Exception {
+//		try {
+//			utx.begin();
+//			logger.info("getAllQuestionsWithoutTeam---------------in Manager is calledddd");
+//			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+//			cq.select(cq.from(ItemBank.class));
+//			
+//			return em.createQuery(cq).getResultList();
+//			
+//		} finally {
+//			utx.commit();
+//		}
+//	}
+
 	public List<ItemBank> getAllQuestionsWithoutTeam() throws Exception {
 		try {
 			utx.begin();
-			logger.info("getQuestions---------------in Manager is calledddd");
-			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-			cq.select(cq.from(ItemBank.class));
+			logger.info("getAllQuestionsWithoutTeam---------------in Manager is calledddd");
 			
-			return em.createQuery(cq).getResultList();
+			return questionService.findAllQuestionsWithoutTeam();
 			
 		} finally {
 			utx.commit();
@@ -129,11 +150,12 @@ public class QuestionManager implements Serializable{
 	public ItemBank getSpecifiedQuestion(String question) throws Exception {
 		try {
 			utx.begin();
-			logger.info("getQuestions---------------in Manager is calledddd");
+			logger.info("getSpecifiedQuestion---------------in Manager is calledddd");
 			
 			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
 			cq.select(cq.from(ItemBank.class));
 			
+			logger.info("getSpecifiedQuestion-2--------------in Manager is calledddd");
 			return (ItemBank) em.createQuery(cq).getSingleResult();
 			
 		} finally {
@@ -141,19 +163,46 @@ public class QuestionManager implements Serializable{
 		}
 	}
 	
-	//测试Service
-	public ItemBank getSpecifiedQuestionByQuestion(String question)throws Exception{
-		try{
-			utx.begin();
-			
-			return questionService.findSpecifiedItemBankByQuestion(question);
-			
-			// TODO Auto-generated catch block
-		} finally{
-			utx.commit();
-		}
-		
+//	测试Service
+//	public ItemBank getSpecifiedQuestion(String question)throws Exception{
+//		try{
+//			utx.begin();
+//						logger.info("getSpecifiedQuestion---------------in Manager is calledddd");
+//			return questionService.findSpecifiedItemBankByQuestion(question);
+//			
+//			// TODO Auto-generated catch block
+//		} finally{
+//			utx.commit();
+//		}
+//		
+//	}
+	
+	
+//public String getServiceName(){
+//	
+//	return questionService.name;
+//}
+	
+	
+/**
+	 * 判断是否已选择当前问题.
+	 *
+	 * @return true：已经选；false：未选
+	 *//*
+	public boolean isSelected() {
+		return currentQuestion != null;//才看明白，null != null 没登录！
 	}
 	
+	*//**
+	 * 处理当前问题值改变逻辑.
+	 */
+	   public void selectedChanged(ValueChangeEvent event) {
+		   System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + event.getNewValue().toString());
+			
+			String introduce = questionService.findSpecifiedItemBankByQuestion(event.getNewValue().toString()).getIntroduce();
+		   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
+		   facesContext.addMessage(null, new FacesMessage("题目要求： " + introduce));
+	   }
+		
 }
 
