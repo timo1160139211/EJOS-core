@@ -73,7 +73,6 @@ public class LoginController implements Serializable {
 			ConfigurableNavigationHandler handler = (ConfigurableNavigationHandler) context.getApplication().getNavigationHandler();
 			handler.performNavigation("login");
 		}
-		
 	}
 
 }

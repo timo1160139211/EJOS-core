@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -37,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+
 import cn.edu.sdut.softlab.entity.Student;
 import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.controller.ExpReport;
@@ -314,15 +315,13 @@ public class HandInManager implements Serializable {
 	
 	
 	
-	//选择的值，改变listener
 	   public void selectedChanged(ValueChangeEvent event) {
-		   log.info("onSelect is called ------------------");
-//	      FacesContext context = FacesContext.getCurrentInstance();
-//	      context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", "hah"));
-	      //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Item Selected", event.getNewValue().toString()));
-			facesContext.addMessage(null, new FacesMessage("--Welcome, " + event.getNewValue().toString()));
-	   }	
-		
+		   System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + event.getNewValue().toString());
+//			currentQuestion = (ItemBank) event.getNewValue();
+//			System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + currentQuestion.getQuestion());
+			
+		   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
+	   }
 	
 	
 	
