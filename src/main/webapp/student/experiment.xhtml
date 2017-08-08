@@ -26,7 +26,6 @@
 
 	<div>
 		整体
-
 		<div>
 			上部条
 			<p>
@@ -70,20 +69,20 @@
 
 		</h:dataTable>
 
-<!-- questionManager.currentQuestion -->
 		<h:form>
 			<div>
 				上部题目要求
 				<p:growl id="msg" showDetail="true" escape="false" />
 				<h:messages />
-				<h:selectOneMenu id="selector" value="#{questionManager.currentQuestion}"
-					converter="questionConverter" onchange="submit()"
+				<h:selectOneMenu id="selector"
+					value="#{questionManager.currentQuestion}"
+					converter="#{questionConverter}" onchange="submit()"
 					valueChangeListener="#{questionManager.selectedChanged}">
 					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
 					<f:selectItem
-						itemLabel="#{questionManager.currentQuestion == NULL ? 'plase select one2 ' : '#{questionManger.currentQuestion}' }" />
+						itemLabel="#{questionManager.currentQuestion == NULL ? '#{questionManger.currentQuestion}' : 'plase select one2 ' }" />
 
-					<f:selectItems value="#{questionManager.getAllQuestions()}" var="q"
+					<f:selectItems value="#{questionManager.getAllQuestionsWithTeam()}" var="q"
 						itemLabel="#{q.question}" itemValue="#{q}" />
 
 				</h:selectOneMenu>
