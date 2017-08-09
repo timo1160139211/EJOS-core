@@ -40,16 +40,6 @@ public class QuestionConverter implements Converter,Serializable{
 	@Inject 
 	QuestionFacade questionService;
 
-//	@Inject
-//	public void setQuestionService(QuestionFacade questionService) {
-//		this.questionService = questionService;
-//	}
-
-//	@Inject
-//	ConverterFacade converterService;
-
-	
-	
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 
 		System.out.println("QuestionConverter:log print >> --------------------String value is " + value);
@@ -57,10 +47,6 @@ public class QuestionConverter implements Converter,Serializable{
 		if(value == null || value.isEmpty() || value.equals("")){
 			return null;
 		}
-		
-//		QuestionFacade questionService = new QuestionFacade();
-
-//		return converterService.findSpecifiedItemBankByQuestion(value);
 		return questionService.findSpecifiedItemBankByQuestion(value);
 	}
 
