@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Table(name="achievements")
 @NamedQueries({
 	  @NamedQuery(name="Achievement.findAll", query="SELECT a FROM Achievement a"),
-	  @NamedQuery(name = "Achievement.findById", query = "SELECT a FROM Achievement a WHERE a.id = :id")})
+	  @NamedQuery(name = "Achievement.findById", query = "SELECT a FROM Achievement a WHERE a.id = :id")
+	  })
 public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
