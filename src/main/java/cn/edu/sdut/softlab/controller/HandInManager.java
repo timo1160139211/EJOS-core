@@ -84,11 +84,20 @@ public class HandInManager implements Serializable {
 
 
 	@Inject
-	private ExpReport exp;
+	@SessionScoped
+	private ExpReport expReport;
 	/*
 	 * String fileName;//文件名 String result;//返回值 String filePath;//文件保存的路径
 	 * String answerText;//代码(答案)
 	 */
+
+	public ExpReport getExpReport() {
+		return expReport;
+	}
+
+	public void setExpReport(ExpReport expReport) {
+		this.expReport = expReport;
+	}
 
 	private Achievement achie;
 	/*
@@ -108,7 +117,7 @@ public class HandInManager implements Serializable {
 	public void saveFile() throws Exception {
 		
 		//FilePath 以 /home/morpheus/ejosData/为基础， uid/qid为动态值．
-		File sourceFile = new File( exp.getFilePath() + exp.getClassName() +".java");//保存源代码  
+		File sourceFile = new File( expReport.getFilePath() + expReport.getClassName() +".java");//保存源代码  
 		
 		try {
 					
@@ -119,11 +128,11 @@ public class HandInManager implements Serializable {
 		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
 		    BufferedWriter bw = new BufferedWriter(fr);  
 		    
-		    log.info(exp.getAnswerText());
+		    log.info(expReport.getAnswerText());
 		    log.info("--------------------------------------------------\n");
-		    log.info(exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;",""));
+		    log.info(expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;",""));
 		    log.info("--------------------------------------------------\n");
-		    String writeString = exp.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
+		    String writeString = expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
 		    log.info(writeString);
 		    
 		    bw.write(writeString);//将获取的代码内容存到文件中  
@@ -187,21 +196,21 @@ public class HandInManager implements Serializable {
 		log.info("调用compileJava()");
 		Runtime runtime = Runtime.getRuntime();  
 		try {
-			File sourceFile = new File(exp.getFilePath() + exp.getClassName() + ".class");//如果文件存在，则删除该文件
+			File sourceFile = new File(expReport.getFilePath() + expReport.getClassName() + ".class");//如果文件存在，则删除该文件
 			if (sourceFile.exists()) {
-				log.info("调用" + exp.getClassName() + ".class--sourceFile.delete();");
+				log.info("调用" + expReport.getClassName() + ".class--sourceFile.delete();");
 				sourceFile.delete();
 			}
 			
-			File dir = new File(exp.getFilePath());
-			File outputFile = new File(exp.getFilePath()+"output.txt");//如果文件存在，则删除该文件
+			File dir = new File(expReport.getFilePath());
+			File outputFile = new File(expReport.getFilePath()+"output.txt");//如果文件存在，则删除该文件
 			if (outputFile.exists()) {
 				log.info("调用output.txt--sourceFile.delete();");
 				outputFile.delete();
 			}	
 			
 			
-			String cmdCompile = "javac " + exp.getClassName() + ".java 2>> output.txt";
+			String cmdCompile = "javac " + expReport.getClassName() + ".java 2>> output.txt";
 
 			String[] cmdarray = {
 					"/bin/sh",
@@ -228,9 +237,9 @@ public class HandInManager implements Serializable {
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-				File dir = new File(exp.getFilePath());
+				File dir = new File(expReport.getFilePath());
 				
-				String cmd = "java " + exp.getClassName() + " >> output.txt";
+				String cmd = "java " + expReport.getClassName() + " >> output.txt";
 
 				String[] cmdarray = {
 						"/bin/sh",
@@ -248,13 +257,45 @@ public class HandInManager implements Serializable {
 			}
 	}
 
-	public String showResult(){
+//	public String showResult(){
+//		log.info("调用showResult()");
+//		//读取文件，并返回到前台
+//      String result = "";
+//		try {
+//			
+//			File resultFile = new File(expReport.getFilePath()+"output.txt");
+//			if (!resultFile.exists()) {
+//				//如果文件不存在，创建一个文件
+//				log.info("调用output.txt--sourceFile.create();");
+//				resultFile.createNewFile();
+//			}
+//			
+//         InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
+//         BufferedReader bufferedReader = new BufferedReader(read);
+//         String line = null;
+//         while((line = bufferedReader.readLine()) != null){
+//			     result = result +  "\n" + line;
+//			     log.info(result);
+//			}
+//     
+//     
+//      read.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//        
+//		return result;
+//	}
+	
+	public void showResult(){
 		log.info("调用showResult()");
 		//读取文件，并返回到前台
       String result = "";
 		try {
 			
-			File resultFile = new File(exp.getFilePath()+"output.txt");
+			File resultFile = new File(expReport.getFilePath()+"output.txt");
 			if (!resultFile.exists()) {
 				//如果文件不存在，创建一个文件
 				log.info("调用output.txt--sourceFile.create();");
@@ -276,8 +317,8 @@ public class HandInManager implements Serializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
-		return result;
+
+		expReport.setResult(result);
 	}
 	
 	/**
@@ -299,7 +340,7 @@ public class HandInManager implements Serializable {
 	 * @return the exp
 	 */
 	public ExpReport getExp() {
-		return exp;
+		return expReport;
 	}
 
 	/**
@@ -307,50 +348,13 @@ public class HandInManager implements Serializable {
 	 *            the exp to set
 	 */
 	public void setExp(ExpReport exp) {
-		this.exp = exp;
+		this.expReport = exp;
 	}
-	
-	
-	
-	
 	
 	
 	   public void selectedChanged(ValueChangeEvent event) {
 		   System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + event.getNewValue().toString());
-//			currentQuestion = (ItemBank) event.getNewValue();
-//			System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + currentQuestion.getQuestion());
-			
 		   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
 	   }
 	
-	
-	
-	
-//	public class RuntimeInput implements Runnable {
-//
-//		@Override
-//		public void run() {
-//			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//			String content = null;
-//			BufferedWriter bw = null;
-//			File outputFile = new File("/home/morpheus/ejosData/userid/questionid/output.txt");
-//			try {
-//				FileWriter fr = new FileWriter(outputFile);
-//				bw = new BufferedWriter(fr);
-//
-//				while ((content = br.readLine()) != null) {
-//
-//                bw.write(content);				
-//					//System.out.println(content);// 如果想把结果输出到页面，直接定义变量就行
-//
-//				}
-//
-//				bw.close();
-//				fr.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-
 }
