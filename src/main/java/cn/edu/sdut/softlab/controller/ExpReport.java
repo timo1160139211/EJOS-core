@@ -16,6 +16,7 @@
  */
 package cn.edu.sdut.softlab.controller;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -43,28 +44,10 @@ public class ExpReport implements Serializable {
 	private String filePath;// 文件保存的路径
 	private String answerText;// 代码(答案)
 
-	private ItemBank itembank;// 当前题目
-
-	public ItemBank getItembank() {
-		return itembank;
-	}
-
-	public void setItembank(ItemBank itembank) {
-		this.itembank = itembank;
-	}
-
-	public ExpReport(){
-		this.answerText = "public class Student { awdawd }";
-		
-		String s = this.answerText ;
-		String classStr = s.substring(s.indexOf("public class"),s.indexOf("{")).toString();//获取类名字符串  
-		String[] classStrArray = classStr.split("\\s{1,}");//按空格分开  
-		
-		this.className = classStrArray[classStrArray.length-1];
-		this.result = "a = 1";
+	@PostConstruct
+	public void init(){
+		this.answerText = "Please coding here ...";
 		this.filePath = "/home/morpheus/ejosData/userid/questionid/";
-		
-		this.itembank = new ItemBank();
 	}
 
 	@Inject
@@ -84,15 +67,12 @@ public class ExpReport implements Serializable {
 		String classStr = answerText.substring(answerText.indexOf("public class"), answerText.indexOf("{")).toString();// 获取类名字符串
 		String[] classStrArray = classStr.split("\\s{1,}");// 按空格分开
 		if (classStrArray.length != 3) {
-			//req.setAttribute("msg", "编译失败：格式不符合规范，请检查类名是否正确(如：public class YouClassName{})");
 
 			facesContext.addMessage(null, new FacesMessage("编译失败：格式不符合规范，请检查类名是否正确 !(如：public class ClassName{}) 错误来源=>" + classStrArray.toString()));
-			
 		} else {
 			className = classStrArray[classStrArray.length - 1];
 
 		}
-
 		return className;
 	}
 
