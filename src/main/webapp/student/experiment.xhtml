@@ -25,7 +25,7 @@
 <h:body>
 
 	<div>
-		整体
+		整体<h:outputLabel id="opl" value="hi , #{questionManager.currentQuestion.toString()}"></h:outputLabel>
 		<div>
 			上部条
 			<p>
@@ -77,7 +77,8 @@
 				<h:selectOneMenu id="selector"
 					value="#{questionManager.currentQuestion}"
 					converter="#{questionConverter}" onchange="submit()"
-					valueChangeListener="#{questionManager.selectedChanged}">
+					valueChangeListener="#{questionManager.selectedChanged}"
+					update="runAndResult">
 					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
 					<f:selectItem
 						itemLabel="请选择问题：" />
@@ -87,9 +88,9 @@
 
 				</h:selectOneMenu>
 			</div>
-		</h:form>
+ 		</h:form>
 
-		<h:form>
+		<h:form> 
 			<div>
 
 				<p>消息提示</p>
@@ -100,14 +101,12 @@
 
 			</div>
 
-			<h:panelGrid rendered="(#{questionManager.currentQuestion}==NULL)" columns="3" id="runAndResult" style="margin-top: 10px">
+			<h:panelGrid rendered="!#{questionManager.selected}" columns="3" id="runAndResult" style="margin-top: 10px">
 				<div>
 
 					<p:editor id="editor" controls="cut copy paste undo redo"
 						escape="true" widgetVar="editorWidget"
 						value="#{expReport.answerText}" width="600" class="ui-editor" />
-
-					<!-- <h:panelGrid columns="1" style="margin-top: 10px"> -->
 
 					<p:commandButton value="clear" type="button"
 						onclick="PF('editorWidget').clear();" icon="ui-icon-close" />
@@ -123,7 +122,6 @@
 
 					<p:commandButton value="show result" update="result"
 						icon="ui-icon-check" />
-					<!-- </h:panelGrid> -->
 
 					<p:inputTextarea title="编译输出" id="result" disabled="true"
 						autoResize="true" value="#{handInManager.showResult()}" />
