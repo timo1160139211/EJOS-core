@@ -25,7 +25,9 @@
 <h:body>
 
 	<div>
-		整体<h:outputLabel id="opl" value="hi , #{questionManager.currentQuestion.toString()}"></h:outputLabel>
+		整体
+		
+		<h:outputLabel id="oplq" value="currentQuestion , #{handInManager.currentQuestion.toString()}"></h:outputLabel>
 		<div>
 			上部条
 			<p>
@@ -75,7 +77,7 @@
 				<p:growl id="msg" showDetail="true" escape="false" />
 				<h:messages />
 				<h:selectOneMenu id="selector"
-					value="#{questionManager.currentQuestion}"
+					value="#{handInManager.currentQuestion}"
 					converter="#{questionConverter}" onchange="submit()"
 					valueChangeListener="#{questionManager.selectedChanged}"
 					update="runAndResult">
@@ -98,7 +100,6 @@
 					<span class="entypo-attention"></span> <strong>Oh notice !
 					</strong> 请注意类名首字母大写，系统将自动保存为ClassName.java文件.
 				</div>
-
 			</div>
 
 			<h:panelGrid columns="3" id="runAndResult" style="margin-top: 10px">
