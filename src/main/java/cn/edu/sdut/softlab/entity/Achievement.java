@@ -11,8 +11,9 @@ import javax.persistence.*;
 @Table(name="achievements")
 @NamedQueries({
 	  @NamedQuery(name="Achievement.findAll", query="SELECT a FROM Achievement a"),
-	  @NamedQuery(name = "Achievement.findById", query = "SELECT a FROM Achievement a WHERE a.id = :id")
-	  })
+	  @NamedQuery(name = "Achievement.findById", query = "SELECT a FROM Achievement a WHERE a.id = :id"),
+	  @NamedQuery(name = "Achievement.findByQuestionAndStudent", query = "SELECT a FROM Achievement a WHERE a.itemBank = :question AND a.student=:student ")
+})
 public class Achievement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +42,16 @@ public class Achievement implements Serializable {
 	private Student student;
 
 	public Achievement() {
+	}
+
+	public Achievement(String answer, String answerPath, String result, int score, ItemBank itemBank, Student student) {
+		super();
+		this.answer = answer;
+		this.answerPath = answerPath;
+		this.result = result;
+		this.score = score;
+		this.itemBank = itemBank;
+		this.student = student;
 	}
 
 	public int getId() {
