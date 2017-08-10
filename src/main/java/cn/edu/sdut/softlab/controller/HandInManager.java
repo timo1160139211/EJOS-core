@@ -26,6 +26,13 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +46,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 
 import cn.edu.sdut.softlab.entity.Student;
+import cn.edu.sdut.softlab.entity.Team;
 import cn.edu.sdut.softlab.qualifiers.LoggedIn;
+import cn.edu.sdut.softlab.qualifiers.Selected;
+import cn.edu.sdut.softlab.service.AchievementFacade;
 import cn.edu.sdut.softlab.controller.ExpReport;
 import cn.edu.sdut.softlab.entity.Achievement;
 import cn.edu.sdut.softlab.entity.ItemBank;
@@ -60,6 +70,12 @@ public class HandInManager implements Serializable {
 	EntityManager em;
 
 	@Inject
+	AchievementFacade achievementService;
+	
+	@Inject
+	private UserTransaction utx;
+	
+	@Inject
 	@LoggedIn
 	private Student currentUser;// 当前用户
 
@@ -74,6 +90,8 @@ public class HandInManager implements Serializable {
 		this.currentUser = currentUser;
 	}
 
+	ItemBank currentQuestion;
+	
 	@RequestScoped
 	@ManagedProperty(value = "#{questionManager.allQuestions}")
 	private List<ItemBank> questions;
@@ -83,13 +101,17 @@ public class HandInManager implements Serializable {
 	}
 
 
+	public ItemBank getCurrentQuestion() {
+		return currentQuestion;
+	}
+
+	public void setCurrentQuestion(ItemBank currentQuestion) {
+		this.currentQuestion = currentQuestion;
+	}
+
 	@Inject
 	@SessionScoped
 	private ExpReport expReport;
-	/*
-	 * String fileName;//文件名 String result;//返回值 String filePath;//文件保存的路径
-	 * String answerText;//代码(答案)
-	 */
 
 	public ExpReport getExpReport() {
 		return expReport;
@@ -117,7 +139,11 @@ public class HandInManager implements Serializable {
 	public void saveFile() throws Exception {
 		
 		//FilePath 以 /home/morpheus/ejosData/为基础， uid/qid为动态值．
-		File sourceFile = new File( expReport.getFilePath() + expReport.getClassName() +".java");//保存源代码  
+		File dirFile = new File(constitutePath());
+	   if(!dirFile.exists()){  //如果目录不存在
+			dirFile.mkdirs();
+		} 
+		File sourceFile = new File( constitutePath() + expReport.getClassName() +".java");//保存源代码  
 		
 		try {
 					
@@ -128,12 +154,8 @@ public class HandInManager implements Serializable {
 		    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
 		    BufferedWriter bw = new BufferedWriter(fr);  
 		    
-		    log.info(expReport.getAnswerText());
-		    log.info("--------------------------------------------------\n");
-		    log.info(expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;",""));
-		    log.info("--------------------------------------------------\n");
+		     //除标签
 		    String writeString = expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
-		    log.info(writeString);
 		    
 		    bw.write(writeString);//将获取的代码内容存到文件中  
 		    bw.close();  
@@ -196,14 +218,14 @@ public class HandInManager implements Serializable {
 		log.info("调用compileJava()");
 		Runtime runtime = Runtime.getRuntime();  
 		try {
-			File sourceFile = new File(expReport.getFilePath() + expReport.getClassName() + ".class");//如果文件存在，则删除该文件
+			File sourceFile = new File(constitutePath() + expReport.getClassName() + ".class");//如果文件存在，则删除该文件
 			if (sourceFile.exists()) {
 				log.info("调用" + expReport.getClassName() + ".class--sourceFile.delete();");
 				sourceFile.delete();
 			}
 			
-			File dir = new File(expReport.getFilePath());
-			File outputFile = new File(expReport.getFilePath()+"output.txt");//如果文件存在，则删除该文件
+			File dir = new File(constitutePath());
+			File outputFile = new File(constitutePath()+"output.txt");//如果文件存在，则删除该文件
 			if (outputFile.exists()) {
 				log.info("调用output.txt--sourceFile.delete();");
 				outputFile.delete();
@@ -237,7 +259,7 @@ public class HandInManager implements Serializable {
 		Runtime runtime = Runtime.getRuntime();  
 			try {
 
-				File dir = new File(expReport.getFilePath());
+				File dir = new File(constitutePath());
 				
 				String cmd = "java " + expReport.getClassName() + " >> output.txt";
 
@@ -257,48 +279,15 @@ public class HandInManager implements Serializable {
 			}
 	}
 
-//	public String showResult(){
-//		log.info("调用showResult()");
-//		//读取文件，并返回到前台
-//      String result = "";
-//		try {
-//			
-//			File resultFile = new File(expReport.getFilePath()+"output.txt");
-//			if (!resultFile.exists()) {
-//				//如果文件不存在，创建一个文件
-//				log.info("调用output.txt--sourceFile.create();");
-//				resultFile.createNewFile();
-//			}
-//			
-//         InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
-//         BufferedReader bufferedReader = new BufferedReader(read);
-//         String line = null;
-//         while((line = bufferedReader.readLine()) != null){
-//			     result = result +  "\n" + line;
-//			     log.info(result);
-//			}
-//     
-//     
-//      read.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//        
-//		return result;
-//	}
-	
-	public void showResult(){
+	public void showResult()throws Exception {
 		log.info("调用showResult()");
 		//读取文件，并返回到前台
       String result = "";
 		try {
 			
-			File resultFile = new File(expReport.getFilePath()+"output.txt");
+			File resultFile = new File(constitutePath()+"output.txt");
 			if (!resultFile.exists()) {
 				//如果文件不存在，创建一个文件
-				log.info("调用output.txt--sourceFile.create();");
 				resultFile.createNewFile();
 			}
 			
@@ -306,11 +295,11 @@ public class HandInManager implements Serializable {
          BufferedReader bufferedReader = new BufferedReader(read);
          String line = null;
          while((line = bufferedReader.readLine()) != null){
-			     result = result +  "\n" + line;
+			     result = result + "\n" + line;
 			     log.info(result);
 			}
-     
-     
+//         result.replaceFirst("\n","");//移除第一行前多的"\n"   未生效？！
+         
       read.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -318,8 +307,35 @@ public class HandInManager implements Serializable {
 			e.printStackTrace();
 		}
 
-		expReport.setResult(result);
-	}
+		expReport.setResult(result);//返回，并由button刷新到前台
+		
+		try {
+			utx.begin();
+			
+			Achievement a = achievementService.findByQuestionAndStudent(currentQuestion, currentUser);
+			//如果存在（查询到）该条目，则更新
+			if(!(a==null)){
+				
+				a.setAnswer(expReport.getAnswerText());
+				a.setResult(result);
+				a.setScore(calculateScore(result,currentQuestion.getResult()));
+				
+			   achievementService.edit(a);
+			//否则创建
+		   }else{
+			   Achievement ach=new Achievement(
+						expReport.getAnswerText(),
+						constitutePath(), result, 
+						calculateScore(result,currentQuestion.getResult()),
+						currentQuestion, currentUser);
+			   achievementService.create(ach);
+		   	}
+		} finally {
+			utx.commit();
+		}
+		
+		}
+		
 	
 	/**
 	 * @return the achie
@@ -351,10 +367,31 @@ public class HandInManager implements Serializable {
 		this.expReport = exp;
 	}
 	
+	public void selectedChanged(ValueChangeEvent event) {
+	   System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + event.getNewValue().toString());
+	   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
+	}
 	
-	   public void selectedChanged(ValueChangeEvent event) {
-		   System.out.println("logPrint >> ---------------QuestionManager-selectedChanged-value-is:" + event.getNewValue().toString());
-		   facesContext.addMessage(null, new FacesMessage("当前问题是： " + event.getNewValue().toString()));
-	   }
+	private String constitutePath(){
+		String dir="/home/morpheus/ejosData/";
+		String path=dir+currentUser.getId()+"/"+currentQuestion.getId()+"/";		
+		return path;
+	}
 	
+	//计算成绩的 算法，是什么好呢？
+	private int calculateScore(String result,String answerResult){
+		//每一行答案在读取时多一个文件结束符EOF?  \0? -1?      = 不多！  前面多一个\n ！
+		answerResult="\n"+answerResult;
+		
+		log.info("-------------------------------------------------" + result + "===" + result.length());
+		log.info("-------------------------------------------------" + answerResult + "===" + answerResult.length());
+
+		if(result.equals(answerResult)){
+			return 80;
+		}
+		else{
+			return 50;
+		}
+		
+	}
 }
