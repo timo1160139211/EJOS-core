@@ -16,10 +16,15 @@
  */
 package cn.edu.sdut.softlab.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import cn.edu.sdut.softlab.entity.Achievement;
+import cn.edu.sdut.softlab.entity.ItemBank;
+import cn.edu.sdut.softlab.entity.Student;
 
 /**
  * @author GaoYisheng 
@@ -35,6 +40,11 @@ public class AchievementFacade extends AbstractFacade<Achievement> {
 		System.out.println("log print --------------------------成绩service类 构造器调用");
 	}
 
-	
+	public Achievement findByQuestionAndStudent(ItemBank question,Student stu){
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("question", question);
+		parameters.put("student", stu);
+		return findSingleByNamedQuery("Achievement.findByQuestionAndStudent", parameters, Achievement.class).get();
+	}
 	
 }

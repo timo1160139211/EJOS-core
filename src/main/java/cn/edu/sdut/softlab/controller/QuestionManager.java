@@ -63,18 +63,18 @@ public class QuestionManager implements Serializable{
 	@Inject
 	QuestionFacade questionService;
 	
-	@Inject
-	ItemBank currentQuestion=null;
-	
-	@Produces
-	@Selected
-	public ItemBank getCurrentQuestion() {
-		return currentQuestion;
-	}
-
-	public void setCurrentQuestion(ItemBank ib) {
-		currentQuestion = ib;
-	}
+//	@Inject
+//	private ItemBank currentQuestion;//=null;
+//	
+//	@Produces
+//	@Selected
+//	public ItemBank getCurrentQuestion() {
+//		return currentQuestion;
+//	}
+//
+//	public void setCurrentQuestion(ItemBank ib) {
+//		currentQuestion = ib;
+//	}
 
 	@Inject
 	@LoggedIn
@@ -111,15 +111,6 @@ public class QuestionManager implements Serializable{
 		} finally {
 			utx.commit();
 		}
-	}
-	
-/**
-	 * 判断是否已选择当前问题.
-	 *
-	 * @return true：已经选；false：未选
-	 */
-	public boolean isSelected() {
-		return currentQuestion != null;//才看明白，null != null 没登录！
 	}
 	
 	/**
