@@ -336,6 +336,176 @@ public class HandInManager implements Serializable {
 		
 		}
 		
+	/**
+	 * 一键编译拿到结果
+	 * 2017-08-11
+	 */
+	public void oneBtnGetResult() throws Exception{
+		//保存
+		File dirPath = new File(constitutePath());
+		   if(!dirPath.exists()){  //如果目录不存在
+				dirPath.mkdirs();
+			} 
+		
+		   //读取文件内容，并返回到前台
+		   String result = "";
+			File sourceFile = new File( constitutePath() + expReport.getClassName() +".java");//保存源代码  
+		
+			
+			
+			try {
+						
+			    if(sourceFile.exists()){  
+			      sourceFile.delete();  
+			     }  
+			
+			    FileWriter fr = new FileWriter(sourceFile);  //将文件保存起来
+			    BufferedWriter bw = new BufferedWriter(fr);  
+			    
+			     //除标签
+			    String writeString = expReport.getAnswerText().replaceAll("<br>","").replaceAll("&nbsp;","");
+			    
+			    bw.write(writeString);//将获取的代码内容存到文件中  
+			    bw.close();  
+			    fr.close();  
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				
+			}//save done
+		
+		//编译
+			log.info("调用compileJava()");
+			Runtime runtime = Runtime.getRuntime();  
+			try {
+//				File classFile = new File(constitutePath() + expReport.getClassName() + ".class");//如果文件存在，则删除该文件
+//				if (classFile.exists()) {
+//					classFile.delete();
+//				}
+				
+//				File outputFile = new File(constitutePath()+"output.txt");//如果文件存在，则删除该文件
+//				if (outputFile.exists()) {
+//					outputFile.delete();
+//				}	
+				
+				//将编译的错误保存下来 2>>
+				String cmdCompile = "javac " + expReport.getClassName() + ".java 2> err.txt";
+
+				String[] cmdarray = {
+						"/bin/sh",
+						"-c",
+						cmdCompile
+						};	
+				try {
+					runtime.exec(cmdarray,null,dirPath).waitFor();
+					
+					try {
+						
+						File errFile = new File(constitutePath()+"err.txt");
+						if (!errFile.exists()) {
+							//如果文件不存在，创建一个文件
+							errFile.createNewFile();
+						}
+						
+			         InputStreamReader readerr = new InputStreamReader(new FileInputStream(errFile));//考虑到编码格式
+			         BufferedReader bufferedReader = new BufferedReader(readerr);
+			         String errline = null;
+			         while((errline = bufferedReader.readLine()) != null){
+						     result = result + "\n" + errline;
+						}
+			         
+			         readerr.close();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		
+		//运行
+			log.info("调用runJava()");
+//			Runtime runtime = Runtime.getRuntime();  
+				try {
+					String cmd = "java " + expReport.getClassName() + " > output.txt";
+					String[] cmdarray = {
+							"/bin/sh",
+							"-c",
+							cmd
+							};	
+					runtime.exec(cmdarray,null,dirPath).waitFor();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		
+		//拿到返回值
+				try {
+					File resultFile = new File(constitutePath()+"output.txt");
+					if (!resultFile.exists()) {
+						//如果文件不存在，创建一个文件
+						resultFile.createNewFile();
+					}
+					
+		         InputStreamReader read = new InputStreamReader(new FileInputStream(resultFile));//考虑到编码格式
+		         BufferedReader bufferedReader = new BufferedReader(read);
+		         String line = null;
+		         if((line = bufferedReader.readLine()) != null){
+		        	 result=line;
+		           }
+		         while((line = bufferedReader.readLine()) != null){
+					     result = result + "\n" + line;
+					     log.info(result);
+					}
+//		         result.replaceFirst("\n","");//移除第一行前多的"\n"   未生效？！
+		         
+		      read.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				log.info("--------------------------------------------------------------"+result);
+				expReport.setResult(result);//返回，并由button刷新到前台
+				
+				try {
+					utx.begin();
+					
+					Achievement a = achievementService.findByQuestionAndStudent(currentQuestion, currentUser);
+					//如果存在（查询到）该条目，则更新
+					if(!(a==null)){
+						
+						a.setAnswer(expReport.getAnswerText());
+						a.setResult(result);
+						a.setScore(calculateScore(result,currentQuestion.getResult()));
+						a.setAnswerPath(constitutePath());
+						
+					   achievementService.edit(a);
+					//否则创建
+				   }else{
+					   Achievement ach=new Achievement(
+								expReport.getAnswerText(),
+								constitutePath(), result, 
+								calculateScore(result,currentQuestion.getResult()),
+								currentQuestion, currentUser);
+					   achievementService.create(ach);
+				   	}
+				} finally {
+					utx.commit();
+				}
+				
+	}
 	
 	/**
 	 * @return the achie
@@ -381,10 +551,10 @@ public class HandInManager implements Serializable {
 	//计算成绩的 算法，是什么好呢？
 	private int calculateScore(String result,String answerResult){
 		//每一行答案在读取时多一个文件结束符EOF?  \0? -1?      = 不多！  前面多一个\n ！
-		answerResult="\n"+answerResult;
+//		answerResult="\n"+answerResult;
 		
-		log.info("-------------------------------------------------" + result + "===" + result.length());
-		log.info("-------------------------------------------------" + answerResult + "===" + answerResult.length());
+//		log.info("-------------------------------------------------" + result + "===" + result.length());
+//		log.info("-------------------------------------------------" + answerResult + "===" + answerResult.length());
 
 		if(result.equals(answerResult)){
 			return 80;
