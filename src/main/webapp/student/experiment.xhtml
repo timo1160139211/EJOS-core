@@ -26,8 +26,9 @@
 
 	<div>
 		整体
-		
-		<h:outputLabel id="oplq" value="currentQuestion , #{handInManager.currentQuestion.toString()}"></h:outputLabel>
+
+		<h:outputLabel id="oplq"
+			value="currentQuestion , #{handInManager.currentQuestion.toString()}"></h:outputLabel>
 		<div>
 			上部条
 			<p>
@@ -82,17 +83,16 @@
 					valueChangeListener="#{questionManager.selectedChanged}"
 					update="runAndResult">
 					<!-- 此处的 selectItem 是一个标签。用于文本显示。注意 -->
- 					<f:selectItem
-						itemLabel="请选择问题：" />
+					<f:selectItem itemLabel="请选择问题：" />
 
-					<f:selectItems value="#{questionManager.getAllQuestionsWithTeam()}" var="q"
-						itemLabel="#{q.question}" itemValue="#{q}" />
+					<f:selectItems value="#{questionManager.getAllQuestionsWithTeam()}"
+						var="q" itemLabel="#{q.question}" itemValue="#{q}" />
 
 				</h:selectOneMenu>
 			</div>
- 		</h:form>
+		</h:form>
 
-		<h:form> 
+		<h:form>
 			<div>
 
 				<p>消息提示</p>
@@ -121,13 +121,16 @@
 					<p:commandButton value="run" action="#{handInManager.runJava()}"
 						icon="ui-icon-check" />
 
-					<p:commandButton value="show result" action="#{handInManager.showResult()}"
-					   update="result"
+					<p:commandButton value="show result"
+						action="#{handInManager.showResult()}" update="result"
 						icon="ui-icon-check" />
 
 					<p:inputTextarea title="编译输出" id="result" disabled="true"
 						autoResize="true" value="#{handInManager.expReport.result}" />
 
+					<p:commandButton value="一键编译提交"
+						action="#{handInManager.oneBtnGetResult()}" update="result" />
+				
 				</div>
 			</h:panelGrid>
 		</h:form>
